@@ -1,0 +1,38 @@
+[
+  {
+    "bidNtceNo": "R26BK00000001",
+    "bidNtceOrd": "000",
+    "bidNtceNm": "2026년 결산 외부회계감사 용역",
+    "ntceInsttNm": "조달청",
+    "ntceInsttCd": "1230000",
+    "dminsttNm": "조달청",
+    "dminsttCd": "1230000",
+    "bidNtceDt": "2026-11-02 09:30:00",
+    "bidClseDt": "2026-11-16 14:00:00",
+    "opengDt": "2026-11-16 15:00:00",
+    "asignBdgtAmt": "12,000,000",
+    "presmptPrce": "10909091",
+    "cntrctCnclsMthdNm": "제한경쟁",
+    "sucsfbidMthdNm": "적격심사",
+    "ntceKindNm": "일반공고",
+    "bidNtceDtlUrl": "https://www.g2b.go.kr/link/R26BK00000001"
+  },
+  {
+    "bidNtceNo": "R26BK00000002",
+    "bidNtceOrd": "000",
+    "bidNtceNm": "○○댐 환경영향평가 용역",
+    "ntceInsttNm": "환경부",
+    "ntceInsttCd": "1480000",
+    "dminsttNm": "환경부",
+    "dminsttCd": "1480000",
+    "bidNtceDt": "2026-11-02 10:00:00",
+    "bidClseDt": "2026-11-20 10:00:00",
+    "opengDt": "2026-11-20 11:00:00",
+    "asignBdgtAmt": "0",
+    "presmptPrce": "",
+    "cntrctCnclsMthdNm": "일반경쟁",
+    "sucsfbidMthdNm": "협상에 의한 계약",
+    "ntceKindNm": "일반공고",
+    "bidNtceDtlUrl": ""
+  }
+]
