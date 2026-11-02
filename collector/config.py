@@ -24,6 +24,10 @@ class Config:
     apt_result_lookback_days: int
     max_calls_per_service: int
 
+    def collects_apt_region(self, region: str | None) -> bool:
+        """아파트 트랙 수집 지역 판정. apt_regions가 비어 있으면 전국."""
+        return not self.apt_regions or region in self.apt_regions
+
 
 def _as_value(raw):
     if isinstance(raw, list):

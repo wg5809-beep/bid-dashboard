@@ -86,7 +86,7 @@ def _apt_result_rows(cfg: Config, client, now: datetime, errors: list[str]) -> l
                 key = str(raw.get("bidNum") or "")
                 if key and key not in seen and matches_keywords(raw.get("bidTitle"), cfg.apt_keywords, ()):
                     seen[key] = raw
-    return [raw for raw in seen.values() if (region_from_kapt(raw.get("bidTitle"), raw.get("bidArea")) in cfg.apt_regions)]
+    return [raw for raw in seen.values() if cfg.collects_apt_region(region_from_kapt(raw.get("bidTitle"), raw.get("bidArea")))]
 
 
 def _apt_awards(cfg: Config, client, notices: Mapping[str, Notice], existing: Mapping[str, Award],

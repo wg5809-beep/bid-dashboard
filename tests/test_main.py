@@ -1,3 +1,4 @@
+import dataclasses
 import json
 from datetime import datetime
 from pathlib import Path
@@ -47,15 +48,22 @@ def test_run_first_time_writes_three_files_and_counts(tmp_path):
     assert (tmp_path / "notices.json").exists() and (tmp_path / "awards.json").exists()
     assert (tmp_path / "meta.json").exists()
     assert meta.ok is True and meta.errors == ()
-    # 나라장터 1 + 아파트 공고 1 + 아파트 결과에서 생성 2(호남: 777 낙찰, 555 유찰; 서울 999 제외)
-    assert meta.new_notices == 4 and meta.notice_count == 4
-    assert meta.new_awards == 1 and meta.run_at == "2026-11-02T07:00"
+    # 나라장터 1 + 아파트 공고 2(전남광주 123, 경기 124) + 아파트 결과에서 생성 3(777 낙찰, 555 유찰, 서울 999 낙찰)
+    assert meta.new_notices == 6 and meta.notice_count == 6
+    assert meta.new_awards == 2 and meta.run_at == "2026-11-02T07:00"
     assert meta.calls["nara_bids"] > 0 and meta.calls["kapt_bids"] == 1
-    assert meta.calls["kapt_results"] == len(CFG.apt_keywords) + 1  # 키워드별 1회 + 참여업체 1회
+    assert meta.calls["kapt_results"] == len(CFG.apt_keywords) + 2  # 키워드별 1회 + 낙찰 2건 참여업체
     notices = load_notices(tmp_path / "notices.json")
     assert notices["public:R26BK00000001"].status == "open" and notices["apt:2026110200123"].status == "open"
     assert notices["apt:2026110200777"].status == "awarded" and notices["apt:2026110200555"].status == "failed"
-    assert "apt:2026110200999" not in notices
+    assert notices["apt:2026110200999"].status == "awarded" and notices["apt:2026110200999"].region == "서울"
+
+
+def test_run_apt_regions_setting_excludes_other_regions(tmp_path):
+    honam = dataclasses.replace(CFG, apt_regions=("전남광주", "전북"))
+    meta = run(honam, FakeClient(full_table()), tmp_path, DAY1)
+    assert meta.notice_count == 4 and meta.new_awards == 1
+    assert "apt:2026110200999" not in load_notices(tmp_path / "notices.json")
 
 
 def test_run_second_time_attaches_award_and_sets_awarded(tmp_path):
@@ -63,7 +71,7 @@ def test_run_second_time_attaches_award_and_sets_awarded(tmp_path):
     meta = run(CFG, FakeClient(full_table()), tmp_path, DAY2)
     notices = load_notices(tmp_path / "notices.json")
     awards = load_awards(tmp_path / "awards.json")
-    assert meta.new_awards == 2 and meta.award_count == 3
+    assert meta.new_awards == 2 and meta.award_count == 4  # 1차 777·999 + 2차 나라장터·123
     assert notices["public:R26BK00000001"].status == "awarded"
     assert awards["public:R26BK00000001"].winner == "○○회계법인"
     assert notices["apt:2026110200123"].status == "awarded"

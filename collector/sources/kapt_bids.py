@@ -80,6 +80,6 @@ def collect_apt(client, cfg: Config, windows: list[tuple[datetime, datetime]], t
             if not matches_keywords(text(raw, "bidTitle"), cfg.apt_keywords, ()):
                 continue
             notice = to_notice(raw, cfg, today)
-            if notice.region in cfg.apt_regions:
+            if cfg.collects_apt_region(notice.region):
                 notices.append(notice)
     return notices

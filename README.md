@@ -45,7 +45,7 @@ tests/            pytest (수집기)      web/js/lib/*.test.js  node --test (프
 `collector/config.yaml`만 수정해 커밋하면 다음 실행부터 반영된다.
 
 - `public_keywords` / `public_exclude`: 나라장터 공고명 포함어·제외어
-- `apt_keywords` / `apt_regions`: 아파트 공고 키워드·수집 지역(기본 전남광주·전북)
+- `apt_keywords` / `apt_regions`: 아파트 공고 키워드·수집 지역(빈 목록 = 전국, 기본값. 호남만: `[전남광주, 전북]`)
 - `interest_home_regions` / `interest_institutions`: "본사 소재" 판정용 지역·기관명 목록
 - `interest_limit_regions`: "지역제한" 판정용 지역명
 - `retention_days`(공고 보존), `backfill_days`, `lookback_days`, `award_lookback_days`, `max_calls_per_service`
@@ -66,4 +66,4 @@ tests/            pytest (수집기)      web/js/lib/*.test.js  node --test (프
 | 배지 "수집 실패" | `data/meta.json`의 `errors`. 코드 20=활용신청 미승인, 22=일일 한도 초과, 30=키 미등록 |
 | 배지 "갱신 지연" | Actions 실행 실패/미실행. cron은 UTC 22:00 |
 | 지역이 미분류 | 기관명에 지역이 없음. `interest_institutions` 또는 `collector/rules/region.py`의 시군 힌트에 추가 |
-| 아파트 공고 없음 | `apt_regions`·`apt_keywords` 확인. 호남만 수집하는 것이 기본값 |
+| 아파트 공고 없음 | `apt_regions`·`apt_keywords` 확인. 기본값은 전국(빈 목록) |

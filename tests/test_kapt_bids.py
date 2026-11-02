@@ -1,3 +1,4 @@
+import dataclasses
 import json
 from datetime import date, datetime
 from pathlib import Path
@@ -8,6 +9,7 @@ from collector.sources.kapt_bids import collect_apt, fetch_kapt_notices, to_noti
 from tests.fakes import FakeClient
 
 CFG = load_config(Path("collector/config.yaml"))
+HONAM = dataclasses.replace(CFG, apt_regions=("전남광주", "전북"))
 ROWS = json.loads(Path("tests/fixtures/kapt_bid_item.json").read_text(encoding="utf-8"))
 TODAY = "2026-11-02"
 WINDOW = [(datetime(2026, 10, 30), datetime(2026, 11, 2, 23, 59))]
@@ -34,8 +36,14 @@ def test_to_notice_unknown_codes_fall_back_to_raw():
 
 def test_collect_apt_filters_region_and_keyword():
     client = FakeClient({(kapt_bids.SERVICE, "getPblAncDeSearchV3"): ROWS})
-    notices = collect_apt(client, CFG, WINDOW, TODAY)
+    notices = collect_apt(client, HONAM, WINDOW, TODAY)
     assert [n.notice_no for n in notices] == ["2026110200123"]
+
+
+def test_collect_apt_default_config_is_nationwide():
+    client = FakeClient({(kapt_bids.SERVICE, "getPblAncDeSearchV3"): ROWS})
+    notices = collect_apt(client, CFG, WINDOW, TODAY)
+    assert [n.notice_no for n in notices] == ["2026110200123", "2026110200124"]  # 경기 포함, 청소용역 제외
 
 
 def test_fetch_uses_yyyymmdd_and__type_json():
