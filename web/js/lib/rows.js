@@ -1,12 +1,17 @@
 // 공고 목록 표(데스크톱) / 카드(모바일) 공용 렌더러.
 import { el, esc } from "./dom.js";
-import { ddayLabel, dday, formatAmount, formatDate, formatDateTime, regionLabel, statusLabel, trackLabel } from "./format.js";
+import { ddayLabel, dday, formatAmount, formatDate, formatDateTime, regionLabel, serviceLabel, statusLabel, trackLabel } from "./format.js";
 
 export function interestChip(notice) {
   if (!notice.interest) return "";
   const extra = notice.interest_reason === "지역제한" && notice.limit_regions?.length
     ? ` · ${esc(notice.limit_regions[0])}` : "";
   return `<span class="chip chip-interest">${esc(notice.interest_reason ?? "관심지역")}${extra}</span>`;
+}
+
+export function serviceChip(notice) {
+  const target = notice.category === "target";
+  return `<span class="chip ${target ? "chip-service" : "chip-other"}">${esc(target ? serviceLabel(notice.service) : "기타")}</span>`;
 }
 
 export function trackChip(track) {
@@ -33,7 +38,7 @@ export function noticeTable(notices, { now, onSelect, emptyText = "표시할 공
   for (const n of notices) {
     const tr = el("tr", { class: n.interest ? "interest" : "", onclick: () => onSelect(n) });
     tr.innerHTML = `
-      <td class="title-cell">${trackChip(n.track)}${interestChip(n)}${esc(n.title)}</td>
+      <td class="title-cell"><span class="chips">${serviceChip(n)}${trackChip(n.track)}${interestChip(n)}</span><span class="title-text">${esc(n.title)}</span></td>
       <td data-label="기관">${esc(n.agency ?? "-")}${n.demand_agency && n.demand_agency !== n.agency ? ` <span class="muted">(${esc(n.demand_agency)})</span>` : ""}</td>
       <td data-label="지역" class="nowrap">${esc(regionLabel(n.region))}</td>
       <td data-label="기초금액" class="num">${esc(formatAmount(n.budget ?? n.estimate))}</td>

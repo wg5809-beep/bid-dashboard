@@ -1,6 +1,6 @@
 // KPI·지역 집계·낙찰 요약·수집 상태 배지. 모두 순수 함수.
 import { dday, localDateKey, parseIso } from "./format.js";
-import { ACTIVE_STATUSES } from "./filter.js";
+import { ACTIVE_STATUSES, categoryOf } from "./filter.js";
 
 const STALE_HOURS = 36;
 
@@ -17,6 +17,7 @@ export function kpis(notices, awards, now = new Date()) {
     closingIn7: notices.filter((n) => isActive(n) && within(n.close_at, 0, 7)).length,
     interestOpen: notices.filter((n) => isActive(n) && n.interest).length,
     openingThisWeek: notices.filter((n) => isActive(n) && within(n.open_at, 0, 7)).length,
+    targetOpen: notices.filter((n) => isActive(n) && categoryOf(n) === "target").length,
   };
 }
 

@@ -56,6 +56,8 @@ class Notice:
     complex_name: str | None = None
     source_system: str | None = None
     result_note: str | None = None
+    category: str = "other"  # target(주타겟 업무) / other(기타)
+    service: str | None = None  # 주타겟 업무명 (회계감사, 세무조정 …)
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)

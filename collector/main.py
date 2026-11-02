@@ -19,6 +19,7 @@ from collector.config import Config, load_config
 from collector.model import Award, Meta, Notice
 from collector.rules.keywords import matches_keywords
 from collector.rules.region import region_from_kapt
+from collector.rules.service import classify_all
 from collector.sources import kapt_bids, kapt_results, nara_awards, nara_bids
 from collector.sources.client import DataGoClient, DataGoError, redact
 from collector.store.json_store import load_awards, load_notices, save_awards, save_json, save_notices
@@ -144,6 +145,7 @@ def run(cfg: Config, client, data_dir: Path, now: datetime, backfill: bool = Fal
         notices, late_new, _ = merge_notices(notices, late, now.strftime("%Y-%m-%d"))
         counts["new"] += late_new
         notices = apply_retention(attach_awards(_apply_notes(notices, notes), awards, now), now, cfg.retention_days)
+        notices = classify_all(notices, cfg)  # 설정 변경이 과거 공고에도 반영되도록 매번 전체 재분류
         counts["notices"], counts["award_total"] = len(notices), len(awards)
         save_notices(data_dir / "notices.json", notices)
         save_awards(data_dir / "awards.json", awards)

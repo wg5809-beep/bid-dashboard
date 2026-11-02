@@ -220,3 +220,11 @@ def test_run_apt_results_query_years_cover_lookback(tmp_path):
     run(CFG, client, tmp_path, datetime(2027, 6, 1, 7, 0))
     years = {p["searchYear"] for s, op, p in client.requests if op == kapt_results.OP_BY_TITLE}
     assert years == {"2027"}
+
+
+def test_run_classifies_notices_into_target_and_other(tmp_path):
+    run(CFG, FakeClient(full_table()), tmp_path, DAY1)
+    notices = load_notices(tmp_path / "notices.json")
+    assert (notices["apt:2026110200123"].category, notices["apt:2026110200123"].service) == ("target", "회계감사")
+    categories = {n.category for n in notices.values()}
+    assert categories <= {"target", "other"}

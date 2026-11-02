@@ -2,14 +2,14 @@
 import { toCsv } from "../lib/csv.js";
 import { el, esc } from "../lib/dom.js";
 import { RESULT_STATUSES, applyFilters } from "../lib/filter.js";
-import { formatAmount, formatDate, formatDateTime, regionLabel, statusLabel, toDateKey } from "../lib/format.js";
-import { interestChip, statusChip, trackChip } from "../lib/rows.js";
+import { categoryLabel, formatAmount, formatDate, formatDateTime, regionLabel, serviceLabel, statusLabel, toDateKey } from "../lib/format.js";
+import { interestChip, serviceChip, statusChip, trackChip } from "../lib/rows.js";
 import { awardSummary } from "../lib/stats.js";
 
 let local = { from: "", to: "", status: "all", region: "all", winner: "" };
 
 const CSV_COLUMNS = [
-  { key: "opened", label: "개찰일" }, { key: "track", label: "트랙" }, { key: "title", label: "공고명" },
+  { key: "opened", label: "개찰일" }, { key: "track", label: "트랙" }, { key: "category", label: "구분" }, { key: "service", label: "업무" }, { key: "title", label: "공고명" },
   { key: "agency", label: "기관" }, { key: "region", label: "지역" }, { key: "budget", label: "기초금액" },
   { key: "winner", label: "낙찰자" }, { key: "amount", label: "낙찰금액" }, { key: "rate", label: "낙찰률" },
   { key: "participants", label: "참가업체수" }, { key: "status", label: "상태" }, { key: "url", label: "원문" },
@@ -22,6 +22,7 @@ function joinRows(notices, awardByKey) {
       notice: n, award: a,
       opened: toDateKey(a?.opened_at ?? n.open_at ?? n.close_at) ?? "",
       track: n.track === "apt" ? "아파트" : "공공기관",
+      category: categoryLabel(n.category), service: n.category === "target" ? serviceLabel(n.service) : "",
       title: n.title, agency: n.agency ?? "", region: regionLabel(n.region), budget: n.budget ?? n.estimate ?? "",
       winner: a?.winner ?? "", amount: a?.amount ?? "", rate: a?.rate ?? "", participants: a?.participants ?? "",
       status: statusLabel(n.status), url: n.url ?? "",
@@ -83,7 +84,7 @@ function table(rows, state) {
     const tr = el("tr", { class: r.notice.interest ? "interest" : "", onclick: () => state.select(r.notice) });
     tr.innerHTML = `
       <td data-label="개찰일" class="nowrap">${esc(formatDate(r.award?.opened_at ?? r.notice.open_at))}</td>
-      <td class="title-cell">${trackChip(r.notice.track)}${interestChip(r.notice)}${esc(r.title)}</td>
+      <td class="title-cell"><span class="chips">${serviceChip(r.notice)}${trackChip(r.notice.track)}${interestChip(r.notice)}</span><span class="title-text">${esc(r.title)}</span></td>
       <td data-label="기관">${esc(r.agency || "-")}</td>
       <td data-label="지역" class="nowrap">${esc(r.region)}</td>
       <td data-label="기초금액" class="num">${esc(formatAmount(r.budget))}</td>

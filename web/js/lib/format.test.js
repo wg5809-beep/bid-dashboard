@@ -49,3 +49,12 @@ test("trackLabel and regionLabel", () => {
   assert.equal(regionLabel("전남광주"), "전남광주");
   assert.equal(regionLabel(null), "미분류");
 });
+
+test("categoryLabel and serviceLabel", async () => {
+  const { categoryLabel, serviceLabel } = await import("./format.js");
+  assert.equal(categoryLabel("target"), "주타겟");
+  assert.equal(categoryLabel("other"), "기타");
+  assert.equal(categoryLabel(undefined), "기타");
+  assert.equal(serviceLabel("PA"), "PA");
+  assert.equal(serviceLabel(null), "기타업무");
+});

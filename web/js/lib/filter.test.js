@@ -40,3 +40,15 @@ test("RESULT_STATUSES includes opened so awaiting-result notices are listed", as
   const { RESULT_STATUSES } = await import("./filter.js");
   assert.ok(RESULT_STATUSES.includes("opened"));
 });
+
+test("applyFilters by category (target/other/all) and tolerates missing category", () => {
+  const rows = [
+    { key: "t", track: "public", title: "회계감사", interest: false, status: "open", category: "target", service: "회계감사" },
+    { key: "o", track: "public", title: "타당성", interest: false, status: "open", category: "other", service: null },
+    { key: "legacy", track: "public", title: "옛 데이터", interest: false, status: "open" },
+  ];
+  assert.deepEqual(applyFilters(rows, { category: "target" }).map((n) => n.key), ["t"]);
+  assert.deepEqual(applyFilters(rows, { category: "other" }).map((n) => n.key), ["o", "legacy"]);
+  assert.deepEqual(applyFilters(rows, { category: "all" }).map((n) => n.key), ["t", "o", "legacy"]);
+  assert.deepEqual(applyFilters(rows, {}).map((n) => n.key), ["t", "o", "legacy"]);
+});

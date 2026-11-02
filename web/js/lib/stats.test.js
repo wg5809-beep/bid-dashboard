@@ -46,3 +46,13 @@ test("kpis newToday uses local date even before 09:00", () => {
   const early = new Date(2026, 10, 2, 1, 0); // 01:00 로컬 → UTC는 전날일 수 있음
   assert.equal(kpis(notices, [], early).newToday, 2);
 });
+
+test("kpis counts active target-service notices", () => {
+  const rows = [
+    { key: "a", status: "open", interest: false, category: "target", first_seen: "2026-10-01", close_at: null, open_at: null },
+    { key: "b", status: "closed", interest: false, category: "target", first_seen: "2026-10-01", close_at: null, open_at: null },
+    { key: "c", status: "awarded", interest: false, category: "target", first_seen: "2026-10-01", close_at: null, open_at: null },
+    { key: "d", status: "open", interest: false, category: "other", first_seen: "2026-10-01", close_at: null, open_at: null },
+  ];
+  assert.equal(kpis(rows, [], NOW).targetOpen, 2);
+});

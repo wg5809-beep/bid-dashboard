@@ -36,3 +36,19 @@ def test_empty_apt_regions_collects_every_region():
 def test_apt_regions_list_restricts_collection():
     cfg = dataclasses.replace(load_config(CFG_PATH), apt_regions=("전남광주", "전북"))
     assert cfg.collects_apt_region("전북") and not cfg.collects_apt_region("제주")
+
+
+def test_service_lines_loaded_in_order_with_keywords():
+    cfg = load_config(CFG_PATH)
+    assert cfg.service_lines[0].name == "회계감사" and "회계감사" in cfg.service_lines[0].keywords
+    by_name = {line.name: line for line in cfg.service_lines}
+    assert by_name["세무조사대응"].keywords == ("세무조사",) and "교육" in by_name["세무조사대응"].exclude
+    assert by_name["회계감사"].exclude == ()
+
+
+def test_service_lines_bad_shape_raises(tmp_path):
+    head = CFG_PATH.read_text(encoding="utf-8").split("service_lines:")[0]
+    bad = tmp_path / "c.yaml"
+    bad.write_text(head + "service_lines:" + chr(10) + "  - 회계감사" + chr(10), encoding="utf-8")
+    with pytest.raises(RuntimeError, match="service_lines"):
+        load_config(bad)

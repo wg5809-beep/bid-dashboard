@@ -45,6 +45,7 @@ tests/            pytest (수집기)      web/js/lib/*.test.js  node --test (프
 `collector/config.yaml`만 수정해 커밋하면 다음 실행부터 반영된다.
 
 - `public_keywords` / `public_exclude`: 나라장터 공고명 포함어·제외어
+- `service_lines`: 주타겟 업무 분류(순서 = 우선순위). 각 항목은 `name`, `keywords`, 선택 `exclude`. 어디에도 안 맞으면 "기타". 바꾸면 다음 수집부터 전체 공고가 재분류됨
 - `apt_keywords` / `apt_regions`: 아파트 공고 키워드·수집 지역(빈 목록 = 전국, 기본값. 호남만: `[전남광주, 전북]`)
 - `interest_home_regions` / `interest_institutions`: "본사 소재" 판정용 지역·기관명 목록
 - `interest_limit_regions`: "지역제한" 판정용 지역명

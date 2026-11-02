@@ -13,7 +13,7 @@ const BADGE_TEXT = { ok: "수집 정상", stale: "갱신 지연", fail: "수집 
 
 let state = {
   notices: [], awards: [], awardByKey: new Map(), meta: null, now: new Date(),
-  filters: { track: "all", interestOnly: false, query: "" },
+  filters: { track: "all", category: "all", interestOnly: false, query: "" },
   select: null,
 };
 
@@ -46,13 +46,19 @@ function setFilters(patch) {
   render();
 }
 
-function bindControls() {
-  document.querySelectorAll(".seg [data-track]").forEach((btn) => {
+function bindSegment(attr, key) {
+  const buttons = document.querySelectorAll(`.seg [data-${attr}]`);
+  buttons.forEach((btn) => {
     btn.addEventListener("click", () => {
-      document.querySelectorAll(".seg [data-track]").forEach((b) => b.classList.toggle("active", b === btn));
-      setFilters({ track: btn.dataset.track });
+      buttons.forEach((b) => b.classList.toggle("active", b === btn));
+      setFilters({ [key]: btn.dataset[attr] });
     });
   });
+}
+
+function bindControls() {
+  bindSegment("track", "track");
+  bindSegment("category", "category");
   document.getElementById("interest-only").addEventListener("change", (e) => setFilters({ interestOnly: e.target.checked }));
   document.getElementById("query").addEventListener("input", (e) => setFilters({ query: e.target.value }));
   document.getElementById("modal-close").addEventListener("click", closeDetail);

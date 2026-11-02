@@ -1,6 +1,6 @@
 // 공고 상세 모달.
 import { esc } from "../lib/dom.js";
-import { formatAmount, formatDateTime, regionLabel, statusLabel, trackLabel } from "../lib/format.js";
+import { categoryLabel, formatAmount, formatDateTime, regionLabel, serviceLabel, statusLabel, trackLabel } from "../lib/format.js";
 import { interestChip } from "../lib/rows.js";
 
 function row(label, value) {
@@ -30,6 +30,7 @@ export function openDetail(notice, award) {
   body.innerHTML = `
     <h3 id="modal-title">${interestChip(notice)}${esc(notice.title)}</h3>
     <dl class="detail">
+      ${row("업무 구분", esc(categoryLabel(notice.category)) + (notice.category === "target" ? ` · ${esc(serviceLabel(notice.service))}` : ""))}
       ${row("트랙", esc(trackLabel(notice.track)) + (notice.source_system ? ` · ${esc(notice.source_system)}` : ""))}
       ${row("공고번호", `${esc(notice.notice_no)}${notice.notice_ord && notice.notice_ord !== "0" ? ` (차수 ${esc(notice.notice_ord)})` : ""}`)}
       ${row("공고기관", esc(notice.agency ?? "-"))}

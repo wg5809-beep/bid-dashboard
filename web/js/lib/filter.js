@@ -10,9 +10,12 @@ function matchesQuery(notice, query) {
   return haystack.includes(q);
 }
 
-export function applyFilters(notices, { track = "all", interestOnly = false, query = "", statuses } = {}) {
+export const categoryOf = (n) => (n.category === "target" ? "target" : "other");
+
+export function applyFilters(notices, { track = "all", category = "all", interestOnly = false, query = "", statuses } = {}) {
   return notices.filter((n) =>
     (track === "all" || n.track === track)
+    && (category === "all" || categoryOf(n) === category)
     && (!interestOnly || n.interest)
     && (!statuses || statuses.includes(n.status))
     && matchesQuery(n, query));

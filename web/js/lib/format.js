@@ -5,6 +5,7 @@ const STATUS_LABELS = Object.freeze({
   rebid: "재입찰", cancelled: "취소", unknown: "결과미확인",
 });
 const TRACK_LABELS = Object.freeze({ public: "공공기관", apt: "아파트" });
+const CATEGORY_LABELS = Object.freeze({ target: "주타겟", other: "기타" });
 const WEEKDAYS = ["일", "월", "화", "수", "목", "금", "토"];
 const DAY_MS = 86_400_000;
 
@@ -61,6 +62,14 @@ export function statusLabel(status) {
 
 export function trackLabel(track) {
   return TRACK_LABELS[track] ?? track;
+}
+
+export function categoryLabel(category) {
+  return CATEGORY_LABELS[category] ?? CATEGORY_LABELS.other;
+}
+
+export function serviceLabel(service) {
+  return service || "기타업무";
 }
 
 export function regionLabel(region) {

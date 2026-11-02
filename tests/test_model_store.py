@@ -55,3 +55,11 @@ def test_save_json_is_atomic_and_utf8(tmp_path: Path):
     assert "회계감사" in raw and "\\u" not in raw
     assert json.loads(raw)["items"][0]["title"] == "회계감사"
     assert [p.name for p in tmp_path.iterdir()] == ["x.json"]
+
+
+def test_notice_defaults_category_other_for_old_json():
+    from tests.helpers import make_notice
+    n = make_notice()
+    assert n.category == "other" and n.service is None
+    data = {k: v for k, v in n.to_dict().items() if k not in ("category", "service")}
+    assert Notice.from_dict(data).category == "other"
