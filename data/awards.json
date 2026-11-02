@@ -9064,6 +9064,25 @@
    "winner_ceo": "고남호"
   },
   {
+   "agency": "국세청",
+   "amount": 31350000,
+   "awarded_at": "2026-11-02T00:00",
+   "interest": false,
+   "key": "public:R26BK01766627",
+   "notice_no": "R26BK01766627",
+   "notice_ord": "000",
+   "opened_at": "2026-10-29T09:38",
+   "participants": 3,
+   "planned_price": null,
+   "rate": null,
+   "region": "미분류",
+   "title": "세무조사 부실과세 방지와 납세자의 권리 위탁교육",
+   "track": "public",
+   "winner": "주식회사 이택스코리아",
+   "winner_bizno": "7428803133",
+   "winner_ceo": "경정암"
+  },
+  {
    "agency": "대구공공시설관리공단",
    "amount": 34000000,
    "awarded_at": "2026-10-13T00:00",
@@ -9366,6 +9385,25 @@
    "winner": "주식회사 백강",
    "winner_bizno": "1268652916",
    "winner_ceo": "최세형"
+  },
+  {
+   "agency": "코레일유통(주)",
+   "amount": 48231500,
+   "awarded_at": "2026-11-02T00:00",
+   "interest": false,
+   "key": "public:R26BK01786263",
+   "notice_no": "R26BK01786263",
+   "notice_ord": "000",
+   "opened_at": "2026-10-28T11:07",
+   "participants": 41,
+   "planned_price": null,
+   "rate": 88.179,
+   "region": "미분류",
+   "title": "2026년 토지 자산 감정평가 용역",
+   "track": "public",
+   "winner": "(주)한국씨티감정평가법인",
+   "winner_bizno": "1058721131",
+   "winner_ceo": "정훈"
   },
   {
    "agency": "강원특별자치도 원주시",
