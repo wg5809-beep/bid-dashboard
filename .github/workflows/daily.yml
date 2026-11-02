@@ -25,6 +25,7 @@ env:
 jobs:
   collect:
     runs-on: ubuntu-latest
+    timeout-minutes: 45   # 게이트웨이 지연 시 재시도 누적으로 수 시간 매달리는 것 방지(정상 백필 ~7분)
     outputs:
       collect_outcome: ${{ steps.collect.outcome }}
     steps:
