@@ -64,7 +64,7 @@ def test_fetch_awards_uses_openg_date_div_and_window_format():
     rows = fetch_awards(client, BEGIN, END)
     assert len(rows) == 2
     service, op, params = client.requests[0]
-    assert service == "nara_awards" and params["inqryDiv"] == "3"
+    assert service == "nara_awards" and params["inqryDiv"] == "1"
     assert params["inqryBgnDt"] == "202611110000" and params["inqryEndDt"] == "202611182359"
 
 

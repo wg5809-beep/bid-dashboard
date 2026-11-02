@@ -18,7 +18,10 @@
     "bidTitle": "[전북] 외부회계감사",
     "bidRegdate": "2026-11-18",
     "bidState": "5",
-    "amount": "2,000,000"
+    "amount": "2,000,000",
+    "bidArea": 52,
+    "bidDeadline": "2026-10-20 17:00:00",
+    "aptCode": "A52000777"
   },
   {
     "bidNum": "2026110200555",
@@ -26,6 +29,19 @@
     "bidTitle": "[전북] 외부회계감사",
     "bidRegdate": "2026-11-18",
     "bidState": "4",
-    "amount": ""
+    "amount": "",
+    "bidArea": 52,
+    "bidDeadline": "2026-10-25 17:00:00",
+    "aptCode": "A52000555"
+  },
+  {
+    "bidNum": "2026110200999",
+    "bidKaptname": "서울 어딘가",
+    "bidArea": 11,
+    "bidTitle": "외부회계감사",
+    "bidRegdate": "2026-10-01",
+    "bidDeadline": "2026-10-15 17:00:00",
+    "bidState": "5",
+    "amount": "1,000,000"
   }
 ]

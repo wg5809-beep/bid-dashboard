@@ -15,7 +15,12 @@
     "cntrctCnclsMthdNm": "제한경쟁",
     "sucsfbidMthdNm": "적격심사",
     "ntceKindNm": "일반공고",
-    "bidNtceDtlUrl": "https://www.g2b.go.kr/link/R26BK00000001"
+    "bidNtceDtlUrl": "https://www.g2b.go.kr/link/R26BK00000001",
+    "bidPrtcptLmtYn": "Y",
+    "rgnLmtBidLocplcJdgmBssNm": "전남광주통합특별시",
+    "jntcontrctDutyRgnNm1": "전북특별자치도",
+    "jntcontrctDutyRgnNm2": "",
+    "jntcontrctDutyRgnNm3": ""
   },
   {
     "bidNtceNo": "R26BK00000002",
@@ -33,6 +38,11 @@
     "cntrctCnclsMthdNm": "일반경쟁",
     "sucsfbidMthdNm": "협상에 의한 계약",
     "ntceKindNm": "일반공고",
-    "bidNtceDtlUrl": ""
+    "bidNtceDtlUrl": "",
+    "bidPrtcptLmtYn": "N",
+    "rgnLmtBidLocplcJdgmBssNm": "",
+    "jntcontrctDutyRgnNm1": "",
+    "jntcontrctDutyRgnNm2": "",
+    "jntcontrctDutyRgnNm3": ""
   }
 ]

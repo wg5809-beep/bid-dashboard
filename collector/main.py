@@ -17,7 +17,8 @@ import requests
 
 from collector.config import Config, load_config
 from collector.model import Award, Meta, Notice
-from collector.rules.status import parse_iso
+from collector.rules.keywords import matches_keywords
+from collector.rules.region import region_from_kapt
 from collector.sources import kapt_bids, kapt_results, nara_awards, nara_bids
 from collector.sources.client import DataGoClient, DataGoError, redact
 from collector.store.json_store import load_awards, load_notices, save_awards, save_json, save_notices
@@ -44,12 +45,14 @@ def _guard(errors: list[str], label: str, fn, *args):
 
 
 def _collect_notices(cfg: Config, client, now: datetime, backfill: bool, errors: list[str]) -> list[Notice]:
+    """창 단위로 실패를 격리해, 한 창이 실패해도 다른 창의 결과는 유지한다."""
     days = cfg.backfill_days if backfill else cfg.lookback_days
-    windows = month_windows(*_day_range(now, days))
     today = now.strftime("%Y-%m-%d")
-    public = _guard(errors, nara_bids.SERVICE, nara_bids.collect_public, client, cfg, windows, today) or []
-    apt = _guard(errors, kapt_bids.SERVICE, kapt_bids.collect_apt, client, cfg, windows, today) or []
-    return [*public, *apt]
+    collected: list[Notice] = []
+    for window in month_windows(*_day_range(now, days)):
+        collected += _guard(errors, nara_bids.SERVICE, nara_bids.collect_public, client, cfg, [window], today) or []
+        collected += _guard(errors, kapt_bids.SERVICE, kapt_bids.collect_apt, client, cfg, [window], today) or []
+    return collected
 
 
 def _public_awards(cfg: Config, client, notices: Mapping[str, Notice], now: datetime, backfill: bool, errors: list[str]):
@@ -69,27 +72,42 @@ def _public_awards(cfg: Config, client, notices: Mapping[str, Notice], now: date
     return awards, notes
 
 
-def _apt_awards(cfg: Config, client, notices: Mapping[str, Notice], now: datetime, errors: list[str]):
-    cutoff = now - timedelta(days=cfg.apt_result_lookback_days)
-    pending = {k: n for k, n in notices.items()
-               if n.track == "apt" and n.status in kapt_results.PENDING_STATUSES
-               and parse_iso(n.close_at) and parse_iso(n.close_at) >= cutoff}
-    posted = [parse_iso(n.posted_at) for n in pending.values() if parse_iso(n.posted_at)]
+def _apt_result_rows(cfg: Config, client, now: datetime, errors: list[str]) -> list[dict]:
+    """키워드×연도(올해 + 조회범위가 작년에 걸치면 작년)로 결과를 받아 지역·키워드로 거른다."""
+    years = sorted({now.year, (now - timedelta(days=cfg.apt_result_lookback_days)).year})
+    seen: dict[str, dict] = {}
+    for year in years:
+        for keyword in cfg.apt_keywords:
+            rows = _guard(errors, kapt_results.SERVICE, kapt_results.fetch_results_by_title, client, keyword, year) or []
+            for raw in rows:
+                key = str(raw.get("bidNum") or "")
+                if key and key not in seen and matches_keywords(raw.get("bidTitle"), cfg.apt_keywords, ()):
+                    seen[key] = raw
+    return [raw for raw in seen.values() if (region_from_kapt(raw.get("bidTitle"), raw.get("bidArea")) in cfg.apt_regions)]
+
+
+def _apt_awards(cfg: Config, client, notices: Mapping[str, Notice], existing: Mapping[str, Award],
+                now: datetime, errors: list[str]):
+    """결과 행 → (낙찰, 결과메모, 새로 알게 된 공고). 공고 서비스에 없던 과거 공고도 결과 행으로 만든다."""
+    today = now.strftime("%Y-%m-%d")
     awards: dict[str, Award] = {}
     notes: dict[str, str] = {}
-    if not posted:
-        return awards, notes
-    for begin, end in month_windows(min(posted), max(posted).replace(hour=23, minute=59)):
-        rows = _guard(errors, kapt_results.SERVICE, kapt_results.fetch_results_by_posted, client, begin, end) or []
-        for key, raw in kapt_results.match_results(rows, pending).items():
-            note = kapt_results.result_note_from_state(raw)
-            if note:
-                notes[key] = note
-                continue
-            participants = _guard(errors, kapt_results.SERVICE, kapt_results.fetch_participants, client, pending[key].notice_no)
-            if participants is not None:
-                awards[key] = kapt_results.to_award(raw, pending[key], participants)
-    return awards, notes
+    new_notices: list[Notice] = []
+    for raw in _apt_result_rows(cfg, client, now, errors):
+        key = f"apt:{raw.get('bidNum')}"
+        notice = notices.get(key)
+        if notice is None:
+            notice = kapt_results.notice_from_result(raw, cfg, today)
+            new_notices.append(notice)
+        elif notice.status not in kapt_results.PENDING_STATUSES:
+            continue
+        note = kapt_results.result_note_from_state(raw)
+        if note:
+            notes[key] = note
+        elif kapt_results.is_awarded(raw) and key not in existing:
+            participants = _guard(errors, kapt_results.SERVICE, kapt_results.fetch_participants, client, notice.notice_no)
+            awards[key] = kapt_results.to_award(raw, notice, participants or [])
+    return awards, notes, new_notices
 
 
 def _apply_notes(notices: dict[str, Notice], notes: Mapping[str, str]) -> dict[str, Notice]:
@@ -97,15 +115,17 @@ def _apply_notes(notices: dict[str, Notice], notes: Mapping[str, str]) -> dict[s
 
 
 def _collect_awards(cfg, client, notices, existing: Mapping[str, Award], now, backfill, errors):
+    """→ (전체 낙찰, 결과메모, 신규 낙찰 수, 결과 서비스에서 새로 알게 된 아파트 공고)"""
     found = _guard(errors, nara_awards.SERVICE, _public_awards, cfg, client, notices, now, backfill, errors)
-    found_apt = _guard(errors, kapt_results.SERVICE, _apt_awards, cfg, client, notices, now, errors)
+    found_apt = _guard(errors, kapt_results.SERVICE, _apt_awards, cfg, client, notices, existing, now, errors)
     new_awards: dict[str, Award] = {}
     notes: dict[str, str] = {}
     for result in (found, found_apt):
         if result:
             new_awards.update({k: a for k, a in result[0].items() if k not in existing})
             notes.update(result[1])
-    return {**existing, **new_awards}, notes, len(new_awards)
+    new_notices = found_apt[2] if found_apt else []
+    return {**existing, **new_awards}, notes, len(new_awards), new_notices
 
 
 def run(cfg: Config, client, data_dir: Path, now: datetime, backfill: bool = False) -> Meta:
@@ -117,7 +137,9 @@ def run(cfg: Config, client, data_dir: Path, now: datetime, backfill: bool = Fal
         incoming = _collect_notices(cfg, client, now, backfill, errors)
         notices, counts["new"], counts["updated"] = merge_notices(notices, incoming, now.strftime("%Y-%m-%d"))
         notices = attach_awards(notices, awards, now)
-        awards, notes, counts["awards"] = _collect_awards(cfg, client, notices, awards, now, backfill, errors)
+        awards, notes, counts["awards"], late = _collect_awards(cfg, client, notices, awards, now, backfill, errors)
+        notices, late_new, _ = merge_notices(notices, late, now.strftime("%Y-%m-%d"))
+        counts["new"] += late_new
         notices = apply_retention(attach_awards(_apply_notes(notices, notes), awards, now), now, cfg.retention_days)
         counts["notices"], counts["award_total"] = len(notices), len(awards)
         save_notices(data_dir / "notices.json", notices)

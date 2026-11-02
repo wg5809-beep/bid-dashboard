@@ -52,7 +52,7 @@ def to_notice(raw: dict, cfg: Config, today: str) -> Notice:
         agency=complex_name,
         demand_agency=None,
         agency_code=text(raw, "aptCode"),
-        posted_at=to_iso(raw.get("bidRegDate")),
+        posted_at=to_iso(raw.get("bidRegDate") or raw.get("bidRegdate")),  # 결과 서비스는 bidRegdate
         close_at=to_iso(raw.get("bidDeadline")),
         open_at=None,
         budget=None,

@@ -16,7 +16,6 @@ CFG_PATH = Path("collector/config.yaml").resolve()
 CFG = load_config(CFG_PATH)
 FX = Path("tests/fixtures")
 BIDS = json.loads((FX / "nara_bid_item.json").read_text(encoding="utf-8"))
-REGIONS = json.loads((FX / "nara_region_item.json").read_text(encoding="utf-8"))
 AWARDS = json.loads((FX / "nara_award_item.json").read_text(encoding="utf-8"))
 OPENG = json.loads((FX / "nara_openg_item.json").read_text(encoding="utf-8"))
 KBIDS = json.loads((FX / "kapt_bid_item.json").read_text(encoding="utf-8"))
@@ -31,11 +30,10 @@ SUNDAY = datetime(2026, 11, 22, 7, 0)
 def full_table(over=None):
     table = {
         (nara_bids.SERVICE, nara_bids.OP_LIST): BIDS,
-        (nara_bids.SERVICE, nara_bids.OP_REGION): REGIONS,
         (nara_awards.SERVICE, nara_awards.OP_AWARDS): AWARDS,
         (nara_awards.SERVICE, nara_awards.OP_OPENG): OPENG,
         (kapt_bids.SERVICE, kapt_bids.OP_BY_POSTED): KBIDS,
-        (kapt_results.SERVICE, kapt_results.OP_BY_POSTED): KRES,
+        (kapt_results.SERVICE, kapt_results.OP_BY_TITLE): KRES,
         (kapt_results.SERVICE, kapt_results.OP_PARTICIPANTS): KENT,
     }
     table.update(over or {})
@@ -47,11 +45,15 @@ def test_run_first_time_writes_three_files_and_counts(tmp_path):
     assert (tmp_path / "notices.json").exists() and (tmp_path / "awards.json").exists()
     assert (tmp_path / "meta.json").exists()
     assert meta.ok is True and meta.errors == ()
-    assert meta.new_notices == 2 and meta.notice_count == 2  # 나라장터 1 + 아파트 1
-    assert meta.new_awards == 0 and meta.run_at == "2026-11-02T07:00"
+    # 나라장터 1 + 아파트 공고 1 + 아파트 결과에서 생성 2(호남: 777 낙찰, 555 유찰; 서울 999 제외)
+    assert meta.new_notices == 4 and meta.notice_count == 4
+    assert meta.new_awards == 1 and meta.run_at == "2026-11-02T07:00"
     assert meta.calls["nara_bids"] > 0 and meta.calls["kapt_bids"] == 1
+    assert meta.calls["kapt_results"] == len(CFG.apt_keywords) + 1  # 키워드별 1회 + 참여업체 1회
     notices = load_notices(tmp_path / "notices.json")
-    assert {n.status for n in notices.values()} == {"open"}
+    assert notices["public:R26BK00000001"].status == "open" and notices["apt:2026110200123"].status == "open"
+    assert notices["apt:2026110200777"].status == "awarded" and notices["apt:2026110200555"].status == "failed"
+    assert "apt:2026110200999" not in notices
 
 
 def test_run_second_time_attaches_award_and_sets_awarded(tmp_path):
@@ -59,7 +61,7 @@ def test_run_second_time_attaches_award_and_sets_awarded(tmp_path):
     meta = run(CFG, FakeClient(full_table()), tmp_path, DAY2)
     notices = load_notices(tmp_path / "notices.json")
     awards = load_awards(tmp_path / "awards.json")
-    assert meta.new_awards == 2 and meta.award_count == 2
+    assert meta.new_awards == 2 and meta.award_count == 3
     assert notices["public:R26BK00000001"].status == "awarded"
     assert awards["public:R26BK00000001"].winner == "○○회계법인"
     assert notices["apt:2026110200123"].status == "awarded"
@@ -191,9 +193,12 @@ def test_run_keeps_partial_awards_when_one_keyword_fails(tmp_path):
     assert load_awards(tmp_path / "awards.json")["public:R26BK00000001"].winner == "○○회계법인"
 
 
-def test_run_apt_results_limited_to_recent_closes(tmp_path):
-    run(CFG, FakeClient(full_table()), tmp_path, DAY1)
-    late = datetime(2027, 6, 1, 7, 0)  # 아파트 마감(2026-11-16)에서 190일 뒤
+def test_run_apt_results_query_years_cover_lookback(tmp_path):
     client = FakeClient(full_table())
-    run(CFG, client, tmp_path, late)
-    assert not [1 for s, op, p in client.requests if s == kapt_results.SERVICE]
+    run(CFG, client, tmp_path, datetime(2027, 1, 10, 7, 0))  # 연초: 작년도 함께 조회
+    years = {p["searchYear"] for s, op, p in client.requests if op == kapt_results.OP_BY_TITLE}
+    assert years == {"2026", "2027"}
+    client = FakeClient(full_table())
+    run(CFG, client, tmp_path, datetime(2027, 6, 1, 7, 0))
+    years = {p["searchYear"] for s, op, p in client.requests if op == kapt_results.OP_BY_TITLE}
+    assert years == {"2027"}

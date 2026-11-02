@@ -1,15 +1,18 @@
 import json
-from datetime import date
 from pathlib import Path
 
 from collector.sources import kapt_results
+from collector.config import load_config
 from collector.sources.kapt_results import (
     fetch_participants,
-    fetch_results_by_posted,
+    fetch_results_by_title,
     match_results,
+    notice_from_result,
     result_note_from_state,
     to_award,
 )
+
+CFG = load_config(Path("collector/config.yaml"))
 from tests.fakes import FakeClient
 from tests.helpers import make_notice
 
@@ -57,12 +60,22 @@ def test_result_note_from_state():
     assert result_note_from_state({}) is None
 
 
-def test_fetch_results_by_posted_params():
-    client = FakeClient({(kapt_results.SERVICE, "getPblAncDeSearchV3"): RESULTS})
-    rows = fetch_results_by_posted(client, date(2026, 11, 1), date(2026, 11, 18))
-    assert len(rows) == 3
+def test_fetch_results_by_title_params():
+    client = FakeClient({(kapt_results.SERVICE, "getBidPblAncNmSearchV3"): RESULTS})
+    rows = fetch_results_by_title(client, "회계감사", 2026)
+    assert len(rows) == 4
     service, _, params = client.requests[0]
-    assert service == "kapt_results" and params == {"startDate": "20261101", "endDate": "20261118"}
+    assert service == "kapt_results" and params == {"bidTitle": "회계감사", "searchYear": "2026"}
+
+
+def test_notice_from_result_builds_apt_notice_with_region_and_status_source():
+    n = notice_from_result(RESULTS[1], CFG, "2026-11-18")
+    assert n.key == "apt:2026110200777" and n.track == "apt" and n.region == "전북"
+    assert n.posted_at == "2026-11-18T00:00" and n.close_at == "2026-10-20T17:00"
+    assert n.agency == "모르는 아파트" and n.agency_code == "A52000777"
+    assert n.kind == "낙찰(계약완료)"
+    failed = notice_from_result(RESULTS[2], CFG, "2026-11-18")
+    assert failed.kind == "유찰" and failed.result_note == "유찰"
 
 
 def test_fetch_participants_by_bid_num():

@@ -1,6 +1,7 @@
 """나라장터 용역 입찰공고 소스 (조달청_나라장터 입찰공고정보서비스).
 
-목록 응답에는 지역 필드가 없으므로 참가가능지역 오퍼레이션을 같은 기간으로 조회해 공고번호로 조인한다.
+목록 응답(PPSSrch)에 지역제한 필드(rgnLmtBidLocplcJdgmBssNm, jntcontrctDutyRgnNm1~3)가 포함되어 있어
+참가가능지역 오퍼레이션은 호출하지 않는다(날짜 범위 조회 시 전 업무구분 수만 건이 내려와 예산을 소진함).
 """
 from __future__ import annotations
 
@@ -17,8 +18,7 @@ from collector.sources.common import fmt_pps, text, to_iso
 BASE = "https://apis.data.go.kr/1230000/ad/BidPublicInfoService"
 SERVICE = "nara_bids"
 OP_LIST = "getBidPblancListInfoServcPPSSrch"
-OP_REGION = "getBidPblancListInfoPrtcptPsblRgn"
-REGION_FIELD = "prtcptPsblRgnNm"
+LIMIT_FIELDS = ("rgnLmtBidLocplcJdgmBssNm", "jntcontrctDutyRgnNm1", "jntcontrctDutyRgnNm2", "jntcontrctDutyRgnNm3")
 FALLBACK_URL = "https://www.g2b.go.kr"
 
 
@@ -40,14 +40,10 @@ def fetch_service_notices(client, begin: datetime, end: datetime, keywords: Sequ
     return list(best.values())
 
 
-def fetch_region_limits(client, begin: datetime, end: datetime) -> dict[str, tuple[str, ...]]:
-    rows = client.get_items(SERVICE, BASE, OP_REGION, _window_params(begin, end))
-    grouped: dict[str, list[str]] = {}
-    for row in rows:
-        no, name = text(row, "bidNtceNo"), text(row, REGION_FIELD)
-        if no and name:
-            grouped.setdefault(no, []).append(name)
-    return {no: tuple(names) for no, names in grouped.items()}
+def limit_regions_of(raw: dict) -> tuple[str, ...]:
+    """목록 행의 지역제한 필드에서 지역명을 모은다(중복 제거, 순서 유지)."""
+    names = [text(raw, field) for field in LIMIT_FIELDS]
+    return tuple(dict.fromkeys(name for name in names if name))
 
 
 def _institution_region(raw: dict) -> str | None:
@@ -62,8 +58,9 @@ def _limit_region(limit_regions: tuple[str, ...]) -> str | None:
     return None
 
 
-def to_notice(raw: dict, limit_regions: tuple[str, ...], cfg: Config, today: str) -> Notice:
+def to_notice(raw: dict, cfg: Config, today: str) -> Notice:
     agency, demand = text(raw, "ntceInsttNm"), text(raw, "dminsttNm")
+    limit_regions = limit_regions_of(raw)
     home_region = _institution_region(raw)
     region = _limit_region(limit_regions) or home_region or UNCLASSIFIED
     # 소재지 판정에는 기관에서 유도한 지역만 쓴다(지역제한에서 온 지역을 소재지로 오판하지 않도록).
@@ -88,7 +85,7 @@ def to_notice(raw: dict, limit_regions: tuple[str, ...], cfg: Config, today: str
         contract_method=text(raw, "cntrctCnclsMthdNm"),
         award_method=text(raw, "sucsfbidMthdNm"),
         kind=text(raw, "ntceKindNm"),
-        limit_regions=tuple(limit_regions),
+        limit_regions=limit_regions,
         region=region,
         interest=interest,
         interest_reason=reason,
@@ -102,10 +99,7 @@ def to_notice(raw: dict, limit_regions: tuple[str, ...], cfg: Config, today: str
 def collect_public(client, cfg: Config, windows: list[tuple[datetime, datetime]], today: str) -> list[Notice]:
     notices: list[Notice] = []
     for begin, end in windows:
-        rows = fetch_service_notices(client, begin, end, cfg.public_keywords)
-        limits = fetch_region_limits(client, begin, end)
-        for raw in rows:
-            if not matches_keywords(text(raw, "bidNtceNm"), cfg.public_keywords, cfg.public_exclude):
-                continue
-            notices.append(to_notice(raw, limits.get(text(raw, "bidNtceNo") or "", ()), cfg, today))
+        for raw in fetch_service_notices(client, begin, end, cfg.public_keywords):
+            if matches_keywords(text(raw, "bidNtceNm"), cfg.public_keywords, cfg.public_exclude):
+                notices.append(to_notice(raw, cfg, today))
     return notices

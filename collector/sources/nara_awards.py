@@ -15,7 +15,7 @@ BASE = "https://apis.data.go.kr/1230000/as/ScsbidInfoService"
 SERVICE = "nara_awards"
 OP_AWARDS = "getScsbidListSttusServcPPSSrch"
 OP_OPENG = "getOpengResultListInfoServcPPSSrch"
-AWARD_INQRY_DIV = "3"  # 개찰일시. resultCode 10이 나오면 "2"(공고일시)로 바꾼다.
+AWARD_INQRY_DIV = "1"  # 등록일시(실호출 확인: 3은 필수값 오류, 1은 낙찰 레코드 등록 기준이라 증분 수집에 적합)
 OPENG_PAGE_SIZE = 50   # 개찰결과 응답은 느려 작은 페이지로
 PENDING_STATUSES = ("closed", "opened", "unknown")
 

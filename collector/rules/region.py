@@ -62,8 +62,9 @@ INSTITUTION_HINTS: dict[str, str] = {
 _HINTS_LONGEST_FIRST = sorted(INSTITUTION_HINTS, key=len, reverse=True)
 _ALIASES_LONGEST_FIRST = sorted(_SIDO_ALIASES, key=len, reverse=True)
 
+# K-apt bidArea는 2자리 코드. 실호출 확인: 12 = 전남광주(순천·광주 단지), 51 = 강원, 52 = 전북.
 SIDO_CODE: dict[str, str] = {
-    "11": "서울", "26": "부산", "27": "대구", "28": "인천", "29": "전남광주", "30": "대전",
+    "11": "서울", "12": "전남광주", "26": "부산", "27": "대구", "28": "인천", "29": "전남광주", "30": "대전",
     "31": "울산", "36": "세종", "41": "경기", "42": "강원", "51": "강원", "43": "충북",
     "44": "충남", "45": "전북", "52": "전북", "46": "전남광주", "47": "경북", "48": "경남",
     "50": "제주",
