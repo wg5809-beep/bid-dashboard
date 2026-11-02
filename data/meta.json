@@ -1,16 +1,18 @@
 {
- "award_count": 283,
+ "award_count": 500,
  "calls": {
-  "kapt_bids": 1,
-  "kapt_results": 6,
+  "kapt_bids": 2,
+  "kapt_results": 223,
   "nara_awards": 40,
   "nara_bids": 22
  },
- "errors": [],
- "new_awards": 0,
- "new_notices": 0,
- "notice_count": 665,
- "ok": true,
- "run_at": "2026-11-02T14:08",
+ "errors": [
+  "kapt_results: kapt_results: BAD_RESPONSE no result header: {'OpenAPI_ServiceResponse': {'cmmMsgHeader': {'errMsg': 'HTTP_ERROR', 'returnAuthMsg': 'HTTP 에러', 'returnReasonCode': '04'}}}"
+ ],
+ "new_awards": 217,
+ "new_notices": 345,
+ "notice_count": 1010,
+ "ok": false,
+ "run_at": "2026-11-02T16:26",
  "updated_notices": 0
 }
