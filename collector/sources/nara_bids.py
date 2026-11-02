@@ -68,6 +68,8 @@ def to_notice(raw: dict, limit_regions: tuple[str, ...], cfg: Config, today: str
     region = _limit_region(limit_regions) or home_region or UNCLASSIFIED
     # 소재지 판정에는 기관에서 유도한 지역만 쓴다(지역제한에서 온 지역을 소재지로 오판하지 않도록).
     interest, reason = judge_interest(agency, demand, home_region, limit_regions, cfg)
+    if reason == "본사 소재" and region == UNCLASSIFIED and cfg.interest_home_regions:
+        region = cfg.interest_home_regions[0]  # 기관 목록으로 소재지가 확인된 경우 지도에도 반영
     notice_no = text(raw, "bidNtceNo") or ""
     return Notice(
         key=f"public:{notice_no}",

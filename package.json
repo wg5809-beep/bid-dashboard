@@ -1,0 +1,8 @@
+{
+  "name": "bid-dashboard-web",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test \"web/js/lib/*.test.js\""
+  }
+}

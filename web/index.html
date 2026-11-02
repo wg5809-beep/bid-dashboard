@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>회계법인 용역 공공입찰 대시보드</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231f5fbf'/%3E%3Ctext x='16' y='22' font-size='16' text-anchor='middle' fill='white' font-family='sans-serif'%3E입%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <h1>공공입찰 대시보드</h1>
+      <div class="meta-line">
+        <span id="status-badge" class="badge badge-fail" title="수집 상태">확인 중</span>
+        <span id="run-at" class="muted"></span>
+      </div>
+    </div>
+    <nav class="tabs" aria-label="화면 선택">
+      <a href="#dashboard" data-tab="dashboard">대시보드</a>
+      <a href="#calendar" data-tab="calendar">캘린더</a>
+      <a href="#map" data-tab="map">지도</a>
+      <a href="#awards" data-tab="awards">낙찰</a>
+    </nav>
+  </header>
+
+  <section class="filterbar" aria-label="공통 필터">
+    <div class="seg" role="group" aria-label="트랙">
+      <button type="button" data-track="all" class="active">전체</button>
+      <button type="button" data-track="public">공공기관</button>
+      <button type="button" data-track="apt">아파트</button>
+    </div>
+    <label class="toggle"><input type="checkbox" id="interest-only"> <span class="interest-dot"></span>관심지역만</label>
+    <input type="search" id="query" placeholder="공고명·기관 검색" aria-label="검색">
+  </section>
+
+  <div id="error-banner" class="error-banner" hidden></div>
+  <main id="view" class="view"></main>
+
+  <div id="modal" class="modal" hidden>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <button type="button" class="modal-close" id="modal-close" aria-label="닫기">×</button>
+      <div id="modal-body"></div>
+    </div>
+  </div>
+
+  <footer class="footer muted">
+    출처: 공공데이터포털(조달청 나라장터 입찰공고·낙찰정보, 국토교통부 공동주택 입찰공고·입찰결과). 매일 07:00 자동 갱신.
+  </footer>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

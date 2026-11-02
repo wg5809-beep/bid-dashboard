@@ -76,3 +76,10 @@ def test_collect_public_filters_exclude_words():
     notices = collect_public(client, CFG, WINDOW, TODAY)
     assert [n.notice_no for n in notices] == ["R26BK00000001"]
     assert notices[0].region == "전남광주" and notices[0].interest_reason == "지역제한"
+
+
+def test_to_notice_institution_list_match_sets_home_region():
+    raw = {**BIDS[0], "ntceInsttNm": "한국전력공사", "dminsttNm": "한국전력공사"}
+    n = to_notice(raw, (), CFG, TODAY)
+    assert (n.interest, n.interest_reason) == (True, "본사 소재")
+    assert n.region == "전남광주"
