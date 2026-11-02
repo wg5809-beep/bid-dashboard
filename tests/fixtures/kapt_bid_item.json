@@ -1,0 +1,48 @@
+[
+  {
+    "bidNum": "2026110200123",
+    "aptCode": "A14000001",
+    "bidArea": 2900000000,
+    "bidTitle": "[전남광주] 2026년 외부회계감사 용역 사업자 선정",
+    "bidContent": "회계감사",
+    "bidRegDate": "2026-11-02",
+    "bidDeadline": "2026-11-16 17:00:00",
+    "bidKaptname": "빛가람 ○○아파트",
+    "bidState": "1",
+    "codeAuth": "01",
+    "codeKind": "01",
+    "codeClassifyType1": "02",
+    "codeClassifyType2": "03",
+    "codeClassifyType3": "09",
+    "bidEmrgYn": "N",
+    "codeWay": "01",
+    "codeSucWay": "02",
+    "bidDocsDeadline": "2026-11-16 17:00:00"
+  },
+  {
+    "bidNum": "2026110200124",
+    "aptCode": "A41000002",
+    "bidArea": 4100000000,
+    "bidTitle": "[경기] 외부회계감사 사업자 선정",
+    "bidRegDate": "2026-11-02",
+    "bidDeadline": "2026-11-16 17:00:00",
+    "bidKaptname": "경기 △△아파트",
+    "bidState": "1",
+    "codeAuth": "04",
+    "codeKind": "02",
+    "codeSucWay": "03"
+  },
+  {
+    "bidNum": "2026110200125",
+    "aptCode": "A52000003",
+    "bidArea": 5200000000,
+    "bidTitle": "[전북] 청소용역 사업자 선정",
+    "bidRegDate": "2026-11-02",
+    "bidDeadline": "2026-11-16 17:00:00",
+    "bidKaptname": "전주 □□아파트",
+    "bidState": "3",
+    "codeAuth": "01",
+    "codeKind": "01",
+    "codeSucWay": "03"
+  }
+]
