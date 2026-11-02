@@ -1,0 +1,31 @@
+[
+  {
+    "bidNum": "2026110200123",
+    "bidKaptname": "빛가람 ○○아파트",
+    "aptCode": "A14000001",
+    "bidArea": 2900000000,
+    "bidTitle": "[전남광주] 2026년 외부회계감사 용역 사업자 선정",
+    "bidResultContent": "○○회계법인 선정",
+    "bidRegdate": "2026-11-18",
+    "bidState": "5",
+    "amount": "3,300,000",
+    "contractPeriodSdate": "2026-12-01",
+    "contractPeriodEdate": "2027-11-30"
+  },
+  {
+    "bidNum": "2026110200777",
+    "bidKaptname": "모르는 아파트",
+    "bidTitle": "[전북] 외부회계감사",
+    "bidRegdate": "2026-11-18",
+    "bidState": "5",
+    "amount": "2,000,000"
+  },
+  {
+    "bidNum": "2026110200555",
+    "bidKaptname": "진행중 아파트",
+    "bidTitle": "[전북] 외부회계감사",
+    "bidRegdate": "2026-11-18",
+    "bidState": "4",
+    "amount": ""
+  }
+]

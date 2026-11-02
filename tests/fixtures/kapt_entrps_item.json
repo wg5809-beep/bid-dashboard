@@ -1,0 +1,5 @@
+[
+  {"bidNum": "2026110200123", "companyName": "△△회계법인", "bidSuccessfulYn": "N", "bidAmount": "3,500,000"},
+  {"bidNum": "2026110200123", "companyName": "○○회계법인", "bidSuccessfulYn": "Y", "bidAmount": "3,300,000"},
+  {"bidNum": "2026110200123", "companyName": "□□회계법인", "bidSuccessfulYn": "N", "bidAmount": "3,600,000"}
+]
