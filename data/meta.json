@@ -1,0 +1,13 @@
+{
+ "award_count": 0,
+ "calls": {},
+ "errors": [
+  "DATA_GO_KR_SERVICE_KEY not configured"
+ ],
+ "new_awards": 0,
+ "new_notices": 0,
+ "notice_count": 0,
+ "ok": false,
+ "run_at": "2026-11-02T13:31",
+ "updated_notices": 0
+}
