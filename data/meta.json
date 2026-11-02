@@ -1,18 +1,16 @@
 {
  "award_count": 283,
  "calls": {
-  "kapt_bids": 9,
-  "kapt_results": 56,
-  "nara_awards": 162,
-  "nara_bids": 141
+  "kapt_bids": 1,
+  "kapt_results": 6,
+  "nara_awards": 40,
+  "nara_bids": 22
  },
- "errors": [
-  "kapt_results: kapt_results:  "
- ],
- "new_awards": 283,
- "new_notices": 665,
+ "errors": [],
+ "new_awards": 0,
+ "new_notices": 0,
  "notice_count": 665,
- "ok": false,
- "run_at": "2026-11-02T13:58",
- "updated_notices": 7
+ "ok": true,
+ "run_at": "2026-11-02T14:08",
+ "updated_notices": 0
 }
