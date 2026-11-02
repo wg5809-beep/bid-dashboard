@@ -3,9 +3,10 @@ import { loadAll } from "./data.js";
 import { formatDateTime } from "./lib/format.js";
 import { statusBadgeClass } from "./lib/stats.js";
 import * as dashboard from "./views/dashboard.js";
+import * as calendar from "./views/calendar.js";
 import { closeDetail, openDetail } from "./views/detail.js";
 
-const VIEWS = { dashboard };
+const VIEWS = { dashboard, calendar };
 const BADGE_TEXT = { ok: "수집 정상", stale: "갱신 지연", fail: "수집 실패" };
 
 let state = {
