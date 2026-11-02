@@ -74,8 +74,9 @@ table.list tbody tr:hover { background: #f7f9fc; }
 table.list tbody tr.interest { border-left: 4px solid var(--interest); background: var(--interest-bg); }
 td.num, th.num { text-align: right; white-space: nowrap; }
 td.nowrap { white-space: nowrap; }
-.title-cell { font-weight: 600; }
-.chip { display: inline-block; padding: 1px 7px; border-radius: 999px; font-size: 0.72rem; font-weight: 600; margin-right: 4px; vertical-align: middle; }
+.title-cell { font-weight: 600; width: 38%; }
+td[data-label="기관"] { min-width: 7em; word-break: keep-all; }
+.chip { display: inline-block; padding: 1px 7px; border-radius: 999px; font-size: 0.72rem; font-weight: 600; margin-right: 4px; vertical-align: middle; white-space: nowrap; }
 .chip-public { background: var(--c-public-soft); color: var(--c-public); }
 .chip-apt { background: var(--c-apt-soft); color: var(--c-apt); }
 .chip-interest { background: var(--interest); color: #fff; }
