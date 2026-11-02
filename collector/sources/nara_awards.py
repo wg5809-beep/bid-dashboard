@@ -24,12 +24,24 @@ def _window_params(begin: datetime, end: datetime) -> dict:
     return {"inqryDiv": AWARD_INQRY_DIV, "inqryBgnDt": fmt_pps(begin), "inqryEndDt": fmt_pps(end)}
 
 
-def fetch_awards(client, begin: datetime, end: datetime) -> list[dict]:
-    return client.get_items(SERVICE, BASE, OP_AWARDS, _window_params(begin, end))
+def _fetch_by_keywords(client, op: str, begin: datetime, end: datetime, keywords, page_size: int) -> list[dict]:
+    """키워드마다 bidNtceNm 검색(전국 전체를 받지 않기 위해), 공고번호+차수로 중복 제거."""
+    seen: dict[tuple[str, str], dict] = {}
+    for keyword in (keywords or [None]):
+        params = _window_params(begin, end)
+        if keyword:
+            params["bidNtceNm"] = keyword
+        for row in client.get_items(SERVICE, BASE, op, params, page_size=page_size):
+            seen.setdefault((text(row, "bidNtceNo") or "", text(row, "bidNtceOrd") or ""), row)
+    return list(seen.values())
 
 
-def fetch_openg_results(client, begin: datetime, end: datetime) -> list[dict]:
-    return client.get_items(SERVICE, BASE, OP_OPENG, _window_params(begin, end), page_size=OPENG_PAGE_SIZE)
+def fetch_awards(client, begin: datetime, end: datetime, keywords=None) -> list[dict]:
+    return _fetch_by_keywords(client, OP_AWARDS, begin, end, keywords, 500)
+
+
+def fetch_openg_results(client, begin: datetime, end: datetime, keywords=None) -> list[dict]:
+    return _fetch_by_keywords(client, OP_OPENG, begin, end, keywords, OPENG_PAGE_SIZE)
 
 
 def _to_float(value) -> float | None:

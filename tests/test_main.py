@@ -76,9 +76,10 @@ def test_run_does_not_overwrite_existing_award(tmp_path):
 
 
 def test_run_records_partial_failure(tmp_path):
+    run(CFG, FakeClient(full_table()), tmp_path, DAY1)
     table = full_table({(nara_awards.SERVICE, nara_awards.OP_AWARDS): DataGoError("nara_awards", "22", "limit")})
-    meta = run(CFG, FakeClient(table), tmp_path, DAY1)
-    assert meta.ok is False and len(meta.errors) == 1 and "22" in meta.errors[0]
+    meta = run(CFG, FakeClient(table), tmp_path, DAY2)
+    assert meta.ok is False and len(meta.errors) == 1 and "22" in meta.errors[0]  # 같은 오류는 1줄로 합침
     assert load_notices(tmp_path / "notices.json")
     saved = json.loads((tmp_path / "meta.json").read_text(encoding="utf-8"))
     assert saved["ok"] is False
@@ -92,12 +93,15 @@ def test_run_sunday_uses_weekly_award_window(tmp_path):
 
 
 def test_run_weekday_uses_daily_windows(tmp_path):
+    run(CFG, FakeClient(full_table()), tmp_path, DAY1)
     client = FakeClient(full_table())
-    run(CFG, client, tmp_path, DAY1)
+    run(CFG, client, tmp_path, DAY2)  # 수요일, pending 있음
     bid_calls = [p for s, op, p in client.requests if op == nara_bids.OP_LIST]
     award_calls = [p for s, op, p in client.requests if op == nara_awards.OP_AWARDS]
-    assert bid_calls[0]["inqryBgnDt"] == "202610300000"
-    assert award_calls[0]["inqryBgnDt"] == "202610260000"
+    assert bid_calls[0]["inqryBgnDt"] == "202611150000"
+    assert award_calls[0]["inqryBgnDt"] == "202611110000"
+    assert award_calls[0]["bidNtceNm"] == CFG.public_keywords[0]
+    assert len({p["bidNtceNm"] for p in award_calls}) == len(CFG.public_keywords)
 
 
 def test_run_backfill_uses_90_days_in_month_windows(tmp_path):
@@ -149,3 +153,47 @@ def test_cli_missing_key_writes_meta_and_returns_1(tmp_path, monkeypatch):
     assert code == 1
     saved = json.loads((tmp_path / "data" / "meta.json").read_text(encoding="utf-8"))
     assert saved["ok"] is False and "DATA_GO_KR_SERVICE_KEY" in saved["errors"][0]
+
+
+def test_now_kst_is_naive_seoul_time():
+    from datetime import timezone
+    from zoneinfo import ZoneInfo
+    got = main_mod.now_kst()
+    expect = datetime.now(ZoneInfo("Asia/Seoul")).replace(tzinfo=None)
+    assert got.tzinfo is None and abs((expect - got).total_seconds()) < 5
+
+
+def test_run_fatal_error_is_redacted(tmp_path, monkeypatch):
+    def boom(*a, **k):
+        raise RuntimeError("failed GET /op?serviceKey=SECRETKEY&pageNo=1")
+    monkeypatch.setattr(main_mod, "save_notices", boom)
+    with pytest.raises(RuntimeError):
+        run(CFG, FakeClient(full_table()), tmp_path, DAY1)
+    saved = json.loads((tmp_path / "meta.json").read_text(encoding="utf-8"))
+    assert "SECRETKEY" not in saved["errors"][0] and "serviceKey=***" in saved["errors"][0]
+
+
+def test_run_skips_public_awards_when_no_pending(tmp_path):
+    client = FakeClient(full_table())
+    run(CFG, client, tmp_path, DAY1)  # 모든 공고가 open → pending 없음
+    assert not [1 for s, op, p in client.requests if s == nara_awards.SERVICE]
+
+
+def test_run_keeps_partial_awards_when_one_keyword_fails(tmp_path):
+    run(CFG, FakeClient(full_table()), tmp_path, DAY1)
+
+    def flaky(params):
+        if params.get("bidNtceNm") == "세무":
+            raise DataGoError("nara_awards", "22", "limit")
+        return AWARDS
+    meta = run(CFG, FakeClient(full_table({(nara_awards.SERVICE, nara_awards.OP_AWARDS): flaky})), tmp_path, DAY2)
+    assert meta.ok is False and any("22" in e for e in meta.errors)
+    assert load_awards(tmp_path / "awards.json")["public:R26BK00000001"].winner == "○○회계법인"
+
+
+def test_run_apt_results_limited_to_recent_closes(tmp_path):
+    run(CFG, FakeClient(full_table()), tmp_path, DAY1)
+    late = datetime(2027, 6, 1, 7, 0)  # 아파트 마감(2026-11-16)에서 190일 뒤
+    client = FakeClient(full_table())
+    run(CFG, client, tmp_path, late)
+    assert not [1 for s, op, p in client.requests if s == kapt_results.SERVICE]

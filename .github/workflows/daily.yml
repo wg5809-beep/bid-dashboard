@@ -19,6 +19,9 @@ concurrency:
   group: daily
   cancel-in-progress: false
 
+env:
+  TZ: Asia/Seoul
+
 jobs:
   collect:
     runs-on: ubuntu-latest

@@ -21,6 +21,7 @@ class Config:
     lookback_days: int
     award_lookback_days: int
     award_weekly_lookback_days: int
+    apt_result_lookback_days: int
     max_calls_per_service: int
 
 

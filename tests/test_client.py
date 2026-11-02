@@ -89,3 +89,19 @@ def test_retry_gives_up_after_three_failures():
 def test_service_key_not_in_repr():
     client, _, _ = make_client([])
     assert "KEY-X" not in repr(client) and "KEY-X" not in str(client)
+
+
+def test_network_error_message_masks_service_key():
+    import requests
+    session = FakeSession([requests.ConnectionError("Max retries exceeded with url: /op?serviceKey=K%2BY%2F%3D&pageNo=1")] * 4)
+    client = DataGoClient("K+Y/=", session=session, sleep=lambda s: None)
+    with pytest.raises(DataGoError) as exc:
+        client.get_items("svc", BASE, "op", {})
+    text = str(exc.value)
+    assert "K+Y/=" not in text and "K%2BY%2F%3D" not in text and "serviceKey=***" in text
+
+
+def test_redact_masks_query_and_raw_key():
+    from collector.sources.client import redact
+    assert redact("x?serviceKey=abc&pageNo=1 abc", "abc") == "x?serviceKey=***&pageNo=1 ***"
+    assert redact("no key here", None) == "no key here"

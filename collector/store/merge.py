@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 from collector.model import Award, Notice
 from collector.rules.status import derive_status, parse_iso
 
-_HISTORY_FIELDS = ("notice_ord", "title", "close_at", "open_at", "kind")
+_HISTORY_FIELDS = ("notice_ord", "title", "close_at", "open_at", "kind", "result_note")
 _COMPARE_FIELDS = (
     "notice_ord", "title", "agency", "demand_agency", "posted_at", "close_at", "open_at",
     "budget", "estimate", "contract_method", "award_method", "kind", "limit_regions", "url",
@@ -23,13 +23,14 @@ def _merge_one(old: Notice, new: Notice, today: str) -> tuple[Notice, bool]:
     if not _changed(old, new):
         return dataclasses.replace(old, last_seen=today), False
     snapshot = {f: getattr(old, f) for f in _HISTORY_FIELDS}
+    reissued = old.notice_ord != new.notice_ord  # 차수가 바뀌면(재공고·변경) 이전 유찰/재입찰 결과는 무효
     merged = dataclasses.replace(
         new,
         first_seen=old.first_seen,
         last_seen=today,
         interest=old.interest or new.interest,
         interest_reason=old.interest_reason if old.interest else new.interest_reason,
-        result_note=old.result_note if old.result_note else new.result_note,
+        result_note=new.result_note if reissued else (old.result_note or new.result_note),
         history=old.history + (snapshot,),
         status=old.status,
     )

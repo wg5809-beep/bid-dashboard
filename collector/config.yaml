@@ -87,4 +87,5 @@ backfill_days: 90            # 첫 실행 백필 범위
 lookback_days: 3             # 매일 공고 조회 범위
 award_lookback_days: 7       # 매일 낙찰(개찰일) 조회 범위
 award_weekly_lookback_days: 60  # 일요일/백필 시 낙찰 조회 범위
+apt_result_lookback_days: 90    # 아파트 결과 조회: 마감일이 이 일수 안인 공고만
 max_calls_per_service: 100   # 서비스별 하루 호출 상한

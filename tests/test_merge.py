@@ -76,3 +76,12 @@ def test_merge_does_not_mutate_inputs():
     snapshot = copy.deepcopy(existing)
     merged, _, _ = merge_notices(existing, incoming, TODAY)
     assert existing == snapshot and merged is not existing
+
+
+def test_merge_reissue_resets_result_note():
+    old = make_notice(notice_ord="000", result_note="유찰", close_at="2026-10-20T14:00", open_at="2026-10-21T15:00")
+    reissued = make_notice(notice_ord="001", kind="재공고", close_at="2026-11-20T14:00", open_at="2026-11-21T15:00")
+    merged, _, _ = merge_notices({old.key: old}, [reissued], TODAY)
+    merged = attach_awards(merged, {}, NOW)
+    assert merged[old.key].result_note is None and merged[old.key].status == "open"
+    assert merged[old.key].history[0]["result_note"] == "유찰"

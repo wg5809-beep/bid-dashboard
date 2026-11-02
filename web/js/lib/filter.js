@@ -28,4 +28,4 @@ export function sortByClose(notices) {
 }
 
 export const ACTIVE_STATUSES = Object.freeze(["open", "closed"]);
-export const RESULT_STATUSES = Object.freeze(["awarded", "failed", "rebid", "unknown", "cancelled"]);
+export const RESULT_STATUSES = Object.freeze(["opened", "awarded", "failed", "rebid", "unknown", "cancelled"]);

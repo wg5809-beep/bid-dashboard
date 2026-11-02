@@ -28,11 +28,13 @@ def derive_status(notice: Notice, award: Award | None, now: datetime, result_not
         if "재입찰" in result_note:
             return "rebid"
     open_at = parse_iso(notice.open_at)
-    if open_at and now > open_at + timedelta(days=UNKNOWN_AFTER_DAYS):
+    close_at = parse_iso(notice.close_at)
+    # 개찰일이 없는 공고(K-apt)는 마감일 기준으로 결과미확인 전이
+    deadline = open_at or close_at
+    if deadline and now > deadline + timedelta(days=UNKNOWN_AFTER_DAYS):
         return "unknown"
     if open_at and now > open_at:
         return "opened"
-    close_at = parse_iso(notice.close_at)
     if close_at and now > close_at:
         return "closed"
     return "open"

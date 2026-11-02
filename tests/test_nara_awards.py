@@ -72,3 +72,12 @@ def test_fetch_openg_results_uses_small_pages():
     client = FakeClient({(nara_awards.SERVICE, "getOpengResultListInfoServcPPSSrch"): OPENG})
     rows = fetch_openg_results(client, BEGIN, END)
     assert len(rows) == 3
+
+
+def test_fetch_awards_filters_by_keywords_and_dedupes():
+    dup = {**AWARDS[0]}
+    client = FakeClient({(nara_awards.SERVICE, "getScsbidListSttusServcPPSSrch"): [AWARDS[0], dup, AWARDS[1]]})
+    rows = fetch_awards(client, BEGIN, END, ["회계", "감사"])
+    assert client.calls[nara_awards.SERVICE] == 2
+    assert client.requests[0][2]["bidNtceNm"] == "회계" and client.requests[1][2]["bidNtceNm"] == "감사"
+    assert sorted(r["bidNtceNo"] for r in rows) == ["R26BK00000001", "R26BK99999999"]

@@ -4,8 +4,10 @@
 """
 from __future__ import annotations
 
+import re
 import time
 from collections.abc import Callable
+from urllib.parse import quote, quote_plus
 
 import requests
 
@@ -16,8 +18,21 @@ EMPTY_CODES = {"00", "03"}
 TRANSIENT_CODES = {"01", "05"}
 
 
+_KEY_QUERY_RE = re.compile(r"(serviceKey=)[^&\s]+")
+
+
+def redact(text: str, key: str | None) -> str:
+    """오류 메시지에서 인증키를 가린다: serviceKey=... 쿼리와 원본/URL인코딩 형태 모두."""
+    masked = _KEY_QUERY_RE.sub(r"\1***", str(text))
+    if key:
+        for form in {key, quote(key, safe=""), quote_plus(key)}:
+            masked = masked.replace(form, "***")
+    return masked
+
+
 class DataGoError(Exception):
-    def __init__(self, service: str, code: str, message: str):
+    def __init__(self, service: str, code: str, message: str, key: str | None = None):
+        message = redact(message, key)
         super().__init__(f"{service}: {code} {message}")
         self.service = service
         self.code = code
@@ -67,7 +82,7 @@ class DataGoClient:
             try:
                 resp = self._session.get(url, params=params, timeout=TIMEOUT)
             except requests.RequestException as exc:
-                last_error = DataGoError(service, "NETWORK", str(exc))
+                last_error = DataGoError(service, "NETWORK", f"{type(exc).__name__}: {exc}", self._key)
                 continue
             if resp.status_code >= 500 or resp.status_code == 429:
                 last_error = DataGoError(service, f"HTTP_{resp.status_code}", "transient http error")
@@ -77,7 +92,7 @@ class DataGoClient:
             try:
                 body = resp.json()
             except ValueError as exc:
-                raise DataGoError(service, "BAD_JSON", str(exc)) from exc
+                raise DataGoError(service, "BAD_JSON", str(exc), self._key) from exc
             code, msg = _header(body)
             if code in TRANSIENT_CODES:
                 last_error = DataGoError(service, code, msg)

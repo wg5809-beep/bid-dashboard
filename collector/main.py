@@ -11,6 +11,7 @@ import sys
 from collections.abc import Mapping
 from datetime import datetime, timedelta
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 import requests
 
@@ -18,7 +19,7 @@ from collector.config import Config, load_config
 from collector.model import Award, Meta, Notice
 from collector.rules.status import parse_iso
 from collector.sources import kapt_bids, kapt_results, nara_awards, nara_bids
-from collector.sources.client import DataGoClient, DataGoError
+from collector.sources.client import DataGoClient, DataGoError, redact
 from collector.store.json_store import load_awards, load_notices, save_awards, save_json, save_notices
 from collector.store.merge import apply_retention, attach_awards, merge_notices
 from collector.windows import month_windows
@@ -51,34 +52,43 @@ def _collect_notices(cfg: Config, client, now: datetime, backfill: bool, errors:
     return [*public, *apt]
 
 
-def _public_awards(cfg: Config, client, notices: Mapping[str, Notice], now: datetime, backfill: bool):
+def _public_awards(cfg: Config, client, notices: Mapping[str, Notice], now: datetime, backfill: bool, errors: list[str]):
+    """키워드·창 단위로 실패를 격리해, 한 호출이 실패해도 받은 결과는 유지한다."""
     days = cfg.award_weekly_lookback_days if (backfill or now.weekday() == 6) else cfg.award_lookback_days
     pending = {k: notices[k] for k in nara_awards.pending_award_keys(notices)}
     awards: dict[str, Award] = {}
     notes: dict[str, str] = {}
+    if not pending:
+        return awards, notes
     for begin, end in month_windows(*_day_range(now, days)):
-        awards.update(nara_awards.match_awards(nara_awards.fetch_awards(client, begin, end), pending))
-        notes.update(nara_awards.result_notes(nara_awards.fetch_openg_results(client, begin, end), pending))
+        for keyword in cfg.public_keywords:
+            rows = _guard(errors, nara_awards.SERVICE, nara_awards.fetch_awards, client, begin, end, [keyword]) or []
+            awards.update(nara_awards.match_awards(rows, pending))
+            rows = _guard(errors, nara_awards.SERVICE, nara_awards.fetch_openg_results, client, begin, end, [keyword]) or []
+            notes.update(nara_awards.result_notes(rows, pending))
     return awards, notes
 
 
-def _apt_awards(client, notices: Mapping[str, Notice]):
+def _apt_awards(cfg: Config, client, notices: Mapping[str, Notice], now: datetime, errors: list[str]):
+    cutoff = now - timedelta(days=cfg.apt_result_lookback_days)
     pending = {k: n for k, n in notices.items()
-               if n.track == "apt" and n.status in kapt_results.PENDING_STATUSES}
+               if n.track == "apt" and n.status in kapt_results.PENDING_STATUSES
+               and parse_iso(n.close_at) and parse_iso(n.close_at) >= cutoff}
     posted = [parse_iso(n.posted_at) for n in pending.values() if parse_iso(n.posted_at)]
     awards: dict[str, Award] = {}
     notes: dict[str, str] = {}
     if not posted:
         return awards, notes
     for begin, end in month_windows(min(posted), max(posted).replace(hour=23, minute=59)):
-        matched = kapt_results.match_results(kapt_results.fetch_results_by_posted(client, begin, end), pending)
-        for key, raw in matched.items():
+        rows = _guard(errors, kapt_results.SERVICE, kapt_results.fetch_results_by_posted, client, begin, end) or []
+        for key, raw in kapt_results.match_results(rows, pending).items():
             note = kapt_results.result_note_from_state(raw)
             if note:
                 notes[key] = note
                 continue
-            participants = kapt_results.fetch_participants(client, pending[key].notice_no)
-            awards[key] = kapt_results.to_award(raw, pending[key], participants)
+            participants = _guard(errors, kapt_results.SERVICE, kapt_results.fetch_participants, client, pending[key].notice_no)
+            if participants is not None:
+                awards[key] = kapt_results.to_award(raw, pending[key], participants)
     return awards, notes
 
 
@@ -87,8 +97,8 @@ def _apply_notes(notices: dict[str, Notice], notes: Mapping[str, str]) -> dict[s
 
 
 def _collect_awards(cfg, client, notices, existing: Mapping[str, Award], now, backfill, errors):
-    found = _guard(errors, nara_awards.SERVICE, _public_awards, cfg, client, notices, now, backfill)
-    found_apt = _guard(errors, kapt_results.SERVICE, _apt_awards, client, notices)
+    found = _guard(errors, nara_awards.SERVICE, _public_awards, cfg, client, notices, now, backfill, errors)
+    found_apt = _guard(errors, kapt_results.SERVICE, _apt_awards, cfg, client, notices, now, errors)
     new_awards: dict[str, Award] = {}
     notes: dict[str, str] = {}
     for result in (found, found_apt):
@@ -112,13 +122,13 @@ def run(cfg: Config, client, data_dir: Path, now: datetime, backfill: bool = Fal
         counts["notices"], counts["award_total"] = len(notices), len(awards)
         save_notices(data_dir / "notices.json", notices)
         save_awards(data_dir / "awards.json", awards)
-    except Exception as exc:  # 어디서 실패해도 meta는 남긴다
-        errors.append(f"fatal: {exc}")
+    except Exception as exc:  # 어디서 실패해도 meta는 남긴다 (키는 가린다)
+        errors.append(f"fatal: {redact(str(exc), None)}")
         raise
     finally:
         meta = Meta(run_at=now.strftime("%Y-%m-%dT%H:%M"), ok=not errors, calls=dict(getattr(client, "calls", {})),
                     new_notices=counts["new"], updated_notices=counts["updated"], new_awards=counts["awards"],
-                    errors=tuple(errors), notice_count=counts["notices"], award_count=counts["award_total"])
+                    errors=tuple(dict.fromkeys(errors)), notice_count=counts["notices"], award_count=counts["award_total"])
         save_json(data_dir / "meta.json", meta.to_dict())
     return meta
 
@@ -137,6 +147,11 @@ def load_dotenv(path: Path, env: Mapping[str, str]) -> dict[str, str]:
     return merged
 
 
+def now_kst() -> datetime:
+    """KST 벽시계 시각(naive). Actions 러너가 UTC여도 공고 시각(KST)과 같은 기준을 쓴다."""
+    return datetime.now(ZoneInfo("Asia/Seoul")).replace(tzinfo=None)
+
+
 def build_client(cfg: Config) -> DataGoClient:
     env = load_dotenv(Path(".env"), os.environ)
     return DataGoClient(env.get(ENV_KEY, ""), max_calls_per_service=cfg.max_calls_per_service)
@@ -149,7 +164,7 @@ def cli(argv: list[str] | None = None) -> int:
     parser.add_argument("--config", default="collector/config.yaml")
     args = parser.parse_args(argv)
     cfg = load_config(Path(args.config))
-    now = datetime.now()
+    now = now_kst()
     try:
         client = build_client(cfg)
     except RuntimeError as exc:  # 키 미설정: 화면에 실패 배지가 뜨도록 meta만 남기고 종료

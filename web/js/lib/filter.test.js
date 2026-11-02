@@ -35,3 +35,8 @@ test("sortByClose puts null last and does not mutate", () => {
   assert.deepEqual(sorted.map((n) => n.key), ["public:B", "public:A", "apt:C"]);
   assert.equal(notices[0].key, "public:A");
 });
+
+test("RESULT_STATUSES includes opened so awaiting-result notices are listed", async () => {
+  const { RESULT_STATUSES } = await import("./filter.js");
+  assert.ok(RESULT_STATUSES.includes("opened"));
+});

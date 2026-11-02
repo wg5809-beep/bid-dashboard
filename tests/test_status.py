@@ -47,3 +47,8 @@ def test_derive_status_without_dates_is_open():
 def test_derive_status_closed_without_open_date():
     n = make_notice(close_at="2026-11-01T14:00", open_at=None)
     assert derive_status(n, None, NOW, None) == "closed"
+
+
+def test_derive_status_unknown_after_60_days_without_open_at():
+    n = make_notice(close_at="2026-08-01T17:00", open_at=None)
+    assert derive_status(n, None, NOW, None) == "unknown"
