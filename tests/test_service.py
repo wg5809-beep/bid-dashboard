@@ -29,6 +29,7 @@ CFG = load_config(Path("collector/config.yaml"))
     ("2026년 결산 회계자문 용역", ("target", "PA")),
     ("2026년 경영평가 지표 개선 연구용역", ("other", None)),
     ("타당성 조사 용역", ("other", None)),
+    ("2027년 중소기업경기전망조사 실사 용역", ("other", None)),  # 설문 실사 ≠ 재무실사
     ("", ("other", None)),
     (None, ("other", None)),
 ])
