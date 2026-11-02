@@ -94,6 +94,10 @@ class DataGoClient:
             except ValueError as exc:
                 raise DataGoError(service, "BAD_JSON", str(exc), self._key) from exc
             code, msg = _header(body)
+            if not code:  # 헤더 없는 응답(게이트웨이 오류 페이지 등)은 일시 오류로 보고 재시도
+                snippet = str(body)[:160]
+                last_error = DataGoError(service, "BAD_RESPONSE", f"no result header: {snippet}", self._key)
+                continue
             if code in TRANSIENT_CODES:
                 last_error = DataGoError(service, code, msg)
                 continue

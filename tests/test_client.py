@@ -105,3 +105,16 @@ def test_redact_masks_query_and_raw_key():
     from collector.sources.client import redact
     assert redact("x?serviceKey=abc&pageNo=1 abc", "abc") == "x?serviceKey=***&pageNo=1 ***"
     assert redact("no key here", None) == "no key here"
+
+
+def test_missing_header_is_retried_then_succeeds():
+    client, session, sleeps = make_client([{}, envelope([{"id": 1}], total=1)])
+    assert client.get_items("svc", BASE, "op", {}) == [{"id": 1}]
+    assert len(session.calls) == 2 and sleeps == [0.6]
+
+
+def test_persistent_missing_header_raises_bad_response_with_snippet():
+    client, _, _ = make_client([{"error": "gateway busy"}] * 4)
+    with pytest.raises(DataGoError) as exc:
+        client.get_items("svc", BASE, "op", {})
+    assert exc.value.code == "BAD_RESPONSE" and "gateway busy" in str(exc.value)

@@ -22,7 +22,9 @@ export function render(container, state) {
   const { notices, awards, now, filters, select } = state;
   const scoped = applyFilters(notices, { track: filters.track, query: filters.query });
   const k = kpis(scoped, awards, now);
-  const active = sortByClose(applyFilters(scoped, { interestOnly: filters.interestOnly, statuses: ACTIVE_STATUSES }));
+  const visible = applyFilters(scoped, { interestOnly: filters.interestOnly, statuses: ACTIVE_STATUSES });
+  // 공고중(마감 임박순) 먼저, 마감(개찰 대기)은 그 뒤
+  const active = [...sortByClose(visible.filter((n) => n.status === "open")), ...sortByClose(visible.filter((n) => n.status !== "open"))];
   const interest = active.filter((n) => n.interest);
 
   container.replaceChildren(
