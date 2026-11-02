@@ -149,7 +149,16 @@ def cli(argv: list[str] | None = None) -> int:
     parser.add_argument("--config", default="collector/config.yaml")
     args = parser.parse_args(argv)
     cfg = load_config(Path(args.config))
-    meta = run(cfg, build_client(cfg), Path(args.data_dir), datetime.now(), backfill=args.backfill)
+    now = datetime.now()
+    try:
+        client = build_client(cfg)
+    except RuntimeError as exc:  # 키 미설정: 화면에 실패 배지가 뜨도록 meta만 남기고 종료
+        meta = Meta(run_at=now.strftime("%Y-%m-%dT%H:%M"), ok=False, calls={}, new_notices=0, updated_notices=0,
+                    new_awards=0, errors=(str(exc),), notice_count=0, award_count=0)
+        save_json(Path(args.data_dir) / "meta.json", meta.to_dict())
+        print(f"ERROR {exc}", file=sys.stderr)
+        return 1
+    meta = run(cfg, client, Path(args.data_dir), now, backfill=args.backfill)
     print(f"run_at={meta.run_at} ok={meta.ok} notices={meta.notice_count} (+{meta.new_notices}/~{meta.updated_notices}) "
           f"awards={meta.award_count} (+{meta.new_awards}) calls={meta.calls}")
     for err in meta.errors:

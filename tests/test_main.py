@@ -12,7 +12,8 @@ from collector.sources.client import DataGoError
 from collector.store.json_store import load_awards, load_notices
 from tests.fakes import FakeClient
 
-CFG = load_config(Path("collector/config.yaml"))
+CFG_PATH = Path("collector/config.yaml").resolve()
+CFG = load_config(CFG_PATH)
 FX = Path("tests/fixtures")
 BIDS = json.loads((FX / "nara_bid_item.json").read_text(encoding="utf-8"))
 REGIONS = json.loads((FX / "nara_region_item.json").read_text(encoding="utf-8"))
@@ -139,3 +140,12 @@ def test_load_dotenv_fills_missing_only(tmp_path, monkeypatch):
     monkeypatch.setenv("OTHER", "keep")
     env = main_mod.load_dotenv(env_file, {"OTHER": "keep"})
     assert env["DATA_GO_KR_SERVICE_KEY"] == "from-file" and env["OTHER"] == "keep"
+
+
+def test_cli_missing_key_writes_meta_and_returns_1(tmp_path, monkeypatch):
+    monkeypatch.delenv("DATA_GO_KR_SERVICE_KEY", raising=False)
+    monkeypatch.chdir(tmp_path)  # .env 없음
+    code = main_mod.cli(["--data-dir", str(tmp_path / "data"), "--config", str(CFG_PATH)])
+    assert code == 1
+    saved = json.loads((tmp_path / "data" / "meta.json").read_text(encoding="utf-8"))
+    assert saved["ok"] is False and "DATA_GO_KR_SERVICE_KEY" in saved["errors"][0]
