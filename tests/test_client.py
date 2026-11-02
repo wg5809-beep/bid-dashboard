@@ -118,3 +118,28 @@ def test_persistent_missing_header_raises_bad_response_with_snippet():
     with pytest.raises(DataGoError) as exc:
         client.get_items("svc", BASE, "op", {})
     assert exc.value.code == "BAD_RESPONSE" and "gateway busy" in str(exc.value)
+
+
+def gateway(code, msg):
+    """공공데이터포털 게이트웨이 오류 봉투(서비스 응답 헤더가 아님)."""
+    return {"OpenAPI_ServiceResponse": {"cmmMsgHeader": {"errMsg": msg, "returnAuthMsg": "", "returnReasonCode": code}}}
+
+
+def test_gateway_http_error_is_retried_then_succeeds():
+    client, session, sleeps = make_client([gateway("04", "HTTP_ERROR"), envelope([{"id": 1}], total=1)])
+    assert client.get_items("svc", BASE, "op", {}) == [{"id": 1}]
+    assert len(session.calls) == 2 and sleeps == [0.6]
+
+
+def test_persistent_gateway_error_raises_with_gateway_code():
+    client, _, sleeps = make_client([gateway("04", "HTTP_ERROR")] * 4)
+    with pytest.raises(DataGoError) as exc:
+        client.get_items("svc", BASE, "op", {})
+    assert exc.value.code == "04" and "HTTP_ERROR" in str(exc.value) and len(sleeps) == 3
+
+
+def test_gateway_permanent_error_is_not_retried():
+    client, session, _ = make_client([gateway("22", "LIMITED_NUMBER_OF_SERVICE_REQUESTS_EXCEEDS_ERROR")])
+    with pytest.raises(DataGoError) as exc:
+        client.get_items("svc", BASE, "op", {})
+    assert exc.value.code == "22" and len(session.calls) == 1

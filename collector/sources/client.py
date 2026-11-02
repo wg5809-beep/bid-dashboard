@@ -15,7 +15,7 @@ RETRY_BACKOFF = 0.6
 MAX_RETRIES = 3
 TIMEOUT = 30
 EMPTY_CODES = {"00", "03"}
-TRANSIENT_CODES = {"01", "05"}
+TRANSIENT_CODES = {"01", "04", "05"}  # 서비스 01/05, 게이트웨이 04 HTTP_ERROR·05 TIMEOUT
 
 
 _KEY_QUERY_RE = re.compile(r"(serviceKey=)[^&\s]+")
@@ -132,8 +132,12 @@ class DataGoClient:
 
 
 def _header(body: dict) -> tuple[str, str]:
+    """서비스 응답 헤더(resultCode) 또는 포털 게이트웨이 오류 봉투(cmmMsgHeader.returnReasonCode)."""
     header = (body.get("response") or {}).get("header") or {}
-    return str(header.get("resultCode", "")), str(header.get("resultMsg", ""))
+    if header:
+        return str(header.get("resultCode", "")), str(header.get("resultMsg", ""))
+    gateway = (body.get("OpenAPI_ServiceResponse") or {}).get("cmmMsgHeader") or {}
+    return str(gateway.get("returnReasonCode", "")), str(gateway.get("errMsg", ""))
 
 
 def _body(body: dict) -> tuple[list[dict], int]:
