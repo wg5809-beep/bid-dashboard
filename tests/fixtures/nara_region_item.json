@@ -1,0 +1,26 @@
+[
+  {
+    "bidNtceNo": "R26BK00000001",
+    "bidNtceOrd": "000",
+    "lmtSno": "1",
+    "prtcptPsblRgnNm": "전남광주통합특별시",
+    "rgstDt": "2026-11-02 09:30:12",
+    "bsnsDivNm": "용역"
+  },
+  {
+    "bidNtceNo": "R26BK00000001",
+    "bidNtceOrd": "000",
+    "lmtSno": "2",
+    "prtcptPsblRgnNm": "전북특별자치도",
+    "rgstDt": "2026-11-02 09:30:12",
+    "bsnsDivNm": "용역"
+  },
+  {
+    "bidNtceNo": "R26BK09999999",
+    "bidNtceOrd": "000",
+    "lmtSno": "1",
+    "prtcptPsblRgnNm": "경기도 고양시",
+    "rgstDt": "2026-11-02 09:40:00",
+    "bsnsDivNm": "물품"
+  }
+]

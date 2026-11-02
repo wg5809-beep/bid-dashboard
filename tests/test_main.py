@@ -16,6 +16,7 @@ CFG_PATH = Path("collector/config.yaml").resolve()
 CFG = load_config(CFG_PATH)
 FX = Path("tests/fixtures")
 BIDS = json.loads((FX / "nara_bid_item.json").read_text(encoding="utf-8"))
+REGIONS = json.loads((FX / "nara_region_item.json").read_text(encoding="utf-8"))
 AWARDS = json.loads((FX / "nara_award_item.json").read_text(encoding="utf-8"))
 OPENG = json.loads((FX / "nara_openg_item.json").read_text(encoding="utf-8"))
 KBIDS = json.loads((FX / "kapt_bid_item.json").read_text(encoding="utf-8"))
@@ -30,6 +31,7 @@ SUNDAY = datetime(2026, 11, 22, 7, 0)
 def full_table(over=None):
     table = {
         (nara_bids.SERVICE, nara_bids.OP_LIST): BIDS,
+        (nara_bids.SERVICE, nara_bids.OP_REGION): REGIONS,
         (nara_awards.SERVICE, nara_awards.OP_AWARDS): AWARDS,
         (nara_awards.SERVICE, nara_awards.OP_OPENG): OPENG,
         (kapt_bids.SERVICE, kapt_bids.OP_BY_POSTED): KBIDS,
@@ -112,6 +114,14 @@ def test_run_backfill_uses_90_days_in_month_windows(tmp_path):
     bid_calls = [p for s, op, p in client.requests if op == nara_bids.OP_LIST]
     assert bid_calls[0]["inqryBgnDt"] == "202608040000"
     assert len({p["inqryBgnDt"] for p in bid_calls}) >= 3
+
+
+def test_run_backfill_award_window_covers_backfill_days(tmp_path):
+    run(CFG, FakeClient(full_table()), tmp_path, DAY1)
+    client = FakeClient(full_table())
+    run(CFG, client, tmp_path, DAY2, backfill=True)
+    award_calls = [p for s, op, p in client.requests if op == nara_awards.OP_AWARDS]
+    assert award_calls and min(p["inqryBgnDt"] for p in award_calls) == "202608200000"
 
 
 def test_run_writes_meta_even_if_store_raises(tmp_path, monkeypatch):

@@ -17,8 +17,8 @@
     "ntceKindNm": "일반공고",
     "bidNtceDtlUrl": "https://www.g2b.go.kr/link/R26BK00000001",
     "bidPrtcptLmtYn": "Y",
-    "rgnLmtBidLocplcJdgmBssNm": "전남광주통합특별시",
-    "jntcontrctDutyRgnNm1": "전북특별자치도",
+    "rgnLmtBidLocplcJdgmBssNm": "본사또는참여지사소재지",
+    "jntcontrctDutyRgnNm1": "",
     "jntcontrctDutyRgnNm2": "",
     "jntcontrctDutyRgnNm3": ""
   },

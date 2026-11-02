@@ -57,7 +57,10 @@ def _collect_notices(cfg: Config, client, now: datetime, backfill: bool, errors:
 
 def _public_awards(cfg: Config, client, notices: Mapping[str, Notice], now: datetime, backfill: bool, errors: list[str]):
     """키워드·창 단위로 실패를 격리해, 한 호출이 실패해도 받은 결과는 유지한다."""
-    days = cfg.award_weekly_lookback_days if (backfill or now.weekday() == 6) else cfg.award_lookback_days
+    if backfill:
+        days = max(cfg.backfill_days, cfg.award_weekly_lookback_days)
+    else:
+        days = cfg.award_weekly_lookback_days if now.weekday() == 6 else cfg.award_lookback_days
     pending = {k: notices[k] for k in nara_awards.pending_award_keys(notices)}
     awards: dict[str, Award] = {}
     notes: dict[str, str] = {}
