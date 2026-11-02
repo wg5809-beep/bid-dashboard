@@ -1,0 +1,28 @@
+[
+  {
+    "bidNtceNo": "R26BK00000001",
+    "bidNtceOrd": "000",
+    "bidClsfcNo": "1",
+    "rbidNo": "0",
+    "bidNtceNm": "2026년 결산 외부회계감사 용역",
+    "bidwinnrNm": "○○회계법인",
+    "bidwinnrBizno": "1234567890",
+    "bidwinnrCeoNm": "김대표",
+    "sucsfbidAmt": "10,500,000",
+    "presmptPrce": "11800000",
+    "sucsfbidRate": "88.123",
+    "prtcptCnum": "5",
+    "rlOpengDt": "2026-11-16 15:02:11",
+    "fnlSucsfDate": "2026-11-17",
+    "dminsttNm": "조달청",
+    "ntceInsttNm": "조달청"
+  },
+  {
+    "bidNtceNo": "R26BK99999999",
+    "bidNtceOrd": "000",
+    "bidNtceNm": "모르는 공고",
+    "bidwinnrNm": "누군가",
+    "sucsfbidAmt": "1",
+    "rlOpengDt": "2026-11-16 15:00:00"
+  }
+]
