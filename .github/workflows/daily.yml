@@ -2,7 +2,8 @@ name: daily-collect-and-deploy
 
 on:
   schedule:
-    - cron: "0 22 * * *"   # UTC 22:00 = KST 07:00
+    - cron: "23 21 * * *"  # UTC 21:23 = KST 06:23 (정시 회피: 정시 cron은 GitHub 부하로 지연/누락 잦음)
+    - cron: "23 23 * * *"  # UTC 23:23 = KST 08:23 (예비 슬롯: 첫 회차 누락 시 보완, 변경 없으면 커밋 없이 종료)
   workflow_dispatch:
     inputs:
       backfill:

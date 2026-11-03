@@ -1,6 +1,6 @@
 # bid-dashboard
 
-회계법인 용역 공공입찰 대시보드. 나라장터(공공기관)와 K-apt(아파트) 입찰공고를 매일 07:00(KST)에 수집해
+회계법인 용역 공공입찰 대시보드. 나라장터(공공기관)와 K-apt(아파트) 입찰공고를 매일 아침(KST 06:23, 예비 08:23)에 수집해
 GitHub Pages 정적 사이트로 보여준다. PC와 휴대폰에서 같은 URL로 본다.
 
 - 설계: `docs/superpowers/specs/2026-11-02-bid-dashboard-design.md`
@@ -54,7 +54,8 @@ tests/            pytest (수집기)      web/js/lib/*.test.js  node --test (프
 ## 운영
 
 - 인증키: 저장소 Settings → Secrets → `DATA_GO_KR_SERVICE_KEY` (Decoding 원본 키). 코드·로그에 넣지 않는다.
-- 수동 실행: Actions → daily-collect-and-deploy → Run workflow (`backfill` 체크 시 과거 90일 재수집).
+- 자동 실행: 매일 KST 06:23과 08:23 두 번 스케줄. 정시 cron은 GitHub 부하로 지연·누락이 잦아 정시를 피하고 예비 슬롯을 둔다. 두 번째 실행은 데이터 변경이 없으면 커밋 없이 끝난다.
+- 수동 실행: Actions → daily-collect-and-deploy → Run workflow (`backfill` 체크 시 과거 90일 재수집). 터미널에서는 `gh workflow run daily.yml`.
 - 로컬 실행: 프로젝트 루트에 `.env` 파일(`DATA_GO_KR_SERVICE_KEY=...`) 생성 후
   `python -m collector.main [--backfill]`. 결과는 `data/`에 저장.
 - 로컬 미리보기: `site/` 폴더에 `web/*`와 `data/`를 복사하고 `python -m http.server 8765` 실행.
