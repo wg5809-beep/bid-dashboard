@@ -9919,6 +9919,25 @@
    "winner_ceo": "강대재"
   },
   {
+   "agency": "경상남도 의령군",
+   "amount": 48779000,
+   "awarded_at": "2026-11-03T00:00",
+   "interest": false,
+   "key": "public:R26BK01795143",
+   "notice_no": "R26BK01795143",
+   "notice_ord": "000",
+   "opened_at": "2026-11-03T16:51",
+   "participants": 28,
+   "planned_price": null,
+   "rate": 88.153,
+   "region": "경남",
+   "title": "의령-정곡 국도건설공사 타당성재조사 대응 용역",
+   "track": "public",
+   "winner": "주식회사 조은이엔지",
+   "winner_bizno": "6218152037",
+   "winner_ceo": "김학두"
+  },
+  {
    "agency": "경상남도 산청군",
    "amount": 47978000,
    "awarded_at": "2026-10-30T00:00",
@@ -9936,6 +9955,25 @@
    "winner": "루카스경영컨설팅",
    "winner_bizno": "3151411032",
    "winner_ceo": "최선영"
+  },
+  {
+   "agency": "한국에너지공단",
+   "amount": 35000000,
+   "awarded_at": "2026-11-03T00:00",
+   "interest": false,
+   "key": "public:R26BK01805986",
+   "notice_no": "R26BK01805986",
+   "notice_ord": "000",
+   "opened_at": "2026-11-03T16:00",
+   "participants": 1,
+   "planned_price": null,
+   "rate": 100.0,
+   "region": "미분류",
+   "title": "2026년도 감사 품질평가 및 만족도 조사",
+   "track": "public",
+   "winner": "주식회사 아트너컨설팅",
+   "winner_bizno": "1078826008",
+   "winner_ceo": "추부금"
   }
  ]
 }
