@@ -1,4 +1,4 @@
-"""공고(Notice)·낙찰(Award)·실행기록(Meta) 불변 모델."""
+"""공고(Notice)·낙찰(Award)·발주계획(Plan)·실행기록(Meta) 불변 모델."""
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass, fields
@@ -96,6 +96,40 @@ class Award:
 
 
 @dataclass(frozen=True)
+class Plan:
+    """나라장터 발주계획 1건. 입찰공고 전 단계라 마감·개찰 없이 발주 예정월만 있다."""
+    key: str
+    plan_no: str
+    title: str
+    agency: str | None  # 발주기관
+    parent_agency: str | None  # 총괄기관
+    agency_type: str | None  # 소관구분 (지방자치단체, 준정부기관 …)
+    order_ym: str | None  # 발주 예정월 'YYYY-MM'
+    amount: int | None  # 발주 예정금액 합계
+    contract_method: str | None
+    procurement: str | None  # 자체조달 / 중앙조달
+    dept: str | None
+    tel: str | None
+    posted_at: str | None
+    changed_at: str | None
+    notice_nos: tuple[str, ...]  # 이 계획으로 나간 입찰공고번호(차수 제외). 비어 있으면 공고 전
+    region: str
+    interest: bool
+    interest_reason: str | None
+    url: str | None
+    first_seen: str
+    category: str = "other"
+    service: str | None = None
+
+    def to_dict(self) -> dict[str, Any]:
+        return asdict(self)
+
+    @classmethod
+    def from_dict(cls, data: dict[str, Any]) -> "Plan":
+        return _from_dict(cls, data)
+
+
+@dataclass(frozen=True)
 class Meta:
     run_at: str
     ok: bool
@@ -106,6 +140,8 @@ class Meta:
     errors: tuple[str, ...]
     notice_count: int
     award_count: int
+    plan_count: int = 0
+    new_plans: int = 0
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)

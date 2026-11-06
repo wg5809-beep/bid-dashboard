@@ -1,4 +1,4 @@
-"""수집 오케스트레이션: 공고 수집 → 병합 → 낙찰 반영 → 보존 정리 → 저장 → meta 기록.
+"""수집 오케스트레이션: 공고 수집 → 병합 → 낙찰 반영 → 보존 정리 → 저장 → 발주계획 → meta 기록.
 
 CLI: python -m collector.main [--backfill] [--data-dir data] [--config collector/config.yaml]
 """
@@ -16,14 +16,16 @@ from zoneinfo import ZoneInfo
 import requests
 
 from collector.config import Config, load_config
-from collector.model import Award, Meta, Notice
+from collector.model import Award, Meta, Notice, Plan
 from collector.rules.keywords import matches_keywords
 from collector.rules.region import region_from_kapt
 from collector.rules.service import classify_all
-from collector.sources import kapt_bids, kapt_results, nara_awards, nara_bids
+from collector.sources import kapt_bids, kapt_results, nara_awards, nara_bids, nara_plans
 from collector.sources.client import DataGoClient, DataGoError, redact
-from collector.store.json_store import load_awards, load_notices, save_awards, save_json, save_notices
-from collector.store.merge import apply_retention, attach_awards, merge_notices
+from collector.store.json_store import (
+    load_awards, load_notices, load_plans, save_awards, save_json, save_notices, save_plans,
+)
+from collector.store.merge import apply_retention, attach_awards, merge_notices, merge_plans, prune_plans
 from collector.windows import month_windows
 
 ENV_KEY = "DATA_GO_KR_SERVICE_KEY"
@@ -132,9 +134,22 @@ def _collect_awards(cfg, client, notices, existing: Mapping[str, Award], now, ba
     return {**existing, **new_awards}, notes, len(new_awards), new_notices
 
 
+def _collect_plans(cfg: Config, client, existing: Mapping[str, Plan], now: datetime, errors: list[str]):
+    """발주계획은 매번 전체를 다시 받는다 → (전체 계획, 신규 수). 키워드 단위로 실패를 격리한다."""
+    window = nara_plans.plan_window(now, cfg.plan_past_months, cfg.plan_posted_lookback_days)
+    today = now.strftime("%Y-%m-%d")
+    before = len(errors)
+    incoming: list[Plan] = []
+    for keyword in cfg.public_keywords:
+        incoming += _guard(errors, nara_plans.SERVICE, nara_plans.fetch_plans, client, cfg, window, keyword, today) or []
+    merged, new_count = merge_plans(existing, incoming, complete=len(errors) == before)
+    year, month = nara_plans.first_order_ym(now, cfg.plan_past_months)
+    return classify_all(prune_plans(merged, f"{year}-{month:02d}"), cfg), new_count
+
+
 def run(cfg: Config, client, data_dir: Path, now: datetime, backfill: bool = False) -> Meta:
     errors: list[str] = []
-    counts = {"new": 0, "updated": 0, "awards": 0, "notices": 0, "award_total": 0}
+    counts = {"new": 0, "updated": 0, "awards": 0, "notices": 0, "award_total": 0, "plans": 0, "new_plans": 0}
     try:
         notices = load_notices(data_dir / "notices.json")
         awards = load_awards(data_dir / "awards.json")
@@ -149,13 +164,17 @@ def run(cfg: Config, client, data_dir: Path, now: datetime, backfill: bool = Fal
         counts["notices"], counts["award_total"] = len(notices), len(awards)
         save_notices(data_dir / "notices.json", notices)
         save_awards(data_dir / "awards.json", awards)
+        plans, counts["new_plans"] = _collect_plans(cfg, client, load_plans(data_dir / "plans.json"), now, errors)
+        counts["plans"] = len(plans)
+        save_plans(data_dir / "plans.json", plans)
     except Exception as exc:  # 어디서 실패해도 meta는 남긴다 (키는 가린다)
         errors.append(f"fatal: {redact(str(exc), None)}")
         raise
     finally:
         meta = Meta(run_at=now.strftime("%Y-%m-%dT%H:%M"), ok=not errors, calls=dict(getattr(client, "calls", {})),
                     new_notices=counts["new"], updated_notices=counts["updated"], new_awards=counts["awards"],
-                    errors=tuple(dict.fromkeys(errors)), notice_count=counts["notices"], award_count=counts["award_total"])
+                    errors=tuple(dict.fromkeys(errors)), notice_count=counts["notices"], award_count=counts["award_total"],
+                    plan_count=counts["plans"], new_plans=counts["new_plans"])
         save_json(data_dir / "meta.json", meta.to_dict())
     return meta
 
@@ -202,7 +221,7 @@ def cli(argv: list[str] | None = None) -> int:
         return 1
     meta = run(cfg, client, Path(args.data_dir), now, backfill=args.backfill)
     print(f"run_at={meta.run_at} ok={meta.ok} notices={meta.notice_count} (+{meta.new_notices}/~{meta.updated_notices}) "
-          f"awards={meta.award_count} (+{meta.new_awards}) calls={meta.calls}")
+          f"awards={meta.award_count} (+{meta.new_awards}) plans={meta.plan_count} (+{meta.new_plans}) calls={meta.calls}")
     for err in meta.errors:
         print(f"ERROR {err}", file=sys.stderr)
     return 0 if meta.ok else 1

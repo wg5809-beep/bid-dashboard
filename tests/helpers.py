@@ -66,3 +66,31 @@ def make_award(notice: Notice | None = None, **over) -> Award:
 
 def replace(obj, **changes):
     return dataclasses.replace(obj, **changes)
+
+
+def make_plan(**over):
+    from collector.model import Plan
+    base = dict(
+        key="plan:R26DD00000001",
+        plan_no="R26DD00000001",
+        title="2027회계연도 외부회계감사 용역",
+        agency="나주시",
+        parent_agency="전남광주통합특별시",
+        agency_type="지방자치단체",
+        order_ym="2026-12",
+        amount=30000000,
+        contract_method="제한경쟁",
+        procurement="자체조달",
+        dept="회계과",
+        tel="061-000-0000",
+        posted_at="2026-11-05T10:00",
+        changed_at=None,
+        notice_nos=(),
+        region="전남광주",
+        interest=True,
+        interest_reason="본사 소재",
+        url="https://www.g2b.go.kr/link/PRPA015_01/single/?oderPlanNo=R26DD00000001",
+        first_seen=TODAY,
+    )
+    base.update(over)
+    return Plan(**base)

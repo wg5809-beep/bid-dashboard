@@ -63,3 +63,22 @@ def test_notice_defaults_category_other_for_old_json():
     assert n.category == "other" and n.service is None
     data = {k: v for k, v in n.to_dict().items() if k not in ("category", "service")}
     assert Notice.from_dict(data).category == "other"
+
+
+def test_plan_roundtrip(tmp_path: Path):
+    from collector.model import Plan
+    from collector.store.json_store import load_plans, save_plans
+    from tests.helpers import make_plan
+    plan = make_plan(notice_nos=("R26BK00000001",))
+    path = tmp_path / "plans.json"
+    save_plans(path, {plan.key: plan})
+    loaded = load_plans(path)
+    assert loaded == {plan.key: plan} and isinstance(loaded[plan.key].notice_nos, tuple)
+    assert Plan.from_dict(plan.to_dict()) == plan
+    assert load_plans(tmp_path / "nope.json") == {}
+
+
+def test_meta_from_old_json_defaults_plan_counts():
+    meta = Meta.from_dict({"run_at": "2026-11-02T07:00", "ok": True, "calls": {}, "new_notices": 0, "updated_notices": 0,
+                           "new_awards": 0, "errors": [], "notice_count": 1, "award_count": 0})
+    assert meta.plan_count == 0 and meta.new_plans == 0

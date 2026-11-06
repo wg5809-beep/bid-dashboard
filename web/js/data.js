@@ -9,13 +9,14 @@ async function fetchJson(url) {
 
 export async function loadAll(base = DEFAULT_BASE) {
   try {
-    const [notices, awards, meta] = await Promise.all([
+    const [notices, awards, meta, plans] = await Promise.all([
       fetchJson(`${base}notices.json`),
       fetchJson(`${base}awards.json`),
       fetchJson(`${base}meta.json`),
+      fetchJson(`${base}plans.json`).catch(() => ({ items: [] })), // 발주계획 수집 전 배포본에는 파일이 없다
     ]);
-    return { notices: notices.items ?? [], awards: awards.items ?? [], meta };
+    return { notices: notices.items ?? [], awards: awards.items ?? [], plans: plans.items ?? [], meta };
   } catch (err) {
-    return { notices: [], awards: [], meta: { ok: false, run_at: null, errors: [`데이터 로드 실패: ${err.message}`] } };
+    return { notices: [], awards: [], plans: [], meta: { ok: false, run_at: null, errors: [`데이터 로드 실패: ${err.message}`] } };
   }
 }

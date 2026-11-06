@@ -5,7 +5,7 @@ import dataclasses
 from collections.abc import Iterable, Mapping
 from datetime import datetime, timedelta
 
-from collector.model import Award, Notice
+from collector.model import Award, Notice, Plan
 from collector.rules.status import derive_status, parse_iso
 
 _HISTORY_FIELDS = ("notice_ord", "title", "close_at", "open_at", "kind", "result_note")
@@ -72,3 +72,25 @@ def apply_retention(notices: Mapping[str, Notice], now: datetime, days: int) -> 
         if posted is None or posted >= cutoff:
             kept[key] = notice
     return kept
+
+
+def merge_plans(
+    existing: Mapping[str, Plan], incoming: Iterable[Plan], complete: bool
+) -> tuple[dict[str, Plan], int]:
+    """발주계획 병합 → (결과, 신규 수). 처음 본 날짜(first_seen)는 유지한다.
+
+    complete=True(모든 호출 성공)면 이번에 받은 목록이 곧 현재 상태이므로 원본에서 사라진 계획은 지운다.
+    일부 호출이 실패했으면 못 받은 계획을 지우지 않도록 기존 것을 남긴다.
+    """
+    merged: dict[str, Plan] = {} if complete else dict(existing)
+    new_count = 0
+    for plan in incoming:
+        old = existing.get(plan.key)
+        new_count += int(old is None and plan.key not in merged)
+        merged[plan.key] = dataclasses.replace(plan, first_seen=old.first_seen) if old else plan
+    return merged, new_count
+
+
+def prune_plans(plans: Mapping[str, Plan], min_order_ym: str) -> dict[str, Plan]:
+    """발주 예정월이 수집 범위보다 앞선 계획을 버린다(예정월 없는 계획은 남긴다)."""
+    return {k: p for k, p in plans.items() if p.order_ym is None or p.order_ym >= min_order_ym}

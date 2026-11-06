@@ -1,4 +1,4 @@
-// 공고 상세 모달.
+// 공고·발주계획 상세 모달.
 import { esc } from "../lib/dom.js";
 import { categoryLabel, formatAmount, formatDateTime, regionLabel, serviceLabel, statusLabel, trackLabel } from "../lib/format.js";
 import { interestChip } from "../lib/rows.js";
@@ -50,6 +50,38 @@ export function openDetail(notice, award) {
     ${history ? `<p class="muted">변경 이력</p><ul class="muted">${history}</ul>` : ""}
     ${awardBox(award)}`;
   modal.hidden = false;
+}
+
+function linkedList(linked) {
+  if (!linked.length) return "아직 없음";
+  return linked.map(({ no, notice }, i) => (notice
+    ? `<button type="button" class="link-btn" data-linked="${i}">${esc(no)} · ${esc(notice.title)}</button>`
+    : `<span>${esc(no)} <span class="muted">(대시보드 수집 대상 아님)</span></span>`)).join("<br>");
+}
+
+// linked = [{ no, notice|null }]. 대시보드에 있는 공고는 누르면 그 공고 상세로 넘어간다.
+export function openPlanDetail(plan, { status, posted, linked, onOpenNotice }) {
+  const body = document.getElementById("modal-body");
+  body.innerHTML = `
+    <h3 id="modal-title">${interestChip(plan)}${esc(plan.title)}</h3>
+    <dl class="detail">
+      ${row("업무 구분", esc(categoryLabel(plan.category)) + (plan.category === "target" ? ` · ${esc(serviceLabel(plan.service))}` : ""))}
+      ${row("발주 예정월", esc(plan.order_ym ?? "미정"))}
+      ${row("발주기관", esc(plan.agency ?? "-") + (plan.agency_type ? ` <span class="muted">(${esc(plan.agency_type)})</span>` : ""))}
+      ${plan.parent_agency && plan.parent_agency !== plan.agency ? row("총괄기관", esc(plan.parent_agency)) : ""}
+      ${row("지역", esc(regionLabel(plan.region)))}
+      ${row("예정금액", esc(formatAmount(plan.amount)))}
+      ${row("계약방법", esc(plan.contract_method ?? "-") + (plan.procurement ? ` · ${esc(plan.procurement)}` : ""))}
+      ${row("담당부서", esc(plan.dept ?? "-") + (plan.tel ? ` · ${esc(plan.tel)}` : ""))}
+      ${row("게시일", esc(posted))}
+      ${row("상태", esc(status))}
+      ${row("입찰공고", linkedList(linked))}
+      ${row("계획번호", esc(plan.plan_no))}
+      ${row("원문", plan.url ? `<a href="${esc(plan.url)}" target="_blank" rel="noopener">나라장터 발주계획 보기 ↗</a>` : "-")}
+    </dl>`;
+  body.querySelectorAll("[data-linked]").forEach((btn) =>
+    btn.addEventListener("click", () => onOpenNotice(linked[Number(btn.dataset.linked)].notice)));
+  document.getElementById("modal").hidden = false;
 }
 
 export function closeDetail() {

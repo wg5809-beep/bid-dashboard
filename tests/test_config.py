@@ -52,3 +52,12 @@ def test_service_lines_bad_shape_raises(tmp_path):
     bad.write_text(head + "service_lines:" + chr(10) + "  - 회계감사" + chr(10), encoding="utf-8")
     with pytest.raises(RuntimeError, match="service_lines"):
         load_config(bad)
+
+
+def test_plan_settings_loaded_with_defaults_when_missing(tmp_path):
+    cfg = load_config(CFG_PATH)
+    assert cfg.plan_past_months == 3 and cfg.plan_posted_lookback_days == 730
+    lines = [ln for ln in CFG_PATH.read_text(encoding="utf-8").splitlines() if not ln.startswith("plan_")]
+    old = tmp_path / "old.yaml"
+    old.write_text(chr(10).join(lines), encoding="utf-8")
+    assert load_config(old).plan_past_months == 3  # 예전 설정 파일도 그대로 읽힌다

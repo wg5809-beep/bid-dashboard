@@ -14,6 +14,7 @@ GitHub Pages 정적 사이트로 보여준다. PC와 휴대폰에서 같은 URL�
 | 캘린더 | 월 그리드에 입찰마감·개찰 일정. 날짜 클릭 → 그날 목록 |
 | 지도 | 시도별 진행중 건수(색 농도). 전남광주는 항상 강조. 지역 클릭 → 목록 |
 | 낙찰 | 낙찰·유찰·재입찰·결과미확인 이력, 필터, 상위 낙찰자, CSV 다운로드 |
+| 발주계획 | 입찰공고 전 단계인 나라장터 용역 발주계획. 기본은 "공고 전"만, 다가오는 발주월 순. 발주월·지역·계약방법 필터, 담당부서·전화, CSV. 이미 공고된 계획은 해당 공고 상세로 연결 |
 
 모든 화면 공통: 트랙(전체/공공기관/아파트) 토글, 관심지역만 보기, 검색, 수집 상태 배지(정상/지연/실패).
 
@@ -21,11 +22,11 @@ GitHub Pages 정적 사이트로 보여준다. PC와 휴대폰에서 같은 URL�
 
 ```
 collector/        Python 수집기 (config.yaml = 키워드·제외어·관심지역·기관목록·보존기간)
-  sources/        data.go.kr 서비스별 클라이언트 4개
+  sources/        data.go.kr 서비스별 클라이언트 5개
   rules/          키워드·지역·관심지역·상태 규칙
   store/          JSON 저장(원자적)·병합
 web/              정적 사이트 (프레임워크 없음)
-data/             notices.json / awards.json / meta.json  ← Actions가 매일 커밋
+data/             notices.json / awards.json / plans.json / meta.json  ← Actions가 매일 커밋
 tools/build_map.py  TopoJSON → web/assets/korea-sido.svg
 tests/            pytest (수집기)      web/js/lib/*.test.js  node --test (프론트 순수 함수)
 .github/workflows/daily.yml  매일 수집 → data 커밋 → Pages 배포
@@ -37,6 +38,7 @@ tests/            pytest (수집기)      web/js/lib/*.test.js  node --test (프
 |---|---|
 | 공공기관 공고 | 조달청_나라장터 입찰공고정보서비스 (`1230000/ad/BidPublicInfoService`) |
 | 공공기관 낙찰 | 조달청_나라장터 낙찰정보서비스 (`1230000/as/ScsbidInfoService`) |
+| 공공기관 발주계획 | 조달청_나라장터 발주계획현황서비스 (`1230000/ao/OrderPlanSttusService`, 용역) |
 | 아파트 공고 | 국토교통부_공동주택 입찰공고 정보제공 서비스 (`1613000/ApHusBidPblAncInfoOfferServiceV3`) |
 | 아파트 결과 | 국토교통부_공동주택 입찰결과공지 정보제공 서비스 (`1613000/ApHusBidResultNoticeInfoOfferServiceV3`) |
 
@@ -44,7 +46,8 @@ tests/            pytest (수집기)      web/js/lib/*.test.js  node --test (프
 
 `collector/config.yaml`만 수정해 커밋하면 다음 실행부터 반영된다.
 
-- `public_keywords` / `public_exclude`: 나라장터 공고명 포함어·제외어
+- `public_keywords` / `public_exclude`: 나라장터 공고명 포함어·제외어 (발주계획 사업명에도 같은 규칙 적용)
+- `plan_past_months`: 발주 예정월이 몇 개월 지난 계획까지 보여줄지(기본 3). `plan_posted_lookback_days`: 계획 게시일 조회 범위(기본 730일)
 - `service_lines`: 주타겟 업무 분류(순서 = 우선순위). 각 항목은 `name`, `keywords`, 선택 `exclude`. 어디에도 안 맞으면 "기타". 바꾸면 다음 수집부터 전체 공고가 재분류됨
 - `apt_keywords` / `apt_regions`: 아파트 공고 키워드·수집 지역(빈 목록 = 전국, 기본값. 호남만: `[전남광주, 전북]`)
 - `interest_home_regions` / `interest_institutions`: "본사 소재" 판정용 지역·기관명 목록

@@ -131,6 +131,10 @@ award_weekly_lookback_days: 60  # 일요일/백필 시 낙찰 조회 범위
 apt_result_lookback_days: 90    # 아파트 결과 조회: 마감일이 이 일수 안인 공고만
 max_calls_per_service: 300   # 서비스별 하루 호출 상한(포털 개발계정 한도 1,000의 안전선)
 
+# 발주계획(나라장터 용역): public_keywords / public_exclude 를 사업명에 그대로 적용한다.
+plan_past_months: 3              # 발주 예정월이 이 개월 수만큼 지난 계획까지 보여준다(지연 발주 확인용)
+plan_posted_lookback_days: 730   # 계획 게시일 조회 범위(연간 계획은 보통 전년 말~연초에 게시)
+
 # 주타겟 업무 분류 (우리 회계법인 역량). 위에서부터 먼저 맞는 업무로 분류되고, 어디에도 없으면 "기타".
 # keywords는 공고명에서 공백 무시 부분일치, exclude(선택)에 걸리면 그 업무로 보지 않는다.
 # 업무를 추가/삭제하거나 키워드를 조정하면 다음 수집부터 전체 공고가 재분류된다.

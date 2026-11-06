@@ -7,7 +7,7 @@ from collections.abc import Mapping
 from pathlib import Path
 from typing import Any
 
-from collector.model import Award, Notice
+from collector.model import Award, Notice, Plan
 
 
 def load_json(path: Path, default: Any) -> Any:
@@ -56,3 +56,11 @@ def load_awards(path: Path) -> dict[str, Award]:
 
 def save_awards(path: Path, awards: Mapping[str, Award]) -> None:
     _save_items(path, awards)
+
+
+def load_plans(path: Path) -> dict[str, Plan]:
+    return _load_items(path, Plan.from_dict)
+
+
+def save_plans(path: Path, plans: Mapping[str, Plan]) -> None:
+    _save_items(path, plans)

@@ -134,6 +134,14 @@ td[data-label="기관"] { min-width: 7em; word-break: keep-all; }
 .chip-status.open { background: var(--sky-soft); color: var(--accent-deep); }
 .chip-status.awarded { background: #dff5ea; color: var(--ok); }
 .chip-status.failed, .chip-status.cancelled { background: #ffe9f0; color: var(--fail); }
+.chip-new { background: #fff3d6; color: #a15c00; }
+.chip-status.plan-planned { background: var(--sky-soft); color: var(--accent-deep); }
+.chip-status.plan-noticed { background: #dff5ea; color: var(--ok); }
+.chip-status.plan-overdue { background: #ffe9f0; color: var(--fail); }
+.plan-note { margin: -4px 0 10px; }
+.plan-tel { white-space: nowrap; }
+.link-btn { border: 0; background: none; padding: 0; color: var(--accent); text-align: left; }
+.link-btn:hover { text-decoration: underline; }
 .dday { font-weight: 800; color: var(--accent-deep); }
 .dday.urgent { color: var(--fail); }
 

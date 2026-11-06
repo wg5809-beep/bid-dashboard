@@ -85,3 +85,33 @@ def test_merge_reissue_resets_result_note():
     merged = attach_awards(merged, {}, NOW)
     assert merged[old.key].result_note is None and merged[old.key].status == "open"
     assert merged[old.key].history[0]["result_note"] == "유찰"
+
+
+def test_merge_plans_complete_snapshot_replaces_and_keeps_first_seen():
+    from collector.store.merge import merge_plans
+    from tests.helpers import make_plan
+    old = make_plan(first_seen="2026-11-01")
+    gone = make_plan(key="plan:GONE", plan_no="GONE")
+    fresh = make_plan(title="2027회계연도 외부회계감사 용역(변경)", first_seen="2026-11-06")
+    added = make_plan(key="plan:NEW", plan_no="NEW", first_seen="2026-11-06")
+    merged, new_count = merge_plans({old.key: old, gone.key: gone}, [fresh, added], complete=True)
+    assert set(merged) == {old.key, "plan:NEW"} and new_count == 1  # 원본에서 사라진 계획은 지운다
+    assert merged[old.key].title.endswith("(변경)") and merged[old.key].first_seen == "2026-11-01"
+    assert merged["plan:NEW"].first_seen == "2026-11-06"
+
+
+def test_merge_plans_partial_keeps_existing_when_a_call_failed():
+    from collector.store.merge import merge_plans
+    from tests.helpers import make_plan
+    kept = make_plan(key="plan:KEPT", plan_no="KEPT")
+    added = make_plan(key="plan:NEW", plan_no="NEW")
+    merged, new_count = merge_plans({kept.key: kept}, [added], complete=False)
+    assert set(merged) == {"plan:KEPT", "plan:NEW"} and new_count == 1
+
+
+def test_prune_plans_drops_order_months_before_window():
+    from collector.store.merge import prune_plans
+    from tests.helpers import make_plan
+    plans = {p.key: p for p in (make_plan(key="plan:A", order_ym="2026-07"), make_plan(key="plan:B", order_ym="2026-08"),
+                                make_plan(key="plan:C", order_ym=None))}
+    assert set(prune_plans(plans, "2026-08")) == {"plan:B", "plan:C"}

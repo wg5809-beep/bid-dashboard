@@ -1,7 +1,7 @@
 """수집 설정 로딩. config.yaml → 불변 Config."""
 from __future__ import annotations
 
-from dataclasses import dataclass, fields
+from dataclasses import MISSING, dataclass, fields
 from pathlib import Path
 
 import yaml
@@ -32,6 +32,8 @@ class Config:
     apt_result_lookback_days: int
     max_calls_per_service: int
     service_lines: tuple[ServiceLine, ...] = ()  # 우선순위 순
+    plan_past_months: int = 3  # 발주계획: 발주 예정월이 이 개월 수만큼 지난 것까지 수집
+    plan_posted_lookback_days: int = 730  # 발주계획: 게시일 조회 범위
 
     def collects_apt_region(self, region: str | None) -> bool:
         """아파트 트랙 수집 지역 판정. apt_regions가 비어 있으면 전국."""
@@ -60,9 +62,10 @@ def load_config(path: Path) -> Config:
     except (OSError, yaml.YAMLError) as exc:
         raise RuntimeError(f"설정 파일을 읽을 수 없습니다: {path} ({exc})") from exc
     names = {f.name for f in fields(Config)}
-    missing = sorted(names - set(data) - {"service_lines"})
+    optional = {f.name for f in fields(Config) if f.default is not MISSING}
+    missing = sorted(names - set(data) - optional)
     if missing:
         raise RuntimeError(f"설정 누락: {', '.join(missing)}")
-    values = {name: _as_value(data[name]) for name in names}
+    values = {name: _as_value(data[name]) for name in names if name in data}
     values["service_lines"] = _service_lines(data.get("service_lines"))
     return Config(**values)

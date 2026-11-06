@@ -8,9 +8,9 @@ import pytest
 from collector import main as main_mod
 from collector.config import load_config
 from collector.main import run
-from collector.sources import kapt_bids, kapt_results, nara_awards, nara_bids
+from collector.sources import kapt_bids, kapt_results, nara_awards, nara_bids, nara_plans
 from collector.sources.client import DataGoError
-from collector.store.json_store import load_awards, load_notices
+from collector.store.json_store import load_awards, load_notices, load_plans
 from tests.fakes import FakeClient
 
 CFG_PATH = Path("collector/config.yaml").resolve()
@@ -23,6 +23,7 @@ OPENG = json.loads((FX / "nara_openg_item.json").read_text(encoding="utf-8"))
 KBIDS = json.loads((FX / "kapt_bid_item.json").read_text(encoding="utf-8"))
 KRES = json.loads((FX / "kapt_result_item.json").read_text(encoding="utf-8"))
 KENT = json.loads((FX / "kapt_entrps_item.json").read_text(encoding="utf-8"))
+PLANS = json.loads((FX / "nara_plan_item.json").read_text(encoding="utf-8"))
 
 DAY1 = datetime(2026, 11, 2, 7, 0)   # 월요일
 DAY2 = datetime(2026, 11, 18, 7, 0)  # 수요일, 개찰 이후
@@ -38,6 +39,7 @@ def full_table(over=None):
         (kapt_bids.SERVICE, kapt_bids.OP_BY_POSTED): KBIDS,
         (kapt_results.SERVICE, kapt_results.OP_BY_TITLE): KRES,
         (kapt_results.SERVICE, kapt_results.OP_PARTICIPANTS): KENT,
+        (nara_plans.SERVICE, nara_plans.OP_LIST): PLANS,
     }
     table.update(over or {})
     return table
@@ -228,3 +230,34 @@ def test_run_classifies_notices_into_target_and_other(tmp_path):
     assert (notices["apt:2026110200123"].category, notices["apt:2026110200123"].service) == ("target", "회계감사")
     categories = {n.category for n in notices.values()}
     assert categories <= {"target", "other"}
+
+
+def test_run_collects_plans_per_keyword_and_writes_plans_json(tmp_path):
+    client = FakeClient(full_table())
+    meta = run(CFG, client, tmp_path, DAY1)
+    plans = load_plans(tmp_path / "plans.json")
+    assert set(plans) == {"plan:R26DD20501968", "plan:R26DD20912432"}  # 제외어(유지보수) 1건 빠짐
+    assert meta.plan_count == 2 and meta.new_plans == 2 and meta.ok is True
+    assert meta.calls["nara_plans"] == len(CFG.public_keywords)
+    assert plans["plan:R26DD20501968"].service == "회계감사" and plans["plan:R26DD20501968"].first_seen == "2026-11-02"
+    meta = run(CFG, FakeClient(full_table()), tmp_path, DAY2)
+    assert meta.new_plans == 0 and load_plans(tmp_path / "plans.json")["plan:R26DD20501968"].first_seen == "2026-11-02"
+
+
+def test_run_plan_snapshot_drops_plans_removed_upstream(tmp_path):
+    run(CFG, FakeClient(full_table()), tmp_path, DAY1)
+    meta = run(CFG, FakeClient(full_table({(nara_plans.SERVICE, nara_plans.OP_LIST): PLANS[:1]})), tmp_path, DAY2)
+    assert set(load_plans(tmp_path / "plans.json")) == {"plan:R26DD20501968"} and meta.plan_count == 1
+
+
+def test_run_plan_failure_keeps_existing_plans_and_other_data(tmp_path):
+    run(CFG, FakeClient(full_table()), tmp_path, DAY1)
+
+    def flaky(params):
+        if params.get("bizNm") == "세무":
+            raise DataGoError("nara_plans", "22", "limit")
+        return PLANS[:1]
+    meta = run(CFG, FakeClient(full_table({(nara_plans.SERVICE, nara_plans.OP_LIST): flaky})), tmp_path, DAY2)
+    assert meta.ok is False and any("nara_plans" in e for e in meta.errors)
+    assert set(load_plans(tmp_path / "plans.json")) == {"plan:R26DD20501968", "plan:R26DD20912432"}
+    assert load_notices(tmp_path / "notices.json")
