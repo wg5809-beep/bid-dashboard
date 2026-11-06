@@ -1,14 +1,20 @@
-// 발주계획 뷰: 입찰공고 전 단계인 나라장터 용역 발주계획. 기본은 "공고 전"만, 다가오는 발주월부터.
+// 발주계획 뷰: 입찰공고 전 단계인 나라장터 용역 발주계획. 발주 예정 / 예정월 경과 / 공고됨을 구역으로 나눠 보여준다.
 import { toCsv } from "../lib/csv.js";
 import { el, esc } from "../lib/dom.js";
 import { categoryLabel, formatAmount, regionLabel, serviceLabel } from "../lib/format.js";
-import { PLAN_STATUS_LABELS, RECENT_DAYS, filterPlans, isRecentPlan, linkedNotices, orderMonthLabel, planStatus, planSummary, resetStaleFilters, sortPlans } from "../lib/plans.js";
+import { PLAN_STATUS_LABELS, RECENT_DAYS, filterPlans, groupByStatus, isRecentPlan, linkedNotices, orderMonthLabel, planStatus, planSummary, resetStaleFilters, sortPlans } from "../lib/plans.js";
 import { interestChip, serviceChip } from "../lib/rows.js";
 import { openPlanDetail } from "./detail.js";
 
 let local = { status: "pending", month: "all", region: "all", method: "all" };
 
-const STATUS_OPTIONS = [["pending", "공고 전"], ["noticed", "공고됨"], ["all", "상태 전체"]];
+const STATUS_OPTIONS = [["pending", "공고 전 전체"], ["planned", "발주 예정만"], ["overdue", "예정월 경과만"], ["noticed", "공고됨"], ["all", "상태 전체"]];
+// 화면에 나오는 구역 순서와 제목·설명
+const SECTIONS = [
+  ["planned", "발주 예정 (다가오는 발주월 순)", "입찰공고 전 단계의 계획입니다. 금액·시기·계약방법은 발주기관 사정으로 바뀔 수 있습니다."],
+  ["overdue", "예정월 경과 · 공고 없음 (최근 달부터)", "발주 예정월이 지났는데 연결된 입찰공고가 없는 계획입니다. 발주가 늦어졌거나 입찰공고 없이 진행됐을 수 있습니다."],
+  ["noticed", "공고된 계획", "이미 입찰공고가 나간 계획입니다. 행을 누르면 연결된 공고를 볼 수 있습니다."],
+];
 const CSV_COLUMNS = [
   { key: "month", label: "발주예정월" }, { key: "category", label: "구분" }, { key: "service", label: "업무" },
   { key: "title", label: "사업명" }, { key: "agency", label: "발주기관" }, { key: "parent", label: "총괄기관" },
@@ -64,15 +70,28 @@ function kpi(label, value, unit, extraClass = "") {
   ]);
 }
 
-function summaryCards(shown, now) {
+function summaryCards(shown, groups, now) {
   const s = planSummary(shown, now);
   return el("div", { class: "kpis card" }, [
-    kpi("표시 중인 계획", s.count, "건"),
+    kpi("발주 예정", groups.planned.length, "건"),
+    kpi("예정월 경과", groups.overdue.length, "건", "overdue"),
     kpi("주타겟 업무", s.target, "건", "target"),
     kpi("관심지역", s.interest, "건", "interest"),
     kpi(`최근 ${RECENT_DAYS}일 게시·변경`, s.recent, "건"),
-    kpi("예정금액 합계", formatAmount(s.amount), ""),
   ]);
+}
+
+function sections(groups, now, onSelect) {
+  const blocks = SECTIONS.filter(([status]) => groups[status].length).map(([status, title, note]) => {
+    const rows = groups[status];
+    const amount = formatAmount(planSummary(rows, now).amount);
+    return el("div", { class: "section" }, [
+      el("h2", {}, [title, el("span", { class: "count" }, `${rows.length}건${amount === "-" ? "" : ` · ${amount}`}`)]),
+      el("p", { class: "muted plan-note" }, note),
+      table(rows, now, onSelect),
+    ]);
+  });
+  return blocks.length ? blocks : [el("div", { class: "empty" }, "조건에 맞는 발주계획이 없습니다.")];
 }
 
 function statusChip(status) {
@@ -80,7 +99,6 @@ function statusChip(status) {
 }
 
 function table(shown, now, onSelect) {
-  if (!shown.length) return el("div", { class: "empty" }, "조건에 맞는 발주계획이 없습니다.");
   const t = el("table", { class: "list" });
   t.innerHTML = `<thead><tr><th>발주예정</th><th>사업명</th><th>발주기관</th><th>지역</th><th class="num">예정금액</th><th>계약방법</th><th>담당부서</th><th>상태</th></tr></thead>`;
   const tbody = el("tbody");
@@ -117,13 +135,10 @@ export function render(container, state) {
     status: PLAN_STATUS_LABELS[planStatus(plan, now)], posted: (plan.posted_at ?? "-").slice(0, 10),
     linked: linkedNotices(plan, noticeByNo), onOpenNotice: openNotice,
   });
+  const groups = groupByStatus(shown, now);
   container.replaceChildren(
     filtersBar(scoped, shown, now, () => render(container, state)),
-    summaryCards(shown, now),
-    el("div", { class: "section" }, [
-      el("h2", {}, ["용역 발주계획 (다가오는 발주월 순)", el("span", { class: "count" }, `${shown.length}건`)]),
-      el("p", { class: "muted plan-note" }, "입찰공고 전 단계의 계획입니다. 금액·시기·계약방법은 발주기관 사정으로 바뀔 수 있고, '예정월 경과'는 예정월이 지났는데 연결된 입찰공고가 없는 계획입니다."),
-      table(shown, now, onSelect),
-    ]),
+    summaryCards(shown, groups, now),
+    ...sections(groups, now, onSelect),
   );
 }

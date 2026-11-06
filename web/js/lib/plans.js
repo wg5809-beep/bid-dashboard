@@ -15,6 +15,12 @@ export function planStatus(plan, now = new Date()) {
   return plan.order_ym && plan.order_ym < monthKey(now) ? "overdue" : "planned";
 }
 
+// 상태별로 나눈다(각 묶음 안의 순서는 입력 순서 그대로).
+export function groupByStatus(plans, now = new Date()) {
+  const of = (status) => plans.filter((p) => planStatus(p, now) === status);
+  return { planned: of("planned"), overdue: of("overdue"), noticed: of("noticed") };
+}
+
 export function isRecentPlan(plan, now = new Date()) {
   return [plan.posted_at, plan.changed_at].some((iso) => {
     const n = dday(iso, now);

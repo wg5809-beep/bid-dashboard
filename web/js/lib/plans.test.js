@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { filterPlans, isRecentPlan, linkedNotices, orderMonthLabel, planStatus, planSummary, resetStaleFilters, sortPlans } from "./plans.js";
+import { filterPlans, groupByStatus, isRecentPlan, linkedNotices, orderMonthLabel, planStatus, planSummary, resetStaleFilters, sortPlans } from "./plans.js";
 
 const NOW = new Date(2026, 10, 6, 9, 0); // 2026-11-06
 const plans = [
@@ -49,6 +49,19 @@ test("sortPlans: upcoming months first (soonest, larger amount first), then unda
   const input = [plans[3], plans[1], plans[0], plans[2], same, thisMonth];
   assert.deepEqual(keys(sortPlans(input, NOW)), ["plan:F", "plan:E", "plan:A", "plan:D", "plan:C", "plan:B"]);
   assert.equal(input[0].key, "plan:D"); // 입력은 바꾸지 않는다
+});
+
+test("groupByStatus splits plans into planned, overdue and noticed, keeping order", () => {
+  const groups = groupByStatus(sortPlans(plans, NOW), NOW);
+  assert.deepEqual(keys(groups.planned), ["plan:A", "plan:D"]);
+  assert.deepEqual(keys(groups.overdue), ["plan:B"]); // 예정월(9월)이 지났고 공고 없음
+  assert.deepEqual(keys(groups.noticed), ["plan:C"]);
+  assert.deepEqual(groupByStatus([], NOW), { planned: [], overdue: [], noticed: [] });
+});
+
+test("filterPlans status can pick only upcoming or only overdue plans", () => {
+  assert.deepEqual(keys(filterPlans(plans, GLOBAL, { ...LOCAL, status: "planned" }, NOW)), ["plan:A", "plan:D"]);
+  assert.deepEqual(keys(filterPlans(plans, GLOBAL, { ...LOCAL, status: "overdue" }, NOW)), ["plan:B"]);
 });
 
 test("isRecentPlan: posted or changed within 7 days", () => {

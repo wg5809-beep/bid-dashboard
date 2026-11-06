@@ -91,6 +91,7 @@ button { font: inherit; cursor: pointer; }
 .kpi .value .unit { font-size: 0.95rem; font-weight: 700; margin-left: 2px; color: var(--muted); }
 .kpi.target .value { color: var(--accent-deep); }
 .kpi.interest .value { color: var(--interest); }
+.kpi.overdue .value { color: var(--fail); }
 .summary .kpi { background: var(--card); border: 1px solid var(--sky-line); border-radius: var(--radius); box-shadow: var(--shadow-sm); text-align: left; padding: 14px 18px; }
 .summary .kpi .value { font-size: 1.7rem; }
 
