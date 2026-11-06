@@ -9957,6 +9957,25 @@
    "winner_ceo": "최선영"
   },
   {
+   "agency": "경기도 수원시",
+   "amount": 30100000,
+   "awarded_at": "2026-11-06T00:00",
+   "interest": false,
+   "key": "public:R26BK01805780",
+   "notice_no": "R26BK01805780",
+   "notice_ord": "000",
+   "opened_at": "2026-11-04T13:21",
+   "participants": 1,
+   "planned_price": null,
+   "rate": 91.992,
+   "region": "경기",
+   "title": "광교 호수공원 내 유휴부지 개발 타당성 검토 용역",
+   "track": "public",
+   "winner": "(재)수원시정연구원",
+   "winner_bizno": "1358216444",
+   "winner_ceo": "김성진"
+  },
+  {
    "agency": "한국에너지공단",
    "amount": 35000000,
    "awarded_at": "2026-11-03T00:00",
