@@ -32351,7 +32351,7 @@
    "result_note": null,
    "service": "사업비정산",
    "source_system": null,
-   "status": "closed",
+   "status": "opened",
    "title": "선박해양플랜트연구소 기본사업 및 자체연구사업 연구비 위탁정산 용역(2026-2027년)",
    "track": "public",
    "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01789387&bidPbancOrd=000"
@@ -34368,7 +34368,7 @@
    "result_note": null,
    "service": null,
    "source_system": null,
-   "status": "closed",
+   "status": "opened",
    "title": "남동국가산업단지 랜드마크 조성사업 기본계획 수립 및 타당성조사 용역",
    "track": "public",
    "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01800610&bidPbancOrd=000"
@@ -35129,7 +35129,7 @@
    "result_note": null,
    "service": null,
    "source_system": null,
-   "status": "closed",
+   "status": "opened",
    "title": "민락~고산 연결도로 타당성평가용역",
    "track": "public",
    "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01805380&bidPbancOrd=000"
@@ -36501,6 +36501,38 @@
    "title": "2026-3차 해외환경프로젝트 타당성조사 지원사업 - 알래스카 CCS 5,000TPD CO2 포집 흡수제 적용성 평가 기술용역",
    "track": "public",
    "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01814329&bidPbancOrd=000"
+  },
+  {
+   "agency": "경상남도 거제시",
+   "agency_code": "5370000",
+   "award_method": "적격심사제-관리규정외 수기심사(총점입력)",
+   "budget": 495000000,
+   "category": "other",
+   "close_at": "2026-11-12T10:00",
+   "complex_name": null,
+   "contract_method": "제한경쟁",
+   "demand_agency": "경상남도 거제시",
+   "estimate": 450000000,
+   "first_seen": "2026-11-06",
+   "history": [],
+   "interest": false,
+   "interest_reason": null,
+   "key": "public:R26BK01814614",
+   "kind": "재공고",
+   "last_seen": "2026-11-06",
+   "limit_regions": [],
+   "notice_no": "R26BK01814614",
+   "notice_ord": "000",
+   "open_at": "2026-11-12T11:00",
+   "posted_at": "2026-11-06T11:07",
+   "region": "경남",
+   "result_note": null,
+   "service": null,
+   "source_system": null,
+   "status": "open",
+   "title": "(회계연도 개시 전)2027년 거제시 배수펌프장 등 관리대행 용역",
+   "track": "public",
+   "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01814614&bidPbancOrd=000"
   }
  ]
 }
