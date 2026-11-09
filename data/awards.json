@@ -4618,6 +4618,25 @@
    "winner_ceo": null
   },
   {
+   "agency": "유포리아지식산업센터관리위원회",
+   "amount": 1000000,
+   "awarded_at": "2026-10-22T00:00",
+   "interest": false,
+   "key": "apt:R26BK01785639",
+   "notice_no": "R26BK01785639",
+   "notice_ord": "0",
+   "opened_at": "2026-11-06T10:00",
+   "participants": 5,
+   "planned_price": null,
+   "rate": null,
+   "region": "제주",
+   "title": "외부회계감사 용역 업체 선정 공고",
+   "track": "apt",
+   "winner": "한길회계법인",
+   "winner_bizno": null,
+   "winner_ceo": null
+  },
+  {
    "agency": "과천제이드자이",
    "amount": 600000,
    "awarded_at": "2026-01-14T00:00",
@@ -10354,6 +10373,25 @@
    "winner": "루카스경영컨설팅",
    "winner_bizno": "3151411032",
    "winner_ceo": "최선영"
+  },
+  {
+   "agency": "경기도 의정부시",
+   "amount": 87989700,
+   "awarded_at": "2026-11-08T00:00",
+   "interest": false,
+   "key": "public:R26BK01805380",
+   "notice_no": "R26BK01805380",
+   "notice_ord": "000",
+   "opened_at": "2026-11-06T14:27",
+   "participants": 5,
+   "planned_price": null,
+   "rate": 88.038,
+   "region": "경기",
+   "title": "민락~고산 연결도로 타당성평가용역",
+   "track": "public",
+   "winner": "주식회사 건영이엔씨",
+   "winner_bizno": "1238187667",
+   "winner_ceo": "박선희"
   },
   {
    "agency": "경기도 수원시",

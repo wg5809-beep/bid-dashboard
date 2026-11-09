@@ -12645,7 +12645,9 @@
    "interest": false,
    "interest_reason": null,
    "key": "plan:R26DD20908287",
-   "notice_nos": [],
+   "notice_nos": [
+    "R26BK01816323"
+   ],
    "order_ym": "2026-11",
    "parent_agency": "경상북도",
    "plan_no": "R26DD20908287",
