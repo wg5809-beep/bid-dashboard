@@ -10449,6 +10449,44 @@
    "winner": "에스엘디자인 주식회사",
    "winner_bizno": "1888600885",
    "winner_ceo": "이은진"
+  },
+  {
+   "agency": "인천광역시",
+   "amount": 87815000,
+   "awarded_at": "2026-11-10T00:00",
+   "interest": false,
+   "key": "public:R26BK01808174",
+   "notice_no": "R26BK01808174",
+   "notice_ord": "000",
+   "opened_at": "2026-11-10T11:19",
+   "participants": 13,
+   "planned_price": null,
+   "rate": 88.431,
+   "region": "인천",
+   "title": "I-Food Park 공공폐수처리시설 증설타당성 및 기본계획 수립용역",
+   "track": "public",
+   "winner": "주식회사 고산엔지니어링",
+   "winner_bizno": "1398106709",
+   "winner_ceo": "박범섭"
+  },
+  {
+   "agency": "(재)중소조선연구원",
+   "amount": 48900000,
+   "awarded_at": "2026-11-09T00:00",
+   "interest": false,
+   "key": "public:R26BK01816970",
+   "notice_no": "R26BK01816970",
+   "notice_ord": "000",
+   "opened_at": "2026-11-09T16:01",
+   "participants": 1,
+   "planned_price": null,
+   "rate": 99.795,
+   "region": "미분류",
+   "title": "국내외 전기어선 실증기반 구축을 위한 수용성 분석 및 타당성 검토 용역",
+   "track": "public",
+   "winner": "주식회사 윈글로벌",
+   "winner_bizno": "4868601871",
+   "winner_ceo": "조한규"
   }
  ]
 }
