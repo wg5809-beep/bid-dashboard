@@ -34560,7 +34560,7 @@
    "result_note": null,
    "service": null,
    "source_system": null,
-   "status": "open",
+   "status": "opened",
    "title": "성남문화재단 그룹웨어 및 회계시스템 교체",
    "track": "public",
    "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01801851&bidPbancOrd=000"
@@ -34927,10 +34927,10 @@
    "open_at": "2026-11-10T13:00",
    "posted_at": "2026-11-04T15:19",
    "region": "미분류",
-   "result_note": null,
+   "result_note": "유찰",
    "service": "공정가치평가",
    "source_system": null,
-   "status": "closed",
+   "status": "failed",
    "title": "2026년 금융자산 평가용역",
    "track": "public",
    "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01804424&bidPbancOrd=000"
