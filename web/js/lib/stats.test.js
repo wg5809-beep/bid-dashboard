@@ -38,8 +38,15 @@ test("awardSummary top winners and avg rate", () => {
 test("statusBadgeClass for failed meta", () => {
   assert.equal(statusBadgeClass({ ok: false, run_at: "2026-11-02T07:00" }, NOW), "fail");
   assert.equal(statusBadgeClass({ ok: true, run_at: "2026-11-02T07:00" }, NOW), "ok");
-  assert.equal(statusBadgeClass({ ok: true, run_at: "2026-10-31T07:00" }, NOW), "stale");
+  assert.equal(statusBadgeClass({ ok: true, run_at: "2026-10-30T07:00" }, NOW), "stale");
   assert.equal(statusBadgeClass(null, NOW), "fail");
+});
+
+test("statusBadgeClass allows the Sunday gap after a Saturday run", () => {
+  const saturdayRun = { ok: true, run_at: "2026-10-31T08:23" }; // 일요일은 수집하지 않는다
+  assert.equal(statusBadgeClass(saturdayRun, new Date(2026, 10, 1, 22, 0)), "ok");   // 일요일 밤
+  assert.equal(statusBadgeClass(saturdayRun, new Date(2026, 10, 2, 9, 0)), "ok");    // 월요일 아침
+  assert.equal(statusBadgeClass(saturdayRun, new Date(2026, 10, 2, 21, 0)), "stale"); // 월요일 수집도 빠짐
 });
 
 test("kpis newToday uses local date even before 09:00", () => {

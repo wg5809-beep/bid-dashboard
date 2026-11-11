@@ -57,7 +57,7 @@ tests/            pytest (수집기)      web/js/lib/*.test.js  node --test (프
 ## 운영
 
 - 인증키: 저장소 Settings → Secrets → `DATA_GO_KR_SERVICE_KEY` (Decoding 원본 키). 코드·로그에 넣지 않는다.
-- 자동 실행: 매일 KST 06:23과 08:23 두 번 스케줄. 정시 cron은 GitHub 부하로 지연·누락이 잦아 정시를 피하고 예비 슬롯을 둔다. 두 번째 실행은 데이터 변경이 없으면 커밋 없이 끝난다.
+- 자동 실행: 월~토 KST 06:23과 08:23 두 번 스케줄(일요일은 수집하지 않음). 정시 cron은 GitHub 부하로 지연·누락이 잦아 정시를 피하고 예비 슬롯을 둔다. 두 번째 실행은 데이터 변경이 없으면 커밋 없이 끝난다.
 - 수동 실행: Actions → daily-collect-and-deploy → Run workflow (`backfill` 체크 시 과거 90일 재수집). 터미널에서는 `gh workflow run daily.yml`.
 - 로컬 실행: 프로젝트 루트에 `.env` 파일(`DATA_GO_KR_SERVICE_KEY=...`) 생성 후
   `python -m collector.main [--backfill]`. 결과는 `data/`에 저장.

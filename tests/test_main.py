@@ -99,11 +99,12 @@ def test_run_records_partial_failure(tmp_path):
     assert saved["ok"] is False
 
 
-def test_run_sunday_uses_weekly_award_window(tmp_path):
+def test_run_sunday_uses_daily_award_window_like_any_other_day(tmp_path):
+    """일요일 넓은 재조회는 없앴다: 수동으로 일요일에 돌려도 평일과 같은 범위만 조회한다."""
     client = FakeClient(full_table())
     run(CFG, client, tmp_path, SUNDAY)
     award_calls = [p for s, op, p in client.requests if op == nara_awards.OP_AWARDS]
-    assert award_calls and award_calls[0]["inqryBgnDt"] == "202609230000"
+    assert award_calls and min(p["inqryBgnDt"] for p in award_calls) == "202611150000"
 
 
 def test_run_weekday_uses_daily_windows(tmp_path):
@@ -128,7 +129,7 @@ def test_run_backfill_uses_90_days_in_month_windows(tmp_path):
 
 @pytest.mark.parametrize("now, backfill", [(SUNDAY, False), (DAY2, True)])
 def test_widest_runs_fit_call_budget(tmp_path, now, backfill):
-    """7일 창이라 일요일(60일)·백필(90일)은 호출이 많다. 설정 상한 안에 들어야 LOCAL_LIMIT 오류가 안 난다."""
+    """7일 창이라 백필(90일)은 호출이 많다. 설정 상한 안에 들어야 LOCAL_LIMIT 오류가 안 난다."""
     run(CFG, FakeClient(full_table()), tmp_path, DAY1)
     client = FakeClient(full_table())
     run(CFG, client, tmp_path, now, backfill=backfill)

@@ -44,5 +44,6 @@ export function statusBadgeClass(meta, now = new Date()) {
   if (!meta || !meta.ok) return "fail";
   const ran = parseIso(meta.run_at);
   if (!ran) return "fail";
-  return (now - ran) / 3_600_000 > STALE_HOURS ? "stale" : "ok";
+  const allowedHours = STALE_HOURS + (ran.getDay() === 6 ? 24 : 0); // 일요일은 수집하지 않으므로 토요일 실행분은 하루 더 유효
+  return (now - ran) / 3_600_000 > allowedHours ? "stale" : "ok";
 }
