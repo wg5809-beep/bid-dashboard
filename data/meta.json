@@ -3,19 +3,17 @@
  "calls": {
   "kapt_bids": 2,
   "kapt_results": 6,
-  "nara_awards": 48,
+  "nara_awards": 96,
   "nara_bids": 25,
   "nara_plans": 24
  },
- "errors": [
-  "nara_awards: nara_awards: BAD_RESPONSE no result header: {'nkoneps.com.response.ResponseError': {'header': {'resultCode': '07', 'resultMsg': '입력범위값 초과 에러'}}}"
- ],
+ "errors": [],
  "new_awards": 0,
- "new_notices": 4,
+ "new_notices": 3,
  "new_plans": 3,
- "notice_count": 1151,
- "ok": false,
- "plan_count": 569,
- "run_at": "2026-11-11T10:18",
+ "notice_count": 1154,
+ "ok": true,
+ "plan_count": 572,
+ "run_at": "2026-11-11T12:46",
  "updated_notices": 0
 }
