@@ -132,12 +132,18 @@ class DataGoClient:
 
 
 def _header(body: dict) -> tuple[str, str]:
-    """서비스 응답 헤더(resultCode) 또는 포털 게이트웨이 오류 봉투(cmmMsgHeader.returnReasonCode)."""
+    """서비스 응답 헤더(resultCode), 포털 게이트웨이 오류 봉투(cmmMsgHeader), 나라장터 오류 봉투 순으로 찾는다."""
     header = (body.get("response") or {}).get("header") or {}
     if header:
         return str(header.get("resultCode", "")), str(header.get("resultMsg", ""))
     gateway = (body.get("OpenAPI_ServiceResponse") or {}).get("cmmMsgHeader") or {}
-    return str(gateway.get("returnReasonCode", "")), str(gateway.get("errMsg", ""))
+    if gateway:
+        return str(gateway.get("returnReasonCode", "")), str(gateway.get("errMsg", ""))
+    for value in body.values():  # 나라장터 오류 봉투: {"nkoneps.com.response.ResponseError": {"header": {...}}}
+        header = value.get("header") if isinstance(value, dict) else None
+        if isinstance(header, dict) and header.get("resultCode"):
+            return str(header["resultCode"]), str(header.get("resultMsg", ""))
+    return "", ""
 
 
 def _body(body: dict) -> tuple[list[dict], int]:

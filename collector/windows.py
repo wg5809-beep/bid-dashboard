@@ -1,9 +1,13 @@
-"""조회 기간을 API 제한(1개월 이내)에 맞춰 연속·비중첩 창으로 나눈다."""
+"""조회 기간을 API 제한에 맞춰 연속·비중첩 창으로 나눈다.
+
+나라장터 입찰공고·낙찰 서비스는 2026-11-11부터 조회 범위가 7일(00:00~7일째 23:59)을 넘으면
+07 "입력범위값 초과 에러"를 돌려준다(그전까지는 1개월).
+"""
 from __future__ import annotations
 
 from datetime import datetime, timedelta
 
-MAX_WINDOW_DAYS = 30
+MAX_WINDOW_DAYS = 7
 
 
 def month_windows(begin: datetime, end: datetime) -> list[tuple[datetime, datetime]]:

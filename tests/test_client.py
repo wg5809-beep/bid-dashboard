@@ -143,3 +143,12 @@ def test_gateway_permanent_error_is_not_retried():
     with pytest.raises(DataGoError) as exc:
         client.get_items("svc", BASE, "op", {})
     assert exc.value.code == "22" and len(session.calls) == 1
+
+
+def test_nara_error_envelope_is_permanent_and_keeps_service_code():
+    """나라장터 자체 오류 봉투(response 헤더가 아님): 07 입력범위값 초과는 재시도해도 같다."""
+    body = {"nkoneps.com.response.ResponseError": {"header": {"resultCode": "07", "resultMsg": "입력범위값 초과 에러"}}}
+    client, session, _ = make_client([body])
+    with pytest.raises(DataGoError) as exc:
+        client.get_items("svc", BASE, "op", {})
+    assert exc.value.code == "07" and "입력범위값" in str(exc.value) and len(session.calls) == 1

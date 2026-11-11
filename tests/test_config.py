@@ -17,7 +17,7 @@ def test_load_default_config():
     assert "호남" in cfg.interest_limit_regions
     assert "한전KDN" in cfg.interest_institutions
     assert cfg.retention_days == 730 and cfg.backfill_days == 90
-    assert cfg.max_calls_per_service == 300
+    assert cfg.max_calls_per_service == 700
     assert "평가" not in cfg.public_keywords and "경영평가" in cfg.public_keywords
     assert "사업수행능력" in cfg.public_exclude
 

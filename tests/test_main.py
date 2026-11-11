@@ -126,6 +126,18 @@ def test_run_backfill_uses_90_days_in_month_windows(tmp_path):
     assert len({p["inqryBgnDt"] for p in bid_calls}) >= 3
 
 
+@pytest.mark.parametrize("now, backfill", [(SUNDAY, False), (DAY2, True)])
+def test_widest_runs_fit_call_budget(tmp_path, now, backfill):
+    """7일 창이라 일요일(60일)·백필(90일)은 호출이 많다. 설정 상한 안에 들어야 LOCAL_LIMIT 오류가 안 난다."""
+    run(CFG, FakeClient(full_table()), tmp_path, DAY1)
+    client = FakeClient(full_table())
+    run(CFG, client, tmp_path, now, backfill=backfill)
+    per_service: dict[str, int] = {}
+    for service, _, _ in client.requests:
+        per_service[service] = per_service.get(service, 0) + 1
+    assert max(per_service.values()) <= CFG.max_calls_per_service < 1000
+
+
 def test_run_backfill_award_window_covers_backfill_days(tmp_path):
     run(CFG, FakeClient(full_table()), tmp_path, DAY1)
     client = FakeClient(full_table())

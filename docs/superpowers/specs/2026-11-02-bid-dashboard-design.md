@@ -59,7 +59,7 @@
 | 아파트 | 결과 | 국토교통부_공동주택 입찰결과공지 정보제공 서비스 (data.go.kr/data/15059177) | `https://apis.data.go.kr/1613000/ApHusBidResultNoticeInfoOfferServiceV3` | `getPblAncDeSearchV3`(공고일 조회) 또는 `getBidPblAncNmSearchV3`(공고명 조회), `getBidEntrpsInfoSearchV3`(참여업체) |
 
 공통 호출 규약(조달청): `serviceKey`(Decoding 원본 키를 넣고 라이브러리가 1회 인코딩), `pageNo`, `numOfRows`(최대 999), `type=json`,
-`inqryDiv`(1=등록일시, 2=공고일시, 3=개찰일시, 4=공고번호), `inqryBgnDt`/`inqryEndDt`(YYYYMMDDHHMM, 1개월 이내),
+`inqryDiv`(1=등록일시, 2=공고일시, 3=개찰일시, 4=공고번호), `inqryBgnDt`/`inqryEndDt`(YYYYMMDDHHMM, 7일 이내 — 2026-11-11부터. 그전은 1개월),
 PPSSrch 계열은 `bidNtceNm`(공고명 부분일치) 지원. 응답 `resultCode` 00 정상, 03 데이터 없음, 20 권한없음, 22 일일한도 초과, 30 키 미등록.
 국토교통부 공동주택 API는 파라미터 체계가 다르므로 빌더가 명세(data.go.kr 상세기능)로 확인한다.
 
