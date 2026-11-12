@@ -8,12 +8,12 @@
   "nara_plans": 24
  },
  "errors": [],
- "new_awards": 3,
- "new_notices": 8,
- "new_plans": 11,
+ "new_awards": 0,
+ "new_notices": 0,
+ "new_plans": 2,
  "notice_count": 1162,
  "ok": true,
- "plan_count": 583,
- "run_at": "2026-11-12T10:03",
- "updated_notices": 2
+ "plan_count": 585,
+ "run_at": "2026-11-12T11:18",
+ "updated_notices": 0
 }
