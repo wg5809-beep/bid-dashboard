@@ -10470,6 +10470,25 @@
    "winner_ceo": "박범섭"
   },
   {
+   "agency": "울산광역시 북구",
+   "amount": 43721000,
+   "awarded_at": "2026-11-11T00:00",
+   "interest": false,
+   "key": "public:R26BK01811647",
+   "notice_no": "R26BK01811647",
+   "notice_ord": "000",
+   "opened_at": "2026-11-11T11:03",
+   "participants": 6,
+   "planned_price": null,
+   "rate": 88.286,
+   "region": "울산",
+   "title": "펫 힐링 공원 조성 사업 타당성 조사 용역",
+   "track": "public",
+   "winner": "주식회사 성지토목기술공사",
+   "winner_bizno": "6108140069",
+   "winner_ceo": "정석준"
+  },
+  {
    "agency": "(재)중소조선연구원",
    "amount": 48900000,
    "awarded_at": "2026-11-09T00:00",
@@ -10487,6 +10506,44 @@
    "winner": "주식회사 윈글로벌",
    "winner_bizno": "4868601871",
    "winner_ceo": "조한규"
+  },
+  {
+   "agency": "한국지역난방기술주식회사",
+   "amount": 44000000,
+   "awarded_at": "2026-11-11T00:00",
+   "interest": false,
+   "key": "public:R26BK01821054",
+   "notice_no": "R26BK01821054",
+   "notice_ord": "000",
+   "opened_at": "2026-11-11T17:02",
+   "participants": 1,
+   "planned_price": null,
+   "rate": 89.795,
+   "region": "미분류",
+   "title": "500MW 구역형 집단에너지 사업 건설타당성조사 용역(열평형도)",
+   "track": "public",
+   "winner": "주식회사 에이치에스엠이",
+   "winner_bizno": "1448110296",
+   "winner_ceo": "이호근"
+  },
+  {
+   "agency": "한국지역난방기술주식회사",
+   "amount": 19500000,
+   "awarded_at": "2026-11-11T00:00",
+   "interest": false,
+   "key": "public:R26BK01821087",
+   "notice_no": "R26BK01821087",
+   "notice_ord": "000",
+   "opened_at": "2026-11-11T16:56",
+   "participants": 1,
+   "planned_price": null,
+   "rate": 99.035,
+   "region": "미분류",
+   "title": "500MW 구역형 집단에너지 사업 건설타당성조사 용역(발전소후보부지 인허가)",
+   "track": "public",
+   "winner": "(주)도시와자연",
+   "winner_bizno": "1388128205",
+   "winner_ceo": "진창규"
   }
  ]
 }
