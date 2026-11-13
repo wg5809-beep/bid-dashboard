@@ -34400,7 +34400,7 @@
    "result_note": null,
    "service": null,
    "source_system": null,
-   "status": "closed",
+   "status": "opened",
    "title": "해양수산 연구개발사업 및 해양경찰청 연구개발사업 위탁정산",
    "track": "public",
    "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01800611&bidPbancOrd=000"
@@ -34464,7 +34464,7 @@
    "result_note": null,
    "service": "회계감사",
    "source_system": null,
-   "status": "open",
+   "status": "opened",
    "title": "2026~2028 회계연도 문경시 하수도사업 공기업 특별회계 결산감사 용역",
    "track": "public",
    "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01801386&bidPbancOrd=000"
@@ -34528,7 +34528,7 @@
    "result_note": null,
    "service": null,
    "source_system": null,
-   "status": "closed",
+   "status": "opened",
    "title": "녹색펀드 2026년 운용성과 평가 용역",
    "track": "public",
    "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01801727&bidPbancOrd=000"
@@ -34729,7 +34729,7 @@
    "result_note": null,
    "service": null,
    "source_system": null,
-   "status": "closed",
+   "status": "opened",
    "title": "2026년 ICT기금사업 성과조사·분석",
    "track": "public",
    "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01803287&bidPbancOrd=000"
@@ -34898,7 +34898,7 @@
    "result_note": null,
    "service": null,
    "source_system": null,
-   "status": "closed",
+   "status": "opened",
    "title": "사업성장 지원 등이 가능한 위탁국 모델체계 개발",
    "track": "public",
    "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01804302&bidPbancOrd=000"
@@ -35028,7 +35028,7 @@
    "result_note": null,
    "service": null,
    "source_system": null,
-   "status": "closed",
+   "status": "opened",
    "title": "인천 국립과학관 건립 기본계획 및 타당성 조사 연구용역",
    "track": "public",
    "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01804935&bidPbancOrd=000"
@@ -35060,7 +35060,7 @@
    "result_note": null,
    "service": "PA",
    "source_system": null,
-   "status": "closed",
+   "status": "opened",
    "title": "2026회계연도 재무결산 위탁용역",
    "track": "public",
    "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01805078&bidPbancOrd=000"
@@ -38277,6 +38277,38 @@
    "title": "안동시 비지정유산 보존ㆍ활용체계 개선방안 및 가치평가 연구용역",
    "track": "public",
    "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01827965&bidPbancOrd=000"
+  },
+  {
+   "agency": "기초과학연구원",
+   "agency_code": "Z023367",
+   "award_method": "협상에의한계약-협상에 의한 낙찰자 결정",
+   "budget": 437150736,
+   "category": "other",
+   "close_at": "2026-11-24T14:00",
+   "complex_name": null,
+   "contract_method": "제한경쟁",
+   "demand_agency": "기초과학연구원",
+   "estimate": 397409760,
+   "first_seen": "2026-11-13",
+   "history": [],
+   "interest": false,
+   "interest_reason": null,
+   "key": "public:R26BK01828545",
+   "kind": "등록공고",
+   "last_seen": "2026-11-13",
+   "limit_regions": [],
+   "notice_no": "R26BK01828545",
+   "notice_ord": "000",
+   "open_at": "2026-11-24T15:00",
+   "posted_at": "2026-11-13T11:02",
+   "region": "미분류",
+   "result_note": null,
+   "service": null,
+   "source_system": null,
+   "status": "open",
+   "title": "2027년 IBS 연구단 성과평가 개최 대행 용역",
+   "track": "public",
+   "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01828545&bidPbancOrd=000"
   }
  ]
 }
