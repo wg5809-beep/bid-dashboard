@@ -10544,6 +10544,25 @@
    "winner": "(주)도시와자연",
    "winner_bizno": "1388128205",
    "winner_ceo": "진창규"
+  },
+  {
+   "agency": "(재)우체국시설관리단",
+   "amount": 7216000,
+   "awarded_at": "2026-11-12T00:00",
+   "interest": false,
+   "key": "public:R26BK01822997",
+   "notice_no": "R26BK01822997",
+   "notice_ord": "000",
+   "opened_at": "2026-11-12T13:54",
+   "participants": 1,
+   "planned_price": null,
+   "rate": 100.0,
+   "region": "미분류",
+   "title": "서울강남우체국 지상 8~11층 사용료 감정평가 용역",
+   "track": "public",
+   "winner": "주식회사 감정평가법인 대일감정원",
+   "winner_bizno": "1078183669",
+   "winner_ceo": "조동현"
   }
  ]
 }
