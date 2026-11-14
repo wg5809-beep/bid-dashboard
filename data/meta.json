@@ -9,11 +9,11 @@
  },
  "errors": [],
  "new_awards": 0,
- "new_notices": 1,
- "new_plans": 0,
- "notice_count": 1174,
+ "new_notices": 3,
+ "new_plans": 8,
+ "notice_count": 1177,
  "ok": true,
- "plan_count": 589,
- "run_at": "2026-11-13T12:28",
+ "plan_count": 597,
+ "run_at": "2026-11-14T10:29",
  "updated_notices": 0
 }
