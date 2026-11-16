@@ -4,16 +4,16 @@
   "kapt_bids": 1,
   "kapt_results": 6,
   "nara_awards": 96,
-  "nara_bids": 24,
+  "nara_bids": 25,
   "nara_plans": 24
  },
  "errors": [],
  "new_awards": 0,
- "new_notices": 2,
- "new_plans": 0,
- "notice_count": 1179,
+ "new_notices": 3,
+ "new_plans": 1,
+ "notice_count": 1182,
  "ok": true,
- "plan_count": 597,
- "run_at": "2026-11-16T10:07",
+ "plan_count": 598,
+ "run_at": "2026-11-16T11:53",
  "updated_notices": 0
 }
