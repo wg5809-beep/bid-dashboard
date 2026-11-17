@@ -5093,6 +5093,25 @@
    "winner_ceo": null
   },
   {
+   "agency": "이편한세상 석림 더노블",
+   "amount": 600000,
+   "awarded_at": "2026-11-04T00:00",
+   "interest": false,
+   "key": "apt:kg2b_143001",
+   "notice_no": "kg2b_143001",
+   "notice_ord": "0",
+   "opened_at": "2026-11-16T17:00",
+   "participants": 1,
+   "planned_price": null,
+   "rate": null,
+   "region": "충남",
+   "title": "외부 회계감사업체 선정 입찰공고",
+   "track": "apt",
+   "winner": "세윤회계법인",
+   "winner_bizno": null,
+   "winner_ceo": null
+  },
+  {
    "agency": "한국문화관광연구원",
    "amount": 227000000,
    "awarded_at": "2026-09-14T00:00",
