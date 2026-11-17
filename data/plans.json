@@ -14601,7 +14601,9 @@
    "interest": false,
    "interest_reason": null,
    "key": "plan:R26DD20925570",
-   "notice_nos": [],
+   "notice_nos": [
+    "R26BK01834644"
+   ],
    "order_ym": "2026-11",
    "parent_agency": "한국노인인력개발원",
    "plan_no": "R26DD20925570",
@@ -15358,6 +15360,30 @@
    "tel": "054-740-7376",
    "title": "백두대간 관광권역 관광개발 기본구상 및 타당성조사 용역",
    "url": "https://www.g2b.go.kr/link/PRPA015_01/single/?oderPlanNo=R26DD20932576"
+  },
+  {
+   "agency": "(사)한국프로스포츠협회",
+   "agency_type": "기타기관",
+   "amount": 8800000,
+   "category": "target",
+   "changed_at": null,
+   "contract_method": "수의계약",
+   "dept": "경영기획팀",
+   "first_seen": "2026-11-17",
+   "interest": false,
+   "interest_reason": null,
+   "key": "plan:R26DD20932926",
+   "notice_nos": [],
+   "order_ym": "2026-11",
+   "parent_agency": "(사)한국프로스포츠협회",
+   "plan_no": "R26DD20932926",
+   "posted_at": "2026-11-17T13:03",
+   "procurement": "자체조달",
+   "region": "미분류",
+   "service": "사업비정산",
+   "tel": "02-6273-5900",
+   "title": "2026년 보조사업 정산보고서 검증 용역",
+   "url": "https://www.g2b.go.kr/link/PRPA015_01/single/?oderPlanNo=R26DD20932926"
   }
  ]
 }
