@@ -10582,6 +10582,25 @@
    "winner": "주식회사 감정평가법인 대일감정원",
    "winner_bizno": "1078183669",
    "winner_ceo": "조동현"
+  },
+  {
+   "agency": "한국체육산업개발주식회사",
+   "amount": 35530000,
+   "awarded_at": "2026-11-18T00:00",
+   "interest": false,
+   "key": "public:R26BK01831278",
+   "notice_no": "R26BK01831278",
+   "notice_ord": "000",
+   "opened_at": "2026-11-18T13:08",
+   "participants": 1,
+   "planned_price": null,
+   "rate": 99.803,
+   "region": "미분류",
+   "title": "2026년도 재직자 및 2027년도 퇴직자 연말정산 용역",
+   "track": "public",
+   "winner": "주식회사 티에이엠홀딩스",
+   "winner_bizno": "2098159669",
+   "winner_ceo": "김산"
   }
  ]
 }

@@ -36718,7 +36718,7 @@
    "result_note": null,
    "service": null,
    "source_system": null,
-   "status": "open",
+   "status": "closed",
    "title": "2027년 배분사업 회계평가 수행업체 선정요청",
    "track": "public",
    "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01815710&bidPbancOrd=000"
@@ -37721,7 +37721,7 @@
    "result_note": null,
    "service": "공정가치평가",
    "source_system": null,
-   "status": "open",
+   "status": "opened",
    "title": "2026년 금융자산 평가용역",
    "track": "public",
    "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01823665&bidPbancOrd=000"
@@ -38282,7 +38282,7 @@
    "result_note": null,
    "service": null,
    "source_system": null,
-   "status": "open",
+   "status": "closed",
    "title": "안동시 비지정유산 보존ㆍ활용체계 개선방안 및 가치평가 연구용역",
    "track": "public",
    "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01827965&bidPbancOrd=000"
@@ -38570,7 +38570,7 @@
    "result_note": null,
    "service": "사업비정산",
    "source_system": null,
-   "status": "open",
+   "status": "awarded",
    "title": "2026년도 재직자 및 2027년도 퇴직자 연말정산 용역",
    "track": "public",
    "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01831278&bidPbancOrd=000"
@@ -39380,6 +39380,40 @@
    "title": "한국산업은행 상시 회계자문 용역",
    "track": "public",
    "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01838492&bidPbancOrd=000"
+  },
+  {
+   "agency": "서울특별시 송파구",
+   "agency_code": "3230000",
+   "award_method": "소액수의견적-소액수의견적(2인 이상 견적 제출)",
+   "budget": 2200000,
+   "category": "target",
+   "close_at": "2026-11-24T15:00",
+   "complex_name": null,
+   "contract_method": "수의계약",
+   "demand_agency": "서울특별시 송파구",
+   "estimate": 2000000,
+   "first_seen": "2026-11-18",
+   "history": [],
+   "interest": false,
+   "interest_reason": null,
+   "key": "public:R26BK01838797",
+   "kind": "등록공고",
+   "last_seen": "2026-11-18",
+   "limit_regions": [
+    "서울특별시"
+   ],
+   "notice_no": "R26BK01838797",
+   "notice_ord": "000",
+   "open_at": "2026-11-24T16:00",
+   "posted_at": "2026-11-18T12:57",
+   "region": "서울",
+   "result_note": null,
+   "service": "회계감사",
+   "source_system": null,
+   "status": "open",
+   "title": "가락현대6차아파트 가로주택정비사업조합 외부회계감사 용역",
+   "track": "public",
+   "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01838797&bidPbancOrd=000"
   }
  ]
 }

@@ -1111,30 +1111,6 @@
    "url": "https://www.g2b.go.kr/link/PRPA015_01/single/?oderPlanNo=R26DD20560534"
   },
   {
-   "agency": "재단법인경기도사회적경제원",
-   "agency_type": "지자체 출자출연기관",
-   "amount": 8000000,
-   "category": "target",
-   "changed_at": null,
-   "contract_method": "수의계약",
-   "dept": "경영지원실",
-   "first_seen": "2026-11-06",
-   "interest": false,
-   "interest_reason": null,
-   "key": "plan:R26DD20563360",
-   "notice_nos": [],
-   "order_ym": "2026-11",
-   "parent_agency": "정부산하기관및위원회",
-   "plan_no": "R26DD20563360",
-   "posted_at": "2026-01-19T17:01",
-   "procurement": "자체조달",
-   "region": "경기",
-   "service": "회계감사",
-   "tel": "031-258-3243",
-   "title": "2026회계연도 외부회계감사(중간감사) 용역",
-   "url": "https://www.g2b.go.kr/link/PRPA015_01/single/?oderPlanNo=R26DD20563360"
-  },
-  {
    "agency": "한국수력원자력주식회사",
    "agency_type": "공기업",
    "amount": 800000000,
@@ -15495,6 +15471,32 @@
    "tel": "061-286-7855",
    "title": "동부청사 별관 건립 타당성 조사 및 기본계획 수립용역",
    "url": "https://www.g2b.go.kr/link/PRPA015_01/single/?oderPlanNo=R26DD20934240"
+  },
+  {
+   "agency": "서울특별시 송파구",
+   "agency_type": "지방자치단체",
+   "amount": 2200000,
+   "category": "target",
+   "changed_at": null,
+   "contract_method": "제한경쟁",
+   "dept": "재무과",
+   "first_seen": "2026-11-18",
+   "interest": false,
+   "interest_reason": null,
+   "key": "plan:R26DD20934808",
+   "notice_nos": [
+    "R26BK01838797"
+   ],
+   "order_ym": "2026-11",
+   "parent_agency": "서울특별시",
+   "plan_no": "R26DD20934808",
+   "posted_at": "2026-11-18T12:53",
+   "procurement": "자체조달",
+   "region": "서울",
+   "service": "회계감사",
+   "tel": "02-2147-2483",
+   "title": "가락현대6차아파트 가로주택정비사업조합 외부회계감사 용역",
+   "url": "https://www.g2b.go.kr/link/PRPA015_01/single/?oderPlanNo=R26DD20934808"
   }
  ]
 }
