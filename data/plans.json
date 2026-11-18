@@ -9110,7 +9110,8 @@
    "key": "plan:R26DD20882393",
    "notice_nos": [
     "R26BK01791944",
-    "R26BK01760163"
+    "R26BK01760163",
+    "R26BK01836896"
    ],
    "order_ym": "2026-09",
    "parent_agency": "충청북도",
@@ -13019,7 +13020,9 @@
    "interest": false,
    "interest_reason": null,
    "key": "plan:R26DD20911760",
-   "notice_nos": [],
+   "notice_nos": [
+    "R26BK01836036"
+   ],
    "order_ym": "2026-10",
    "parent_agency": "경상북도",
    "plan_no": "R26DD20911760",
@@ -13662,7 +13665,9 @@
    "interest": false,
    "interest_reason": null,
    "key": "plan:R26DD20915903",
-   "notice_nos": [],
+   "notice_nos": [
+    "R26BK01837897"
+   ],
    "order_ym": "2026-11",
    "parent_agency": "한국주택금융공사",
    "plan_no": "R26DD20915903",
@@ -14382,7 +14387,9 @@
    "interest": false,
    "interest_reason": null,
    "key": "plan:R26DD20923121",
-   "notice_nos": [],
+   "notice_nos": [
+    "R26BK01837090"
+   ],
    "order_ym": "2026-11",
    "parent_agency": "정부산하기관및위원회",
    "plan_no": "R26DD20923121",
@@ -14931,7 +14938,9 @@
    "interest": false,
    "interest_reason": null,
    "key": "plan:R26DD20927144",
-   "notice_nos": [],
+   "notice_nos": [
+    "R26BK01837614"
+   ],
    "order_ym": "2026-11",
    "parent_agency": "경기도",
    "plan_no": "R26DD20927144",
@@ -15129,7 +15138,9 @@
    "interest": false,
    "interest_reason": null,
    "key": "plan:R26DD20929413",
-   "notice_nos": [],
+   "notice_nos": [
+    "R26BK01836097"
+   ],
    "order_ym": "2026-11",
    "parent_agency": "경기도",
    "plan_no": "R26DD20929413",
@@ -15153,7 +15164,9 @@
    "interest": false,
    "interest_reason": null,
    "key": "plan:R26DD20929495",
-   "notice_nos": [],
+   "notice_nos": [
+    "R26BK01838492"
+   ],
    "order_ym": "2026-11",
    "parent_agency": "한국산업은행",
    "plan_no": "R26DD20929495",
@@ -15384,6 +15397,104 @@
    "tel": "02-6273-5900",
    "title": "2026년 보조사업 정산보고서 검증 용역",
    "url": "https://www.g2b.go.kr/link/PRPA015_01/single/?oderPlanNo=R26DD20932926"
+  },
+  {
+   "agency": "국방과학연구소",
+   "agency_type": "기타공공기관",
+   "amount": 44000000,
+   "category": "target",
+   "changed_at": null,
+   "contract_method": "제한경쟁",
+   "dept": "재무실",
+   "first_seen": "2026-11-18",
+   "interest": false,
+   "interest_reason": null,
+   "key": "plan:R26DD20933161",
+   "notice_nos": [],
+   "order_ym": "2026-11",
+   "parent_agency": "국방과학연구소",
+   "plan_no": "R26DD20933161",
+   "posted_at": "2026-11-17T14:29",
+   "procurement": "자체조달",
+   "region": "미분류",
+   "service": "사업비정산",
+   "tel": "042-821-2000",
+   "title": "2026 회계연도 연말정산 용역",
+   "url": "https://www.g2b.go.kr/link/PRPA015_01/single/?oderPlanNo=R26DD20933161"
+  },
+  {
+   "agency": "충청북도 진천군",
+   "agency_type": "지방자치단체",
+   "amount": 296537000,
+   "category": "other",
+   "changed_at": null,
+   "contract_method": "일반경쟁",
+   "dept": "미래전략실",
+   "first_seen": "2026-11-18",
+   "interest": false,
+   "interest_reason": null,
+   "key": "plan:R26DD20933645",
+   "notice_nos": [
+    "R26BK01837033"
+   ],
+   "order_ym": "2026-11",
+   "parent_agency": "충청북도",
+   "plan_no": "R26DD20933645",
+   "posted_at": "2026-11-17T17:00",
+   "procurement": "자체조달",
+   "region": "충북",
+   "service": null,
+   "tel": "043-539-4072",
+   "title": "진천 금곡지구 경제자유구역 타당성 조사 및 기본계획 수립 용역",
+   "url": "https://www.g2b.go.kr/link/PRPA015_01/single/?oderPlanNo=R26DD20933645"
+  },
+  {
+   "agency": "인천광역시 경제자유구역청",
+   "agency_type": "지방자치단체",
+   "amount": 398000000,
+   "category": "other",
+   "changed_at": null,
+   "contract_method": "일반경쟁",
+   "dept": "환경녹지과",
+   "first_seen": "2026-11-18",
+   "interest": false,
+   "interest_reason": null,
+   "key": "plan:R26DD20933864",
+   "notice_nos": [],
+   "order_ym": "2026-11",
+   "parent_agency": "인천광역시",
+   "plan_no": "R26DD20933864",
+   "posted_at": "2026-11-17T18:08",
+   "procurement": "자체조달",
+   "region": "인천",
+   "service": null,
+   "tel": "032-453-7262",
+   "title": "송도국제에코센터 조성사업 타당성 조사",
+   "url": "https://www.g2b.go.kr/link/PRPA015_01/single/?oderPlanNo=R26DD20933864"
+  },
+  {
+   "agency": "전남광주통합특별시 광주청사",
+   "agency_type": "지방자치단체",
+   "amount": 110000000,
+   "category": "other",
+   "changed_at": null,
+   "contract_method": "일반경쟁",
+   "dept": "통합행정과",
+   "first_seen": "2026-11-18",
+   "interest": true,
+   "interest_reason": "본사 소재",
+   "key": "plan:R26DD20934240",
+   "notice_nos": [],
+   "order_ym": "2026-11",
+   "parent_agency": "전남광주통합특별시",
+   "plan_no": "R26DD20934240",
+   "posted_at": "2026-11-18T07:56",
+   "procurement": "자체조달",
+   "region": "전남광주",
+   "service": null,
+   "tel": "061-286-7855",
+   "title": "동부청사 별관 건립 타당성 조사 및 기본계획 수립용역",
+   "url": "https://www.g2b.go.kr/link/PRPA015_01/single/?oderPlanNo=R26DD20934240"
   }
  ]
 }
