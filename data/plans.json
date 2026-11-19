@@ -7486,7 +7486,9 @@
    "key": "plan:R26DD20868937",
    "notice_nos": [
     "R26BK01773342",
-    "R26BK01730828"
+    "R26BK01730828",
+    "R26BK01839654",
+    "R26BK01836563"
    ],
    "order_ym": "2026-09",
    "parent_agency": "해양수산부",
@@ -12738,7 +12740,8 @@
    "interest_reason": null,
    "key": "plan:R26DD20908803",
    "notice_nos": [
-    "R26BK01804851"
+    "R26BK01804851",
+    "R26BK01836531"
    ],
    "order_ym": "2026-11",
    "parent_agency": "서울특별시",
@@ -13976,7 +13979,8 @@
    "interest_reason": null,
    "key": "plan:R26DD20919037",
    "notice_nos": [
-    "R26BK01811643"
+    "R26BK01811643",
+    "R26BK01839622"
    ],
    "order_ym": "2026-11",
    "parent_agency": "경기도",
@@ -14440,7 +14444,9 @@
    "interest": false,
    "interest_reason": null,
    "key": "plan:R26DD20923893",
-   "notice_nos": [],
+   "notice_nos": [
+    "R26BK01836550"
+   ],
    "order_ym": "2026-11",
    "parent_agency": "한국석유공사",
    "plan_no": "R26DD20923893",
@@ -14686,7 +14692,10 @@
    "interest": true,
    "interest_reason": "본사 소재",
    "key": "plan:R26DD20926000",
-   "notice_nos": [],
+   "notice_nos": [
+    "R26BK01839112",
+    "R26BK01838959"
+   ],
    "order_ym": "2026-11",
    "parent_agency": null,
    "plan_no": "R26DD20926000",
@@ -14838,7 +14847,9 @@
    "interest": false,
    "interest_reason": null,
    "key": "plan:R26DD20926963",
-   "notice_nos": [],
+   "notice_nos": [
+    "R26BK01841349"
+   ],
    "order_ym": "2026-11",
    "parent_agency": "기후에너지환경부",
    "plan_no": "R26DD20926963",
@@ -14940,7 +14951,9 @@
    "interest": false,
    "interest_reason": null,
    "key": "plan:R26DD20927585",
-   "notice_nos": [],
+   "notice_nos": [
+    "R26BK01838235"
+   ],
    "order_ym": "2026-11",
    "parent_agency": "한국과학기술단체총연합회",
    "plan_no": "R26DD20927585",
@@ -15190,7 +15203,9 @@
    "interest": false,
    "interest_reason": null,
    "key": "plan:R26DD20930024",
-   "notice_nos": [],
+   "notice_nos": [
+    "R26BK01840186"
+   ],
    "order_ym": "2026-11",
    "parent_agency": "경상북도",
    "plan_no": "R26DD20930024",
@@ -15497,6 +15512,56 @@
    "tel": "02-2147-2483",
    "title": "가락현대6차아파트 가로주택정비사업조합 외부회계감사 용역",
    "url": "https://www.g2b.go.kr/link/PRPA015_01/single/?oderPlanNo=R26DD20934808"
+  },
+  {
+   "agency": "울산광역시",
+   "agency_type": "지방자치단체",
+   "amount": 500000000,
+   "category": "other",
+   "changed_at": null,
+   "contract_method": "일반경쟁",
+   "dept": "회계담당관",
+   "first_seen": "2026-11-19",
+   "interest": false,
+   "interest_reason": null,
+   "key": "plan:R26DD20935486",
+   "notice_nos": [
+    "R26BK01839589"
+   ],
+   "order_ym": "2026-11",
+   "parent_agency": "울산광역시",
+   "plan_no": "R26DD20935486",
+   "posted_at": "2026-11-18T16:21",
+   "procurement": "자체조달",
+   "region": "울산",
+   "service": null,
+   "tel": "052-229-0000",
+   "title": "울산광역시 시내버스 공영제 도입 타당성 검토 연구용역",
+   "url": "https://www.g2b.go.kr/link/PRPA015_01/single/?oderPlanNo=R26DD20935486"
+  },
+  {
+   "agency": "충청남도 당진시",
+   "agency_type": "지방자치단체",
+   "amount": 284800000,
+   "category": "other",
+   "changed_at": null,
+   "contract_method": "일반경쟁",
+   "dept": "도로과",
+   "first_seen": "2026-11-19",
+   "interest": false,
+   "interest_reason": null,
+   "key": "plan:R26DD20935494",
+   "notice_nos": [],
+   "order_ym": "2026-11",
+   "parent_agency": "충청남도",
+   "plan_no": "R26DD20935494",
+   "posted_at": "2026-11-18T16:22",
+   "procurement": "자체조달",
+   "region": "충남",
+   "service": null,
+   "tel": "041-350-4352",
+   "title": "제2서해대교 건설 외 2건 사전타당성조사 용역",
+   "url": "https://www.g2b.go.kr/link/PRPA015_01/single/?oderPlanNo=R26DD20935494"
   }
  ]
 }

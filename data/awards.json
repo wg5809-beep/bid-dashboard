@@ -10584,6 +10584,25 @@
    "winner_ceo": "조동현"
   },
   {
+   "agency": "한국해양진흥공사",
+   "amount": 103950000,
+   "awarded_at": "2026-11-19T00:00",
+   "interest": false,
+   "key": "public:R26BK01823665",
+   "notice_no": "R26BK01823665",
+   "notice_ord": "000",
+   "opened_at": "2026-11-18T13:23",
+   "participants": 1,
+   "planned_price": null,
+   "rate": 99.212,
+   "region": "미분류",
+   "title": "2026년 금융자산 평가용역",
+   "track": "public",
+   "winner": "삼일회계법인",
+   "winner_bizno": "1068119621",
+   "winner_ceo": "윤훈수"
+  },
+  {
    "agency": "한국체육산업개발주식회사",
    "amount": 35530000,
    "awarded_at": "2026-11-18T00:00",

@@ -1,5 +1,5 @@
 {
- "award_count": 558,
+ "award_count": 559,
  "calls": {
   "kapt_bids": 2,
   "kapt_results": 6,
@@ -9,11 +9,11 @@
  },
  "errors": [],
  "new_awards": 1,
- "new_notices": 1,
- "new_plans": 1,
- "notice_count": 1208,
+ "new_notices": 14,
+ "new_plans": 2,
+ "notice_count": 1222,
  "ok": true,
- "plan_count": 607,
- "run_at": "2026-11-18T13:35",
+ "plan_count": 609,
+ "run_at": "2026-11-19T11:39",
  "updated_notices": 0
 }
