@@ -4,16 +4,18 @@
   "kapt_bids": 2,
   "kapt_results": 6,
   "nara_awards": 96,
-  "nara_bids": 28,
+  "nara_bids": 27,
   "nara_plans": 24
  },
- "errors": [],
+ "errors": [
+  "nara_plans: nara_plans: 07 입력범위값 초과 에러"
+ ],
  "new_awards": 0,
- "new_notices": 0,
+ "new_notices": 45,
  "new_plans": 0,
- "notice_count": 1222,
- "ok": true,
+ "notice_count": 1267,
+ "ok": false,
  "plan_count": 609,
- "run_at": "2026-11-19T13:16",
- "updated_notices": 0
+ "run_at": "2026-11-20T11:24",
+ "updated_notices": 2
 }
