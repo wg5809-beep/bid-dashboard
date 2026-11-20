@@ -30,3 +30,12 @@ def test_month_windows_rejects_inverted_range():
     import pytest
     with pytest.raises(ValueError):
         month_windows(datetime(2026, 11, 2), datetime(2026, 11, 1))
+
+
+def test_month_windows_accepts_longer_limit_per_service():
+    windows = month_windows(datetime(2026, 9, 1), datetime(2026, 11, 20, 23, 59), max_days=30)
+    assert windows == [
+        (datetime(2026, 9, 1), datetime(2026, 9, 30, 23, 59)),
+        (datetime(2026, 10, 1), datetime(2026, 10, 30, 23, 59)),
+        (datetime(2026, 10, 31), datetime(2026, 11, 20, 23, 59)),
+    ]

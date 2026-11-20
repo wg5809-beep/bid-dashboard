@@ -56,7 +56,7 @@ def test_service_lines_bad_shape_raises(tmp_path):
 
 def test_plan_settings_loaded_with_defaults_when_missing(tmp_path):
     cfg = load_config(CFG_PATH)
-    assert cfg.plan_past_months == 3 and cfg.plan_posted_lookback_days == 730
+    assert cfg.plan_past_months == 3 and cfg.plan_posted_lookback_days == 455
     lines = [ln for ln in CFG_PATH.read_text(encoding="utf-8").splitlines() if not ln.startswith("plan_")]
     old = tmp_path / "old.yaml"
     old.write_text(chr(10).join(lines), encoding="utf-8")

@@ -10,13 +10,13 @@ from datetime import datetime, timedelta
 MAX_WINDOW_DAYS = 7
 
 
-def month_windows(begin: datetime, end: datetime) -> list[tuple[datetime, datetime]]:
+def month_windows(begin: datetime, end: datetime, max_days: int = MAX_WINDOW_DAYS) -> list[tuple[datetime, datetime]]:
     if end < begin:
         raise ValueError(f"end({end}) must not precede begin({begin})")
     windows: list[tuple[datetime, datetime]] = []
     cursor = begin
     while True:
-        window_end = cursor + timedelta(days=MAX_WINDOW_DAYS) - timedelta(minutes=1)
+        window_end = cursor + timedelta(days=max_days) - timedelta(minutes=1)
         if window_end >= end:
             windows.append((cursor, end))
             return windows

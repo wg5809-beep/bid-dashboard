@@ -251,7 +251,9 @@ def test_run_collects_plans_per_keyword_and_writes_plans_json(tmp_path):
     plans = load_plans(tmp_path / "plans.json")
     assert set(plans) == {"plan:R26DD20501968", "plan:R26DD20912432"}  # 제외어(유지보수) 1건 빠짐
     assert meta.plan_count == 2 and meta.new_plans == 2 and meta.ok is True
-    assert meta.calls["nara_plans"] == len(CFG.public_keywords)
+    windows = nara_plans.plan_windows(DAY1, CFG.plan_posted_lookback_days)
+    assert meta.calls["nara_plans"] == len(CFG.public_keywords) * len(windows)  # 게시일 28일 창 × 키워드
+    assert meta.calls["nara_plans"] * 2 <= 1000  # 하루 2회 실행해도 포털 일일 한도(1,000) 안
     assert plans["plan:R26DD20501968"].service == "회계감사" and plans["plan:R26DD20501968"].first_seen == "2026-11-02"
     meta = run(CFG, FakeClient(full_table()), tmp_path, DAY2)
     assert meta.new_plans == 0 and load_plans(tmp_path / "plans.json")["plan:R26DD20501968"].first_seen == "2026-11-02"
@@ -263,11 +265,17 @@ def test_run_plan_snapshot_drops_plans_removed_upstream(tmp_path):
     assert set(load_plans(tmp_path / "plans.json")) == {"plan:R26DD20501968"} and meta.plan_count == 1
 
 
+def test_run_drops_plans_outside_order_month_range(tmp_path):
+    rows = [PLANS[0], {**PLANS[1], "orderYear": "2028", "orderMnth": "01"}]  # 내년 12월보다 뒤인 예정월
+    run(CFG, FakeClient(full_table({(nara_plans.SERVICE, nara_plans.OP_LIST): rows})), tmp_path, DAY1)
+    assert set(load_plans(tmp_path / "plans.json")) == {"plan:R26DD20501968"}
+
+
 def test_run_plan_failure_keeps_existing_plans_and_other_data(tmp_path):
     run(CFG, FakeClient(full_table()), tmp_path, DAY1)
 
     def flaky(params):
-        if params.get("bizNm") == "세무":
+        if params.get("bizNm") == "%세무":
             raise DataGoError("nara_plans", "22", "limit")
         return PLANS[:1]
     meta = run(CFG, FakeClient(full_table({(nara_plans.SERVICE, nara_plans.OP_LIST): flaky})), tmp_path, DAY2)

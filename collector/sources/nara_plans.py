@@ -1,9 +1,12 @@
 """나라장터 용역 발주계획 소스 (조달청_나라장터 발주계획현황서비스).
 
-실호출 확인(2026-11-06):
-- 용역 검색 오퍼레이션은 발주년월(orderBgnYm~orderEndYm)과 게시일시(inqryBgnDt~inqryEndDt)를 함께 줘야
-  조건이 적용된다. 하나라도 빠지면 조건을 무시하고 최근 게시분만 돌려준다.
-- 게시일시 범위는 1개월 제한이 없어(22개월 조회 성공) 창을 나누지 않는다.
+실호출 확인(2026-11-20, 이날부터 조회 조건이 바뀌어 기존 일괄 조회가 07 입력범위값 초과로 실패):
+- 게시일시(inqryBgnDt~inqryEndDt) 범위는 달력상 1개월까지다(7/1~8/1 정상, 7/1~8/2는 07 오류.
+  2월이 낀 2/18~3/19는 30일인데도 07 오류). 그래서 가장 짧은 달에 맞춰 게시일을 28일 창으로 나눠 조회한다.
+- 발주년월(orderBgnYm~orderEndYm)은 2개월만 넘어도 07 오류라 보내지 않고, 받은 뒤 발주 예정월로 거른다.
+  발주년월 없이 게시일시+사업명만 줘도 조건이 적용된다(기존 수집분 5개 구간 대조, 누락 0).
+  게시일시를 빼면 최근 게시분만 돌려주므로 게시일시는 반드시 준다.
+- 사업명(bizNm)은 앞글자 일치다. 앞에 '%'를 붙여야 예전처럼 포함 검색이 된다.
 - bidNtceNoList는 "공고번호 13자리 + 차수 3자리"를 쉼표로 이은 값이며, 비어 있으면 아직 공고 전이다.
 """
 from __future__ import annotations
@@ -17,12 +20,14 @@ from collector.rules.keywords import matches_keywords
 from collector.rules.region import UNCLASSIFIED, parse_amount, region_from_institution
 from collector.rules.service import classify_service
 from collector.sources.common import fmt_pps, text, to_iso
+from collector.windows import month_windows
 
 BASE = "https://apis.data.go.kr/1230000/ao/OrderPlanSttusService"
 SERVICE = "nara_plans"
 OP_LIST = "getOrderPlanSttusListServcPPSSrch"
 FALLBACK_URL = "https://www.g2b.go.kr"
 NOTICE_NO_LENGTH = 13  # 연결 공고번호에서 차수(뒤 3자리)를 뗀 길이
+POSTED_WINDOW_DAYS = 28  # 게시일시 조회 범위 한도(달력상 1개월)를 2월에도 넘지 않는 길이
 
 
 def first_order_ym(now: datetime, past_months: int) -> tuple[int, int]:
@@ -31,18 +36,18 @@ def first_order_ym(now: datetime, past_months: int) -> tuple[int, int]:
     return index // 12, index % 12 + 1
 
 
-def plan_window(now: datetime, past_months: int, posted_lookback_days: int) -> dict:
-    """조회 조건: 발주 예정월은 past_months 개월 전 ~ 내년 12월, 게시일은 posted_lookback_days 일 전 ~ 오늘."""
-    year, month = first_order_ym(now, past_months)
+def plan_windows(now: datetime, posted_lookback_days: int) -> list[dict]:
+    """조회 조건 목록: 게시일 posted_lookback_days 일 전 ~ 오늘을 API 한도에 맞춰 28일 창으로 나눈다."""
     posted_from = (now - timedelta(days=posted_lookback_days)).replace(hour=0, minute=0, second=0, microsecond=0)
     posted_to = now.replace(hour=23, minute=59, second=0, microsecond=0)
-    return {
-        "orderBgnYm": f"{year}{month:02d}",
-        "orderEndYm": f"{now.year + 1}12",
-        "inqryDiv": "1",
-        "inqryBgnDt": fmt_pps(posted_from),
-        "inqryEndDt": fmt_pps(posted_to),
-    }
+    return [{"inqryDiv": "1", "inqryBgnDt": fmt_pps(begin), "inqryEndDt": fmt_pps(end)}
+            for begin, end in month_windows(posted_from, posted_to, POSTED_WINDOW_DAYS)]
+
+
+def in_order_range(plan: Plan, now: datetime, past_months: int) -> bool:
+    """발주 예정월이 past_months 개월 전 ~ 내년 12월인 계획만 남긴다(예전에는 API 조건으로 걸렀다)."""
+    year, month = first_order_ym(now, past_months)
+    return plan.order_ym is not None and f"{year}-{month:02d}" <= plan.order_ym <= f"{now.year + 1}-12"
 
 
 def _order_ym(raw: dict) -> str | None:
@@ -100,7 +105,7 @@ def to_plan(raw: dict, cfg: Config, today: str) -> Plan:
 
 def fetch_plans(client, cfg: Config, window: dict, keyword: str, today: str) -> list[Plan]:
     """키워드 1개로 조회해, 사업명이 포함어·제외어 규칙을 통과한 계획만 돌려준다."""
-    rows = client.get_items(SERVICE, BASE, OP_LIST, {**window, "bizNm": keyword})
+    rows = client.get_items(SERVICE, BASE, OP_LIST, {**window, "bizNm": f"%{keyword}"})
     return [to_plan(raw, cfg, today) for raw in rows
             if text(raw, "orderPlanUntyNo")
             and matches_keywords(text(raw, "bizNm"), cfg.public_keywords, cfg.public_exclude)]

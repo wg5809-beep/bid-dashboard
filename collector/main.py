@@ -132,13 +132,14 @@ def _collect_awards(cfg, client, notices, existing: Mapping[str, Award], now, ba
 
 
 def _collect_plans(cfg: Config, client, existing: Mapping[str, Plan], now: datetime, errors: list[str]):
-    """발주계획은 매번 전체를 다시 받는다 → (전체 계획, 신규 수). 키워드 단위로 실패를 격리한다."""
-    window = nara_plans.plan_window(now, cfg.plan_past_months, cfg.plan_posted_lookback_days)
+    """발주계획은 매번 전체를 다시 받는다 → (전체 계획, 신규 수). 게시일 창·키워드 단위로 실패를 격리한다."""
     today = now.strftime("%Y-%m-%d")
     before = len(errors)
     incoming: list[Plan] = []
-    for keyword in cfg.public_keywords:
-        incoming += _guard(errors, nara_plans.SERVICE, nara_plans.fetch_plans, client, cfg, window, keyword, today) or []
+    for window in nara_plans.plan_windows(now, cfg.plan_posted_lookback_days):
+        for keyword in cfg.public_keywords:
+            rows = _guard(errors, nara_plans.SERVICE, nara_plans.fetch_plans, client, cfg, window, keyword, today) or []
+            incoming += [plan for plan in rows if nara_plans.in_order_range(plan, now, cfg.plan_past_months)]
     merged, new_count = merge_plans(existing, incoming, complete=len(errors) == before)
     year, month = nara_plans.first_order_ym(now, cfg.plan_past_months)
     return classify_all(prune_plans(merged, f"{year}-{month:02d}"), cfg), new_count

@@ -33,7 +33,7 @@ class Config:
     max_calls_per_service: int
     service_lines: tuple[ServiceLine, ...] = ()  # 우선순위 순
     plan_past_months: int = 3  # 발주계획: 발주 예정월이 이 개월 수만큼 지난 것까지 수집
-    plan_posted_lookback_days: int = 730  # 발주계획: 게시일 조회 범위
+    plan_posted_lookback_days: int = 455  # 발주계획: 게시일 조회 범위(28일 창 17개 × 키워드)
 
     def collects_apt_region(self, region: str | None) -> bool:
         """아파트 트랙 수집 지역 판정. apt_regions가 비어 있으면 전국."""
