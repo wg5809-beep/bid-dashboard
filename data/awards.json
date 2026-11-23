@@ -10622,6 +10622,25 @@
    "winner_ceo": "김산"
   },
   {
+   "agency": "서울특별시 강남구",
+   "amount": 7523710,
+   "awarded_at": "2026-11-23T00:00",
+   "interest": false,
+   "key": "public:R26BK01831811",
+   "notice_no": "R26BK01831811",
+   "notice_ord": "000",
+   "opened_at": "2026-11-20T11:10",
+   "participants": 48,
+   "planned_price": null,
+   "rate": 90.061,
+   "region": "서울",
+   "title": "일원가람아파트 재건축정비사업 회계감사 용역",
+   "track": "public",
+   "winner": "상록회계법인",
+   "winner_bizno": "1078621071",
+   "winner_ceo": "이재성"
+  },
+  {
    "agency": "한국뇌연구원",
    "amount": 54500000,
    "awarded_at": "2026-11-23T00:00",

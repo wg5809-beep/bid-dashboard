@@ -13810,7 +13810,9 @@
    "interest": false,
    "interest_reason": null,
    "key": "plan:R26DD20917265",
-   "notice_nos": [],
+   "notice_nos": [
+    "R26BK01848051"
+   ],
    "order_ym": "2026-11",
    "parent_agency": "대한무역투자진흥공사",
    "plan_no": "R26DD20917265",
