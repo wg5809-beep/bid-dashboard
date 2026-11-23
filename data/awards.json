@@ -10622,6 +10622,25 @@
    "winner_ceo": "김산"
   },
   {
+   "agency": "한국뇌연구원",
+   "amount": 54500000,
+   "awarded_at": "2026-11-23T00:00",
+   "interest": false,
+   "key": "public:R26BK01834026",
+   "notice_no": "R26BK01834026",
+   "notice_ord": "000",
+   "opened_at": "2026-11-17T14:41",
+   "participants": 1,
+   "planned_price": null,
+   "rate": 99.09,
+   "region": "미분류",
+   "title": "2026 회계연도 회계교육(컨설팅) 및 결산 지원 용역",
+   "track": "public",
+   "winner": "성문회계법인",
+   "winner_bizno": "5708500151",
+   "winner_ceo": "안영기"
+  },
+  {
    "agency": "(재)한국원자력환경복원연구원",
    "amount": 27500000,
    "awarded_at": "2026-11-20T00:00",

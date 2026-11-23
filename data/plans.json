@@ -12718,7 +12718,8 @@
    "interest_reason": null,
    "key": "plan:R26DD20908681",
    "notice_nos": [
-    "R26BK01803838"
+    "R26BK01803838",
+    "R26BK01847784"
    ],
    "order_ym": "2026-11",
    "parent_agency": "예금보험공사",
@@ -13211,7 +13212,8 @@
    "interest_reason": null,
    "key": "plan:R26DD20912835",
    "notice_nos": [
-    "R26BK01818954"
+    "R26BK01818954",
+    "R26BK01847255"
    ],
    "order_ym": "2026-11",
    "parent_agency": "보건복지부",
@@ -14554,7 +14556,9 @@
    "interest": false,
    "interest_reason": null,
    "key": "plan:R26DD20925383",
-   "notice_nos": [],
+   "notice_nos": [
+    "R26BK01847342"
+   ],
    "order_ym": "2026-11",
    "parent_agency": "충청남도",
    "plan_no": "R26DD20925383",
