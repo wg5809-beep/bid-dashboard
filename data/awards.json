@@ -10755,6 +10755,25 @@
    "winner_ceo": "정태영"
   },
   {
+   "agency": "케이에이씨공항서비스(주)",
+   "amount": 10752500,
+   "awarded_at": "2026-11-24T00:00",
+   "interest": false,
+   "key": "public:R26BK01847957",
+   "notice_no": "R26BK01847957",
+   "notice_ord": "000",
+   "opened_at": "2026-11-24T15:04",
+   "participants": 1,
+   "planned_price": null,
+   "rate": 100.0,
+   "region": "미분류",
+   "title": "2026년 귀속 연말정산 대행 용역",
+   "track": "public",
+   "winner": "주식회사 유니크컴퍼니",
+   "winner_bizno": "5748800101",
+   "winner_ceo": "심상우"
+  },
+  {
    "agency": "한국농어촌공사 충남지역본부 예산지사",
    "amount": 15000000,
    "awarded_at": "2026-11-24T00:00",

@@ -38419,7 +38419,7 @@
    "result_note": null,
    "service": null,
    "source_system": null,
-   "status": "closed",
+   "status": "opened",
    "title": "2027년 IBS 연구단 성과평가 개최 대행 용역",
    "track": "public",
    "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01828545&bidPbancOrd=000"
@@ -40004,7 +40004,7 @@
    "result_note": null,
    "service": "회계감사",
    "source_system": null,
-   "status": "open",
+   "status": "closed",
    "title": "가락현대6차아파트 가로주택정비사업조합 외부회계감사 용역",
    "track": "public",
    "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01838797&bidPbancOrd=000"
@@ -41165,7 +41165,7 @@
    "result_note": null,
    "service": null,
    "source_system": null,
-   "status": "open",
+   "status": "closed",
    "title": "2026년 제주시 세무과 공무용차량 자동차보험 가입 재공고",
    "track": "public",
    "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01842753&bidPbancOrd=000"
@@ -41745,27 +41745,36 @@
    "demand_agency": "강원특별자치도 화천군",
    "estimate": 90033636,
    "first_seen": "2026-11-24",
-   "history": [],
+   "history": [
+    {
+     "close_at": "2026-11-27T15:00",
+     "kind": "등록공고",
+     "notice_ord": "000",
+     "open_at": "2026-11-27T16:00",
+     "result_note": null,
+     "title": "화천읍 북한강변 우회교량 타당성검토 및 기본계획수립 용역"
+    }
+   ],
    "interest": false,
    "interest_reason": null,
    "key": "public:R26BK01846812",
-   "kind": "등록공고",
+   "kind": "취소공고",
    "last_seen": "2026-11-24",
    "limit_regions": [
     "강원특별자치도"
    ],
    "notice_no": "R26BK01846812",
-   "notice_ord": "000",
+   "notice_ord": "001",
    "open_at": "2026-11-27T16:00",
-   "posted_at": "2026-11-23T14:50",
+   "posted_at": "2026-11-24T15:28",
    "region": "강원",
    "result_note": null,
    "service": null,
    "source_system": null,
-   "status": "open",
+   "status": "cancelled",
    "title": "화천읍 북한강변 우회교량 타당성검토 및 기본계획수립 용역",
    "track": "public",
-   "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01846812&bidPbancOrd=000"
+   "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01846812&bidPbancOrd=001"
   },
   {
    "agency": "보건복지부",
@@ -41954,7 +41963,7 @@
    "result_note": null,
    "service": null,
    "source_system": null,
-   "status": "closed",
+   "status": "awarded",
    "title": "2026년 귀속 연말정산 대행 용역",
    "track": "public",
    "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01847957&bidPbancOrd=000"
@@ -42278,6 +42287,38 @@
    "title": "인도네시아 수마트라 팜유 부산물 자원화 시설 개발사업 타당성조사 용역",
    "track": "public",
    "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01849697&bidPbancOrd=000"
+  },
+  {
+   "agency": "한국해외인프라도시개발지원공사",
+   "agency_code": "B553951",
+   "award_method": "협상에의한계약-협상에 의한 낙찰자 결정",
+   "budget": 800000000,
+   "category": "other",
+   "close_at": "2026-12-07T10:00",
+   "complex_name": null,
+   "contract_method": "일반경쟁",
+   "demand_agency": "한국해외인프라도시개발지원공사",
+   "estimate": 727272727,
+   "first_seen": "2026-11-24",
+   "history": [],
+   "interest": false,
+   "interest_reason": null,
+   "key": "public:R26BK01852929",
+   "kind": "등록공고",
+   "last_seen": "2026-11-24",
+   "limit_regions": [],
+   "notice_no": "R26BK01852929",
+   "notice_ord": "000",
+   "open_at": "2026-12-07T11:00",
+   "posted_at": "2026-11-24T15:54",
+   "region": "미분류",
+   "result_note": null,
+   "service": null,
+   "source_system": null,
+   "status": "open",
+   "title": "인도네시아 중앙술라웨시주 Lemperero 180MW 수력발전 건설사업 본 타당성조사",
+   "track": "public",
+   "url": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01852929&bidPbancOrd=000"
   }
  ]
 }

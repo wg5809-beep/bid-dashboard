@@ -15694,7 +15694,9 @@
    "interest": false,
    "interest_reason": null,
    "key": "plan:R26DD20937265",
-   "notice_nos": [],
+   "notice_nos": [
+    "R26BK01852929"
+   ],
    "order_ym": "2026-11",
    "parent_agency": "한국해외인프라도시개발지원공사",
    "plan_no": "R26DD20937265",
@@ -15718,7 +15720,9 @@
    "interest": false,
    "interest_reason": null,
    "key": "plan:R26DD20937268",
-   "notice_nos": [],
+   "notice_nos": [
+    "R26BK01853005"
+   ],
    "order_ym": "2026-11",
    "parent_agency": "한국해외인프라도시개발지원공사",
    "plan_no": "R26DD20937268",
@@ -15975,6 +15979,54 @@
    "tel": "055-225-7104",
    "title": "진해 산림휴양단지 조성 기본구상 및 타당성조사 용역",
    "url": "https://www.g2b.go.kr/link/PRPA015_01/single/?oderPlanNo=R26DD20942542"
+  },
+  {
+   "agency": "국방기술진흥연구소",
+   "agency_type": "기타공공기관",
+   "amount": 70000000,
+   "category": "target",
+   "changed_at": null,
+   "contract_method": "제한경쟁",
+   "dept": "재무실",
+   "first_seen": "2026-11-24",
+   "interest": false,
+   "interest_reason": null,
+   "key": "plan:R26DD20942586",
+   "notice_nos": [],
+   "order_ym": "2026-11",
+   "parent_agency": "국방기술품질원",
+   "plan_no": "R26DD20942586",
+   "posted_at": "2026-11-24T14:37",
+   "procurement": "자체조달",
+   "region": "미분류",
+   "service": "사업비정산",
+   "tel": "055-751-4442",
+   "title": "2027년 급여 위탁용역 및 2026년 연말정산 용역",
+   "url": "https://www.g2b.go.kr/link/PRPA015_01/single/?oderPlanNo=R26DD20942586"
+  },
+  {
+   "agency": "한국데이터산업진흥원",
+   "agency_type": "기타공공기관",
+   "amount": 45100000,
+   "category": "target",
+   "changed_at": null,
+   "contract_method": "제한경쟁",
+   "dept": "인사재무팀",
+   "first_seen": "2026-11-24",
+   "interest": false,
+   "interest_reason": null,
+   "key": "plan:R26DD20942670",
+   "notice_nos": [],
+   "order_ym": "2026-11",
+   "parent_agency": "한국데이터산업진흥원",
+   "plan_no": "R26DD20942670",
+   "posted_at": "2026-11-24T14:57",
+   "procurement": "자체조달",
+   "region": "미분류",
+   "service": "PA",
+   "tel": "02-3708-5305",
+   "title": "2027년 한국데이터산업진흥원 원가계산 용역",
+   "url": "https://www.g2b.go.kr/link/PRPA015_01/single/?oderPlanNo=R26DD20942670"
   }
  ]
 }
