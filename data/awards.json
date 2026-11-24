@@ -10660,6 +10660,25 @@
    "winner_ceo": "안영기"
   },
   {
+   "agency": "해양수산부 여수지방해양수산청",
+   "amount": 708825000,
+   "awarded_at": "2026-11-23T00:00",
+   "interest": false,
+   "key": "public:R26BK01839654",
+   "notice_no": "R26BK01839654",
+   "notice_ord": "000",
+   "opened_at": "2026-11-19T16:06",
+   "participants": 1,
+   "planned_price": null,
+   "rate": 99.2,
+   "region": "충남",
+   "title": "광양항 묘도 준설토 매립장 항만재개발사업 총사업비 정산 연구용역",
+   "track": "public",
+   "winner": "주식회사 연안항만엔지니어링",
+   "winner_bizno": "5888101191",
+   "winner_ceo": "고성훈"
+  },
+  {
    "agency": "(재)한국원자력환경복원연구원",
    "amount": 27500000,
    "awarded_at": "2026-11-20T00:00",
@@ -10715,6 +10734,44 @@
    "winner": "주식회사 인우플랜",
    "winner_bizno": "2248167076",
    "winner_ceo": "최영혜"
+  },
+  {
+   "agency": "한국농어촌공사 농어촌자원개발원",
+   "amount": 10500000,
+   "awarded_at": "2026-11-24T00:00",
+   "interest": true,
+   "key": "public:R26BK01847420",
+   "notice_no": "R26BK01847420",
+   "notice_ord": "000",
+   "opened_at": "2026-11-24T11:02",
+   "participants": 1,
+   "planned_price": null,
+   "rate": null,
+   "region": "전남광주",
+   "title": "2026년 농촌체험프로그램 개발사업 성과보고회 행사 용역",
+   "track": "public",
+   "winner": "주식회사 티와이컴퍼니",
+   "winner_bizno": "4268600754",
+   "winner_ceo": "정태영"
+  },
+  {
+   "agency": "한국농어촌공사 충남지역본부 예산지사",
+   "amount": 15000000,
+   "awarded_at": "2026-11-24T00:00",
+   "interest": true,
+   "key": "public:R26BK01849094",
+   "notice_no": "R26BK01849094",
+   "notice_ord": "000",
+   "opened_at": "2026-11-24T09:16",
+   "participants": 1,
+   "planned_price": null,
+   "rate": 89.82,
+   "region": "충남",
+   "title": "황새고향 친환경생태단지 조성사업 관리위탁 원가산정 용역",
+   "track": "public",
+   "winner": "사단법인 공공행정자치연구원",
+   "winner_bizno": "7598200321",
+   "winner_ceo": "이성정"
   }
  ]
 }
