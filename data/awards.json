@@ -10791,6 +10791,25 @@
    "winner": "사단법인 공공행정자치연구원",
    "winner_bizno": "7598200321",
    "winner_ceo": "이성정"
+  },
+  {
+   "agency": "서울도시철도엔지니어링(주)",
+   "amount": 8872000,
+   "awarded_at": "2026-11-24T00:00",
+   "interest": false,
+   "key": "public:R26BK01849344",
+   "notice_no": "R26BK01849344",
+   "notice_ord": "000",
+   "opened_at": "2026-11-24T17:17",
+   "participants": 1,
+   "planned_price": null,
+   "rate": 99.461,
+   "region": "서울",
+   "title": "2026년 물류사업 회계 정산 용역 계약",
+   "track": "public",
+   "winner": "현대회계법인",
+   "winner_bizno": "2208726833",
+   "winner_ceo": "곽규백"
   }
  ]
 }

@@ -1,7 +1,7 @@
 {
- "award_count": 568,
+ "award_count": 569,
  "calls": {
-  "kapt_bids": 1,
+  "kapt_bids": 2,
   "kapt_results": 6,
   "nara_awards": 96,
   "nara_bids": 25,
@@ -9,11 +9,11 @@
  },
  "errors": [],
  "new_awards": 1,
- "new_notices": 1,
- "new_plans": 2,
- "notice_count": 1297,
+ "new_notices": 8,
+ "new_plans": 3,
+ "notice_count": 1305,
  "ok": true,
- "plan_count": 625,
- "run_at": "2026-11-24T15:59",
- "updated_notices": 1
+ "plan_count": 628,
+ "run_at": "2026-11-25T13:18",
+ "updated_notices": 0
 }

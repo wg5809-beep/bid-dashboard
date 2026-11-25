@@ -15620,7 +15620,9 @@
    "interest": false,
    "interest_reason": null,
    "key": "plan:R26DD20935494",
-   "notice_nos": [],
+   "notice_nos": [
+    "R26BK01854550"
+   ],
    "order_ym": "2026-11",
    "parent_agency": "충청남도",
    "plan_no": "R26DD20935494",
@@ -15644,7 +15646,9 @@
    "interest": false,
    "interest_reason": null,
    "key": "plan:R26DD20936735",
-   "notice_nos": [],
+   "notice_nos": [
+    "R26BK01854483"
+   ],
    "order_ym": "2026-11",
    "parent_agency": "경상남도",
    "plan_no": "R26DD20936735",
@@ -15796,7 +15800,9 @@
    "interest": false,
    "interest_reason": null,
    "key": "plan:R26DD20938852",
-   "notice_nos": [],
+   "notice_nos": [
+    "R26BK01854478"
+   ],
    "order_ym": "2026-11",
    "parent_agency": "경기도",
    "plan_no": "R26DD20938852",
@@ -15920,7 +15926,9 @@
    "interest": true,
    "interest_reason": "본사 소재",
    "key": "plan:R26DD20941317",
-   "notice_nos": [],
+   "notice_nos": [
+    "R26BK01850066"
+   ],
    "order_ym": "2026-11",
    "parent_agency": "한국농어촌공사",
    "plan_no": "R26DD20941317",
@@ -16027,6 +16035,82 @@
    "tel": "02-3708-5305",
    "title": "2027년 한국데이터산업진흥원 원가계산 용역",
    "url": "https://www.g2b.go.kr/link/PRPA015_01/single/?oderPlanNo=R26DD20942670"
+  },
+  {
+   "agency": "한국농어촌공사",
+   "agency_type": "준정부기관",
+   "amount": 257807000,
+   "category": "target",
+   "changed_at": null,
+   "contract_method": "일반경쟁",
+   "dept": "총무인사처 계약부",
+   "first_seen": "2026-11-25",
+   "interest": true,
+   "interest_reason": "본사 소재",
+   "key": "plan:R26DD20943459",
+   "notice_nos": [],
+   "order_ym": "2026-11",
+   "parent_agency": "한국농어촌공사",
+   "plan_no": "R26DD20943459",
+   "posted_at": "2026-11-24T20:16",
+   "procurement": "자체조달",
+   "region": "전남광주",
+   "service": "세무조정",
+   "tel": "061-338-6106",
+   "title": "2026~2028사업연도 세무조정 용역",
+   "url": "https://www.g2b.go.kr/link/PRPA015_01/single/?oderPlanNo=R26DD20943459"
+  },
+  {
+   "agency": "재단법인 전주정보문화산업진흥원",
+   "agency_type": "기타기관",
+   "amount": 40000000,
+   "category": "other",
+   "changed_at": null,
+   "contract_method": "일반경쟁",
+   "dept": "경영기획단",
+   "first_seen": "2026-11-25",
+   "interest": false,
+   "interest_reason": null,
+   "key": "plan:R26DD20943978",
+   "notice_nos": [
+    "R26BK01854707"
+   ],
+   "order_ym": "2026-11",
+   "parent_agency": "전북특별자치도",
+   "plan_no": "R26DD20943978",
+   "posted_at": "2026-11-25T10:23",
+   "procurement": "자체조달",
+   "region": "전북",
+   "service": null,
+   "tel": "063-286-1400",
+   "title": "현지화(법령·회계·인사·지식재산) 전문가 자문 용역",
+   "url": "https://www.g2b.go.kr/link/PRPA015_01/single/?oderPlanNo=R26DD20943978"
+  },
+  {
+   "agency": "부산광역시 수영구",
+   "agency_type": "지방자치단체",
+   "amount": 49156800,
+   "category": "other",
+   "changed_at": null,
+   "contract_method": "일반경쟁",
+   "dept": "교통행정과",
+   "first_seen": "2026-11-25",
+   "interest": false,
+   "interest_reason": null,
+   "key": "plan:R26DD20944043",
+   "notice_nos": [
+    "R26BK01854821"
+   ],
+   "order_ym": "2026-11",
+   "parent_agency": "부산광역시",
+   "plan_no": "R26DD20944043",
+   "posted_at": "2026-11-25T10:41",
+   "procurement": "자체조달",
+   "region": "부산",
+   "service": null,
+   "tel": "051-610-4522",
+   "title": "민락수변공원 공영주차장 바닥제어 무인정산 주차시스템 설치 및 관리위탁",
+   "url": "https://www.g2b.go.kr/link/PRPA015_01/single/?oderPlanNo=R26DD20944043"
   }
  ]
 }
