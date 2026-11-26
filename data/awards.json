@@ -10810,6 +10810,25 @@
    "winner": "현대회계법인",
    "winner_bizno": "2208726833",
    "winner_ceo": "곽규백"
+  },
+  {
+   "agency": "한국농어촌공사 경기지역본부 김포지사",
+   "amount": 11495000,
+   "awarded_at": "2026-11-26T00:00",
+   "interest": true,
+   "key": "public:R26BK01850066",
+   "notice_no": "R26BK01850066",
+   "notice_ord": "000",
+   "opened_at": "2026-11-26T09:03",
+   "participants": 1,
+   "planned_price": null,
+   "rate": null,
+   "region": "경기",
+   "title": "덕교항 어촌뉴딜사업 정산보고서 회계적정성 검증 용역",
+   "track": "public",
+   "winner": "한울회계법인",
+   "winner_bizno": "4108538559",
+   "winner_ceo": "신성섭"
   }
  ]
 }
