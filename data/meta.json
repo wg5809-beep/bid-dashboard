@@ -1,5 +1,5 @@
 {
- "award_count": 570,
+ "award_count": 571,
  "calls": {
   "kapt_bids": 3,
   "kapt_results": 6,
@@ -8,12 +8,12 @@
   "nara_plans": 408
  },
  "errors": [],
- "new_awards": 0,
- "new_notices": 3,
- "new_plans": 1,
- "notice_count": 1313,
+ "new_awards": 1,
+ "new_notices": 4,
+ "new_plans": 5,
+ "notice_count": 1317,
  "ok": true,
- "plan_count": 634,
- "run_at": "2026-11-26T14:13",
+ "plan_count": 639,
+ "run_at": "2026-11-27T12:40",
  "updated_notices": 0
 }

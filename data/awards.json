@@ -10736,6 +10736,25 @@
    "winner_ceo": "최영혜"
   },
   {
+   "agency": "경기도",
+   "amount": 15997500,
+   "awarded_at": "2026-11-26T00:00",
+   "interest": false,
+   "key": "public:R26BK01845500",
+   "notice_no": "R26BK01845500",
+   "notice_ord": "000",
+   "opened_at": "2026-11-26T15:10",
+   "participants": 13,
+   "planned_price": null,
+   "rate": 90.466,
+   "region": "경기",
+   "title": "2027년 행정재산 관리위탁료 산정을 위한 원가계산 용역",
+   "track": "public",
+   "winner": "사단법인 우리경제연구원",
+   "winner_bizno": "1298210412",
+   "winner_ceo": "송성복"
+  },
+  {
    "agency": "한국농어촌공사 농어촌자원개발원",
    "amount": 10500000,
    "awarded_at": "2026-11-24T00:00",
