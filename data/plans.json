@@ -15909,7 +15909,9 @@
    "interest": false,
    "interest_reason": null,
    "key": "plan:R26DD20941225",
-   "notice_nos": [],
+   "notice_nos": [
+    "R26BK01861813"
+   ],
    "order_ym": "2026-11",
    "parent_agency": "새만금개발공사",
    "plan_no": "R26DD20941225",
@@ -15983,7 +15985,9 @@
    "interest": false,
    "interest_reason": null,
    "key": "plan:R26DD20942542",
-   "notice_nos": [],
+   "notice_nos": [
+    "R26BK01861415"
+   ],
    "order_ym": "2026-12",
    "parent_agency": "경상남도",
    "plan_no": "R26DD20942542",
@@ -16508,6 +16512,58 @@
    "tel": "02-3469-8336",
    "title": "2026년도 에너지기술개발사업 성과조사·분석 및 성과평가 대응",
    "url": "https://www.g2b.go.kr/link/PRPA015_01/single/?oderPlanNo=R26DD20948304"
+  },
+  {
+   "agency": "제주국제자유도시개발센터",
+   "agency_type": "공기업",
+   "amount": 105654000,
+   "category": "other",
+   "changed_at": null,
+   "contract_method": "제한경쟁",
+   "dept": "의료사업처",
+   "first_seen": "2026-11-28",
+   "interest": false,
+   "interest_reason": null,
+   "key": "plan:R26DD20948387",
+   "notice_nos": [
+    "R26BK01862151"
+   ],
+   "order_ym": "2026-11",
+   "parent_agency": "제주국제자유도시개발센터",
+   "plan_no": "R26DD20948387",
+   "posted_at": "2026-11-27T14:32",
+   "procurement": "자체조달",
+   "region": "제주",
+   "service": null,
+   "tel": "064-797-5657",
+   "title": "(가칭)의료바이오센터 기본구성 및 타당성 조사 용역",
+   "url": "https://www.g2b.go.kr/link/PRPA015_01/single/?oderPlanNo=R26DD20948387"
+  },
+  {
+   "agency": "경상북도 안동시",
+   "agency_type": "지방자치단체",
+   "amount": 100000000,
+   "category": "other",
+   "changed_at": null,
+   "contract_method": "일반경쟁",
+   "dept": "회계과",
+   "first_seen": "2026-11-28",
+   "interest": false,
+   "interest_reason": null,
+   "key": "plan:R26DD20948924",
+   "notice_nos": [
+    "R26BK01862822"
+   ],
+   "order_ym": "2026-11",
+   "parent_agency": "경상북도",
+   "plan_no": "R26DD20948924",
+   "posted_at": "2026-11-27T17:04",
+   "procurement": "자체조달",
+   "region": "경북",
+   "service": null,
+   "tel": "054-840-6136",
+   "title": "안동시 먹거리통합지원센터 및 로컬푸드 직매장 설치 타당성조사 용역",
+   "url": "https://www.g2b.go.kr/link/PRPA015_01/single/?oderPlanNo=R26DD20948924"
   }
  ]
 }
